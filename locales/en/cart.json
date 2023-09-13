@@ -1,0 +1,17 @@
+{
+  "c": {
+    "cart": "Cart",
+    "cartEmpty": " Cart is empty",
+    "cartTotal": "Total",
+    "checkout": "Checkout",
+    "offersOfTheMonth": "Offers of the month",
+    "brands": " Brands",
+    "offers": " Offers",
+    "products": " Products",
+    "most_soled_products": "Most soled products",
+    "quality_levels": "Quality levels",
+    "categories": " categories",
+    "mostSoledProducts": "Most soled products",
+    "english": "الانجليزية"
+  }
+}

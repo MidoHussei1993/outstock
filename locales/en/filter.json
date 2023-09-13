@@ -1,0 +1,20 @@
+{
+    "filters": {
+        "title": "Filters",
+        "country_id": "Country",
+        "educational_system_id": "Educational System",
+        "grade_class_id": "Grade Class ",
+        "educational_term_id": "Educational Term",
+        "academical_years_id": "Academical Years",
+        "is_active": "Is Active",
+        "is_assigned": "Is Assigned",
+        "subject_id": "Subject",
+        "is_done": "Is Done",
+        "is_expired": "Is Expired",
+        "difficulty_level": "Difficulty Level",
+        "learning_outcome": "Learning Outcome",
+        "resource_type": "Resource Type",
+        "free_tasks_type": "Free Tasks",
+        "assigned_tasks_type": "Assigned Tasks"
+    }
+}

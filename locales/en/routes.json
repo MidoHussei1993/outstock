@@ -1,0 +1,9 @@
+{
+  "routes": {
+    "home": "Home",
+    "subjects": "Subjects",
+    "logout": "Logout",
+    "general_exam": "General Exams",
+    "question_reports": "Question Reports"
+  }
+}

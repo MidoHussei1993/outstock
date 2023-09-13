@@ -1,0 +1,21 @@
+{
+  "config": {
+    "sideMenu": "Sidenav Type",
+    "chooseNav": "Choose between 2 different sidenav types.",
+    "staticNav": "Navbar Fixed",
+    "sidenavMini": "Sidenav Mini",
+    "white": "White",
+    "darkColor": "Dark",
+    "light": "Light",
+    "dark": "Dark",
+    "language": "Language",
+    "chooseLan": "Choose your Favorite language",
+    "logOut": "LogOut",
+    "login": "Login",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "arabic": "Arabic",
+    "profile": "Profile",
+    "english": "English"
+  }
+}

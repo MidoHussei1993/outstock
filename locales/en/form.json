@@ -1,0 +1,30 @@
+{
+  "form": {
+    "description": "Description",
+    "name": "Name",
+    "country": "Country",
+    "profile": "Profile",
+    "firstName": "FirstName",
+    "secondName": "SecondName",
+    "lastName": "Last Name",
+    "mobile": "Mobile",
+    "email": "Email",
+    "newPass": "New Password",
+    "confirmNewPass": "Confirm New Password",
+    "required": "Field is required",
+    "minLengthValue8": "enter 8 characters at least",
+    "emailValidation": "you should enter a valid email",
+    "sameAsPassword": "make sure the password is equal to confirmation password",
+    "note": "Note",
+    "title": "Title",
+    "date": "Date",
+    "enter": " Enter ",
+    "accrualDays": "Accrual Days",
+    "copiedclipboard": "Text copied to clipboard",
+    "otp": "verification code",
+    "otpSent": "OTP sent to your email",
+    "passwordConfierm": "Password Confirmation",
+    "address": "Address",
+    "password": "Password"
+  }
+}

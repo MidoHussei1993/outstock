@@ -1,0 +1,21 @@
+{
+    "hints": {
+        "max_images": "The number of images in one task should not exceed 10, and their size should not exceed 80MB",
+        "max_equation": "The number of equations in one task should not exceed 15 equations",
+        "add_equation": "When adding an equation, it must not exceed 90 letters, numbers, or signs, and it is not possible to add more than 4 equations in one text",
+        "equation_rule": "When adding an equation, it must not exceed 90 letters, numbers, or signs, and it is not possible to add more than 4 equations in one text",
+        "image_rule": "When adding photos, their number should not exceed one",
+        "video_rule": "When adding a video file, it should not exceed 100MB",
+        "audio_rule": "When adding a audio file, it should not exceed 100MB",
+        "video_link_rule": "The link must be from youtube",
+        "audio_link_rule": "The audio file link must be valid",
+        "pdf_link_rule": "The pdf file link must be valid",
+        "allowedFileTypes": "It must be a file of type: jpeg, png, jpg, gif, svg, pdf, xls, csv, txt, xlsx, mp4, webm, wmv, avi, flv, swf, mpga, audio, mpeg, doc, docx, mp3",
+        "complete_rule": "Please enter a question and fill question and all accepted answers, and make sure the question includes *__*",
+        "updatedSuccessfully": "Updated successfully",
+        "question_hint": "Please put *__* in the question body as it should be the correct answer",
+        "question_has_answer": "Please make sure that each question has a correct answer",
+        "sure_delete": "Are you sure to delete?",
+        "no_data": "No records has been added yet."
+    }
+}

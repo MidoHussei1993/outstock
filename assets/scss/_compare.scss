@@ -1,0 +1,57 @@
+.tp-compare{
+  &-table{
+    overflow-x: scroll;
+    & td,
+    & th{
+      vertical-align: middle;
+      border: 1px solid rgba($color: $black, $alpha: .1);
+    }
+  }
+  &-thumb{
+    & img{
+      margin-bottom: 15px;
+    }
+  }
+  &-product-title{
+    font-size: 18px;
+    & a{
+      &:hover{
+        color: $theme-color;
+      }
+    }
+  }
+  &-desc{
+    & p{
+      margin-bottom: 0;
+    }
+  }
+  &-rating{
+    & span{
+      font-size: 16px;
+      color: $theme-color;
+    }
+  }
+  &-price{
+    & span{
+      font-size: 14px;
+      color: $black;
+      font-weight: 500;
+      margin-right: 7px;
+      &.old-price{
+          color: #8c8c8c;
+          text-decoration: line-through;
+      }
+  }
+  }
+  &-remove{
+    & button{
+      background: transparent;
+      font-size: 16px;
+      color: $black;
+
+      &:hover{
+        color: $theme-color;
+      }
+    }
+  }
+}
