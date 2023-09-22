@@ -59,7 +59,7 @@ export default defineComponent({
   components: { ProductItem },
   data() {
     return {
-      perView: this.style_3 ? 12 : 8,
+      perView: this.$props.style_3 ? 12 : 8,
     };
   },
   props: {

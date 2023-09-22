@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "primeicons/primeicons.css",
   ],
   build: { transpile: ["primevue"] },
+  ssr: false,
   modules: [
     [
       "@pinia/nuxt",

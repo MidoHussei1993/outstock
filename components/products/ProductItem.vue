@@ -51,7 +51,10 @@
         <nuxt-link :href="`/product-details/${item.id}`">
           <span v-html="item.name"></span>
         </nuxt-link>
-        <div class="product__price transition-3">
+        <div
+          class="product__price transition-3"
+          v-if="item.price && item.price.data"
+        >
           <span>
             {{ item.price.data.price_after_discount }}
             {{ item.price.data.currency }}

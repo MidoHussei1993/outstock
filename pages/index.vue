@@ -36,36 +36,35 @@
       </div>
     </div>
     <div>
-      <div class="row mx-2">
-        <div class="col-12">
-          <h3 class="mb-2 mx-2 font-weight-bolder mb-2">
-            <i
-              style="
-                background: blanchedalmond;
-                padding: 14px;
-                border-radius: 50%;
-                color: #214681;
-              "
-              class="fas fa-bed-alt"
-            ></i>
-            {{ $t("c.categories") }}
-          </h3>
-          <div class="d-flex justify-content-around">
-            <div
-              class="card card-body d-inline p-2 mx-2 py-3"
-              v-for="(item, index) in categories"
-              :key="index + 'category'"
-            >
-              <h5
-                class="text-center font-weight-bolder mb-0"
-                style="font-weight: 600"
-              >
-                {{ item.name }}
-              </h5>
+      <div class="w-100 px-2">
+        <h2>
+          <i
+            style="
+              background: blanchedalmond;
+              padding: 14px;
+              border-radius: 50%;
+              color: #214681;
+            "
+            class="fas fa-bed-alt"
+          ></i>
+          {{ $t("c.categories") }}
+        </h2>
+        <ul class="cards" id="cat">
+          <li
+            class="card brand p-0"
+            v-for="(item, index) in categories"
+            :key="item.id"
+            :style="{ background: `url('${item.image}')` }"
+          >
+            <div class="card-body"></div>
+
+            <div class="card-footer">
+              <h3 class="text-white">{{ item.name }}</h3>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
+
       <div class="box-25">
         <trending-products
           :mostSoledProducts="most_soled_products"
@@ -84,17 +83,16 @@
                 </div>
               </div>
             </div>
-            <div
-              :class="`product__slider ${style_2 ? 'product__slider-4' : ''}`"
-            >
+            <div :class="`product__slider  product__slider-4`">
               <div class="row">
                 <div
                   v-for="(item, index) in products"
                   :key="item.id"
-                  :class="`${
-                    style_3 ? 'col-xl-2 col-lg-3 col-md-4' : 'col-lg-3 col-md-4'
-                  } product__item`"
+                  :class="`col-xl-2 col-lg-3 col-md-4  product__item`"
                 >
+                  <!-- :class="`${
+                    style_3 ? 'col-xl-2 col-lg-3 col-md-4' : 'col-lg-3 col-md-4'
+                  } product__item`" -->
                   <product-item :item="item" />
                 </div>
               </div>
@@ -116,7 +114,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent } from "vue";
+import { storeToRefs } from "pinia";
 import LayoutFive from "~~/layout/LayoutFive.vue";
 import HomeFiveHeroSlider from "~~/components/hero-banner/HomeFiveHeroSlider.vue";
 import TrendingProducts from "~~/components/products/TrendingProducts.vue";
@@ -126,13 +124,14 @@ import { useI18n } from "vue-i18n";
 import { IBrand, ICategory, IProduct } from "~~/types";
 import { Formatter } from "sarala-json-api-data-formatter";
 import ProductItem from "~~/components/products/ProductItem.vue";
+import { UseCountryStore } from "~~/store/country";
 
 const { t } = useI18n();
 useHead({
   title: "Home",
 });
 const fetch = $useHttpClient();
-const country_id = ref<number | null>(40);
+const country_id = ref<number | null>(null);
 const formatter = new Formatter();
 const banners = ref<any[]>([]);
 const brands = ref<IBrand[]>([]);
@@ -141,17 +140,41 @@ const products = ref<IProduct[]>([]);
 const most_soled_products = ref<IProduct[]>([]);
 const quality_levels = ref<any[]>([]);
 const categories = ref<ICategory[]>([]);
+const countryStore = UseCountryStore();
+const { selectedCountryId } = storeToRefs(countryStore);
+let scroolEvent = null;
 
-onMounted(() => {
+watch(selectedCountryId, async (newVal, oldVal) => {
+  country_id.value = newVal as any;
   getHomePageData();
 });
 
+onMounted(() => {
+  const scrollContainer = document.querySelector("#cat")!;
+  scroolEvent = scrollContainer.addEventListener("wheel", (evt: any) => {
+    evt.preventDefault();
+    scrollContainer.scrollLeft += evt.deltaY;
+  });
+});
+
+const getCuntires = async () => {
+  try {
+    const { data } = await fetch("/countries?page=1&per_page=1000", {
+      method: "get",
+    });
+    if (!localStorage.getItem("token")) {
+      country_id.value = data[0].id;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 const getHomePageData = async () => {
   try {
     const res = await fetch("/pages/home-page", {
       method: "get",
       params: {
-        ...(country_id && { country_id: country_id.value }),
+        country_id: country_id.value,
       },
     });
     const data = formatter.deserialize(res);
@@ -173,6 +196,14 @@ const getHomePageData = async () => {
 };
 </script>
 <style scoped lang="scss">
+:root {
+  --red: #ef233c;
+  --darkred: #c00424;
+  --platinum: #e5e5e5;
+  --black: #2b2d42;
+  --white: #fff;
+  --thumb: #edf2f4;
+}
 .brand {
   height: 186px;
   min-width: 250px;
@@ -187,7 +218,7 @@ const getHomePageData = async () => {
     }
   }
   div.card-footer {
-    background: linear-gradient(to bottom, transparent, black);
+    background: linear-gradient(to bottom, transparent, #0000008f);
     border: none;
   }
 }
@@ -245,5 +276,132 @@ const getHomePageData = async () => {
     ),
     linear-gradient(90deg, rgb(195, 195, 195), rgb(228, 228, 228));
   background-blend-mode: overlay, overlay, overlay, normal;
+}
+.card-wrapper {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  padding-bottom: 4px;
+}
+
+// .card-wrapper {
+//   -webkit-overflow-scrolling: touch;
+// }
+// .card-wrapper::-webkit-scrollbar-track {
+//   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   background-color: #f5f5f5;
+// }
+
+// .card-wrapper::-webkit-scrollbar {
+//   margin-top: 10px;
+//   width: 2px;
+//   height: 2px;
+//   background-color: #f5f5f5;
+//   // display: none;
+// }
+
+// .card-wrapper::-webkit-scrollbar-thumb {
+//   background-color: #000000;
+// }
+
+.cards {
+  display: flex;
+  padding: 25px 0px;
+  list-style: none;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 100%;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 15%);
+    scroll-snap-align: start;
+    transition: all 0.2s;
+  }
+
+  .card:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  .card:hover {
+    color: white;
+    background: #ef233c;
+  }
+
+  .card .card-title {
+    font-size: 20px;
+  }
+
+  .card .card-content {
+    margin: 20px 0;
+    max-width: 85%;
+  }
+
+  .card .card-link-wrapper {
+    margin-top: auto;
+  }
+
+  .card .card-link {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background: #ef233c;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .card:hover .card-link {
+    background: #c00424;
+  }
+
+  @media (min-width: 500px) {
+    .card {
+      flex-basis: calc(50% - 10px);
+    }
+
+    .card:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+
+  @media (min-width: 700px) {
+    .card {
+      flex-basis: calc(calc(100% / 3) - 20px);
+    }
+
+    .card:not(:last-child) {
+      margin-right: 30px;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .card {
+      flex-basis: calc(25% - 30px);
+    }
+
+    .card:not(:last-child) {
+      margin-right: 40px;
+    }
+  }
+}
+.cards::-webkit-scrollbar {
+  height: 7px;
+}
+
+.cards::-webkit-scrollbar-thumb,
+.cards::-webkit-scrollbar-track {
+  border-radius: 92px;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background: #bc8246;
+}
+
+.cards::-webkit-scrollbar-track {
+  background: #edf2f4;
 }
 </style>

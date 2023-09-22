@@ -12,32 +12,22 @@
           <div class="row align-items-center">
             <div class="col-xl-4 col-lg-5">
               <div class="main-menu d-none d-lg-block p-relative">
-                <nav>
-                  <menus />
-                </nav>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-2 col-md-4 col-sm-4">
-              <div class="logo text-center">
-                <nuxt-link href="/">
-                  <img src="~/assets/img/logo/logo.png" alt="logo" />
-                </nuxt-link>
-              </div>
-            </div>
-            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-8">
-              <div
-                class="header__right p-relative d-flex justify-content-between justify-content-sm-end align-items-center"
-              >
-                <div
-                  @click.prevent="handleOffcanvas"
-                  class="mobile-menu-btn d-lg-none"
-                >
-                  <a href="#" class="mobile-menu-toggle"
-                    ><i class="fas fa-bars"></i
-                  ></a>
-                </div>
                 <div class="header__action">
                   <ul>
+                    <li
+                      v-if="!isUserLogin && countryList.length"
+                      @input="selectedCountry($event)"
+                    >
+                      <select class="form-control">
+                        <option
+                          :value="item.id"
+                          v-for="(item, index) in countryList"
+                          :key="index"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </select>
+                    </li>
                     <!-- <li>
                       <a
                         @click.prevent="handleOpenSearchBar"
@@ -67,6 +57,59 @@
                         {{ $t("config.language") }}
                       </a>
                     </li>
+                    <li
+                      v-if="!isUserLogin && countryList.length"
+                      @input="selectedCountry($event)"
+                    >
+                      <select class="form-control">
+                        <option
+                          :value="item.id"
+                          v-for="(item, index) in countryList"
+                          :key="index"
+                        >
+                          {{ item.name }}
+                        </option>
+                      </select>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-2 col-md-4 col-sm-4">
+              <div class="logo text-center">
+                <nuxt-link href="/">
+                  <h2
+                    style="text-shadow: 0px 10px 8px #424242b5"
+                    class="font-weight-bold"
+                  >
+                    Marateb
+                  </h2>
+                </nuxt-link>
+              </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-8 col-sm-8">
+              <div
+                class="header__right p-relative d-flex justify-content-between justify-content-sm-end align-items-center"
+              >
+                <div
+                  @click.prevent="handleOffcanvas"
+                  class="mobile-menu-btn d-lg-none"
+                >
+                  <a href="#" class="mobile-menu-toggle"
+                    ><i class="fas fa-bars"></i
+                  ></a>
+                </div>
+                <div class="header__action">
+                  <ul>
+                    <!-- <li>
+                      <a
+                        @click.prevent="handleOpenSearchBar"
+                        href="#"
+                        class="search-toggle"
+                      >
+                        <i class="ion-ios-search-strong"></i> Search
+                      </a>
+                    </li> -->
 
                     <li v-if="isUserLogin">
                       <a href="#" class="cart"
@@ -98,6 +141,7 @@
                         {{ $t("config.login") }}
                       </a>
                     </li>
+
                     <!-- <li>
                       <a href="#"><i class="far fa-bars"></i></a>
                       
@@ -126,6 +170,7 @@
 // external
 import { defineComponent } from "vue";
 import { useCartStore } from "~~/store/useCart";
+import { UseCountryStore } from "~~/store/country";
 // internal
 import Menus from "./Menus.vue";
 import CartMini from "./header-com/CartMini.vue";
@@ -149,9 +194,32 @@ export default defineComponent({
       showSearch: false,
       currentLang: "ar",
       isUserLogin: false,
+      countryList: [],
     };
   },
+  async created() {
+    const { getCountryList, setSelectedCountryId } = UseCountryStore();
+    this.countryList = await getCountryList();
+    if (!this.isUserLogin) {
+      setSelectedCountryId(this.countryList[0].id);
+    } else {
+      const user = JSON.parse(localStorage.getItem("user")!);
+      console.log(
+        "🚀 ~ file: HeaderTwo.vue:208 ~ created ~ user.country_id:",
+        user.country_id
+      );
+      setSelectedCountryId(user.country_id);
+    }
+  },
   methods: {
+    selectedCountry(event: any) {
+      const { setSelectedCountryId } = UseCountryStore();
+      console.log(
+        "🚀 ~ file: HeaderTwo.vue:226 ~ selectedCountry ~ event:",
+        event.target.value
+      );
+      setSelectedCountryId(event.target.value);
+    },
     logout() {
       localStorage.clear();
       navigateTo("/login");
@@ -204,6 +272,7 @@ export default defineComponent({
   },
   setup() {
     const state = useCartStore();
+
     const { locale } = useI18n();
 
     return { state, locale };
@@ -216,3 +285,33 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+select {
+  background: none;
+  border: none;
+  color: #bc8246;
+  font-weight: 600;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+  &:active,
+  &:visited {
+    background: none;
+    border: none;
+    color: #bc8246;
+    font-weight: 600;
+  }
+}
+
+// html[lang="en"] {
+//   select {
+//     text-align: left;
+//   }
+// }
+// html[lang="ar"] {
+//   select {
+//     text-align: left;
+//   }
+// }
+</style>
