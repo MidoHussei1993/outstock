@@ -17,6 +17,7 @@ export default defineNuxtConfig({
         autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
       },
     ],
+    "nuxt-swiper",
   ],
   app: {
     head: {

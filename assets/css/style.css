@@ -5938,3 +5938,6 @@ p.checkout-coupon input[type=text] {
 }
 
 /*# sourceMappingURL=style.css.map */
+.pointer{
+  cursor: pointer !important;
+}

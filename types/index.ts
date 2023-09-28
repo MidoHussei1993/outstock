@@ -5,3 +5,8 @@ export * from "./brand";
 export * from "./category";
 export * from "./product";
 export * from "./price";
+export * from "./media";
+export * from "./qualityLevel";
+export * from "./size";
+export * from "./rate";
+export * from "./section";

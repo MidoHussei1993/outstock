@@ -1,31 +1,55 @@
 <template>
   <layout :transparent="true">
-    <breadcrumb-area title="Product Details" subtitle="Product Details"/>
-    <shop-details-area :item="item"/>
+    <breadcrumb-area title="Product Details" subtitle="Product Details" />
+    <shop-details-area />
   </layout>
-</template> 
+</template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent } from "vue";
 import Layout from "~~/layout/Layout.vue";
 import BreadcrumbArea from "~~/components/common/breadcrumb/BreadcrumbArea.vue";
 import { useProductsStore } from "~~/store/useProducts";
 import ShopDetailsArea from "~~/components/shop-details/ShopDetailsArea.vue";
+import { storeToRefs } from "pinia";
+import { UseCountryStore } from "~~/store/country";
+import { IProduct } from "~~/types";
+import { Formatter } from "sarala-json-api-data-formatter";
 
-export default defineComponent({
-  components: {
-    Layout,
-    BreadcrumbArea,
-    ShopDetailsArea,
-  },
-  setup() {
-    const state = useProductsStore();
-    const id = useRoute().params.id;
-    const item = state.products.find(p => Number(p.id) === Number(id))
-    useHead({
-      title: "Product Details",
-    });
-    return {item}
-  },
+useHead({
+  title: "Product Details",
 });
+// const formatter = new Formatter();
+// const state = useProductsStore();
+// const { setLoader } = useLoader();
+// const fetch = $useHttpClient();
+// const productId = useRoute().params.id;
+// const countryStore = UseCountryStore();
+// const { selectedCountryId } = storeToRefs(countryStore);
+// const productDetails = ref<IProduct>();
+// watch(selectedCountryId, async (newVal, oldVal) => {
+//   await getProductDetails(selectedCountryId.value);
+// });
+// const getProductDetails = async (countryId: any) => {
+//   try {
+//     setLoader(true);
+//     const res = await fetch(`/products/${productId}?country_id=${countryId}`, {
+//       method: "get",
+//     });
+//     const data = formatter.deserialize(res);
+//     productDetails.value = data;
+//     console.log("🚀 ~ file: [id].vue:28 ~ getProductDetails ~ data:", data);
+//   } catch (error) {
+//     setLoader(false);
+//   }
+// };
+
+// onMounted(() => {
+//   if (selectedCountryId.value) {
+//     getProductDetails(selectedCountryId.value);
+//   }
+// });
+// onMounted(async () => {
+//   await getProductDetails();
+// });
 </script>

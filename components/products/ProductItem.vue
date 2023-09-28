@@ -2,11 +2,11 @@
   <div class="product__wrapper mb-60">
     <div class="product__thumb">
       <nuxt-link :href="`/product-details/${item.id}`" class="w-img">
-        <img :src="item.img" alt="product-img" />
+        <img :src="item.image" alt="product-img" />
         <img
           class="product__thumb-2"
-          v-if="item.thumb_img"
-          :src="item.thumb_img"
+          v-if="item.image"
+          :src="item.image"
           alt="product-img"
         />
       </nuxt-link>

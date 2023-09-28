@@ -1,11 +1,14 @@
 <template>
-  <section class="slider__area slider__area-3 tp_hero p-relative">
+  <section
+    class="slider__area slider__area-3 tp_hero p-relative"
+    v-if="images.length"
+  >
     <Carousel :items-to-show="1" :wrap-around="true" class="slider-active">
       <Slide
-        v-for="item in slider_data"
+        v-for="item in images"
         :key="item.id"
         class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
-        :style="{ backgroundImage: `url(${item.bgImg})` }"
+        :style="{ backgroundImage: `url(${item.image})` }"
       >
         <div class="container-fluid">
           <div class="row">
@@ -39,6 +42,12 @@ import slider_img_3 from "~/assets/img/slider/slider-3.jpg";
 
 export default defineComponent({
   components: { Carousel, Slide, Pagination },
+  props: {
+    images: {
+      type: Array as () => { id: string; image: string }[],
+      default: () => [],
+    },
+  },
   setup() {
     const slider_data = ref<any[]>([
       {

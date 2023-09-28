@@ -1,6 +1,6 @@
 <template>
   <layout-five>
-    <home-five-hero-slider />
+    <home-five-hero-slider :images="banners" />
     <div class="row mt-4">
       <div class="col-xl-12">
         <div class="mb-55 p-relative">
@@ -49,19 +49,62 @@
           ></i>
           {{ $t("c.categories") }}
         </h2>
+        <Swiper
+          :modules="[SwiperAutoplay, SwiperEffectCreative]"
+          :slides-per-view="1"
+          :loop="true"
+          :effect="'creative'"
+          :autoplay="{
+            delay: 8000,
+            disableOnInteraction: true,
+          }"
+          :creative-effect="{
+            prev: {
+              shadow: false,
+              translate: ['-20%', 0, -1],
+            },
+            next: {
+              translate: ['100%', 0, 0],
+            },
+          }"
+        >
+          <SwiperSlide v-for="slide in 10" :key="slide">
+            <strong>{{ slide }}</strong>
+          </SwiperSlide>
+        </Swiper>
         <ul class="cards" id="cat">
-          <li
-            class="card brand p-0"
-            v-for="(item, index) in categories"
-            :key="item.id"
-            :style="{ background: `url('${item.image}')` }"
+          <Swiper
+            :modules="[SwiperAutoplay, SwiperEffectCreative]"
+            :slides-per-view="1"
+            :loop="true"
+            :effect="'creative'"
+            :autoplay="{
+              delay: 8000,
+              disableOnInteraction: true,
+            }"
+            :creative-effect="{
+              prev: {
+                shadow: false,
+                translate: ['-20%', 0, -1],
+              },
+              next: {
+                translate: ['100%', 0, 0],
+              },
+            }"
           >
-            <div class="card-body"></div>
+            <SwiperSlide v-for="(item, index) in categories" :key="item.id">
+              <li
+                class="card brand p-0"
+                :style="{ background: `url('${item.image}')` }"
+              >
+                <div class="card-body"></div>
 
-            <div class="card-footer">
-              <h3 class="text-white">{{ item.name }}</h3>
-            </div>
-          </li>
+                <div class="card-footer">
+                  <h3 class="text-white">{{ item.name }}</h3>
+                </div>
+              </li>
+            </SwiperSlide>
+          </Swiper>
         </ul>
       </div>
 
@@ -114,6 +157,12 @@
 </template>
 
 <script lang="ts" setup>
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 import { storeToRefs } from "pinia";
 import LayoutFive from "~~/layout/LayoutFive.vue";
 import HomeFiveHeroSlider from "~~/components/hero-banner/HomeFiveHeroSlider.vue";
@@ -130,6 +179,10 @@ const { t } = useI18n();
 useHead({
   title: "Home",
 });
+defineAppConfig({
+  modules: [Navigation, Pagination, Scrollbar, A11y],
+});
+// module.([Navigation, Pagination, Scrollbar, A11y]);
 const fetch = $useHttpClient();
 const country_id = ref<number | null>(null);
 const formatter = new Formatter();
@@ -150,6 +203,14 @@ watch(selectedCountryId, async (newVal, oldVal) => {
 });
 
 onMounted(() => {
+  console.log(
+    "🚀 ~ file: index.vue:154 ~ onMounted ~ selectedCountryId:",
+    selectedCountryId.value
+  );
+  if (selectedCountryId.value) {
+    country_id.value = selectedCountryId.value as any;
+    getHomePageData();
+  }
   const scrollContainer = document.querySelector("#cat")!;
   scroolEvent = scrollContainer.addEventListener("wheel", (evt: any) => {
     evt.preventDefault();

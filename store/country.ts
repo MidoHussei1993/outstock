@@ -19,7 +19,6 @@ export const UseCountryStore = defineStore("country", {
           method: "get",
         });
         this.countryList = data;
-        console.log("🚀 ~ file: country.ts:17 ~ getCountryList ~ data:", data);
         setLoader(false);
         return data;
         // useNuxtApp().$toast.success(message);

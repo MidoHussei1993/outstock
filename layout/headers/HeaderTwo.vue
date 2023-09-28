@@ -57,20 +57,6 @@
                         {{ $t("config.language") }}
                       </a>
                     </li>
-                    <li
-                      v-if="!isUserLogin && countryList.length"
-                      @input="selectedCountry($event)"
-                    >
-                      <select class="form-control">
-                        <option
-                          :value="item.id"
-                          v-for="(item, index) in countryList"
-                          :key="index"
-                        >
-                          {{ item.name }}
-                        </option>
-                      </select>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -194,7 +180,7 @@ export default defineComponent({
       showSearch: false,
       currentLang: "ar",
       isUserLogin: false,
-      countryList: [],
+      countryList: [] as any[],
     };
   },
   async created() {
