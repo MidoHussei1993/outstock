@@ -29,29 +29,38 @@
     15. Footer CSS	
 
 -----------------------------------------------------------------------------------*/
-@import '../css/fontAwesome5Pro.css';
-@import '../css/ionicons.min.css';
-@import '../css/animate.min.css';
-@import 'default';
-@import 'variables';
-@import 'mixins';
-@import 'common';
-@import 'header';
-@import 'slider';
-@import 'banner';
-@import 'shop';
-@import 'compare';
-@import 'client';
-@import 'blog';
-@import 'subscribe';
-@import 'testimonial';
-@import 'contact';
-@import 'error';
-@import 'login';
-@import 'profile';
-@import 'footer';
-@import 'mobile-menu';
+@import "../css/fontAwesome5Pro.css";
+@import "../css/ionicons.min.css";
+@import "../css/animate.min.css";
+@import "default";
+@import "variables";
+@import "mixins";
+@import "common";
+@import "header";
+@import "slider";
+@import "banner";
+@import "shop";
+@import "compare";
+@import "client";
+@import "blog";
+@import "subscribe";
+@import "testimonial";
+@import "contact";
+@import "error";
+@import "login";
+@import "profile";
+@import "footer";
+@import "mobile-menu";
 
-
-
-
+html[lang="ar"] {
+  p,
+  button,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "IBM Plex Sans Arabic", sans-serif;
+  }
+}

@@ -8,7 +8,7 @@
       <div class="row">
         <div class="col-xl-12">
           <div
-            :class="`section__title-wrapper text-center mb-55 ${
+            :class="`section__title-wrapper text-center mb-4 ${
               style_2 ? 'p-relative' : ''
             }`"
           >
@@ -31,6 +31,7 @@
           <div
             v-for="(item, index) in mostSoledProducts"
             :key="item.id"
+            class="mb-3"
             :class="`${
               style_3 ? 'col-xl-2 col-lg-3 col-md-4' : 'col-lg-3 col-md-4'
             } product__item`"

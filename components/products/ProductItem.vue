@@ -18,9 +18,25 @@
           data-bs-placement="top"
           title="Add to Wishlist"
         >
-          <i class="fal fa-heart"></i>
+          <i
+            v-if="hasAction(item, 'favourite_product')"
+            class="fad fa-heart-circle h4 pointer"
+            :title="getAction(item, 'favourite_product').label"
+            style="cursor: pointer"
+            @click="addToFavourite()"
+            :style="{ color: item.is_favourite ? '#e30000' : '' }"
+          ></i>
+
+          <i
+            v-if="hasAction(item, 'un_favourite_product')"
+            class="fad fa-heart-circle h4 pointer mb-0"
+            :title="getAction(item, 'un_favourite_product').label"
+            style="cursor: pointer"
+            @click="removeFromFavourite()"
+            :style="{ color: item.is_favourite ? '#e30000' : '' }"
+          ></i>
         </a>
-        <a
+        <!-- <a
           @click.prevent="compareState.add_compare_product(item)"
           href="#"
           data-bs-toggle="tooltip"
@@ -28,7 +44,7 @@
           title="Compare"
         >
           <i class="fal fa-sliders-h"></i>
-        </a>
+        </a> -->
         <!-- Button trigger modal -->
         <a
           @click.prevent="store.initialOrderQuantity"
@@ -77,7 +93,7 @@
   <!-- product modal end -->
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, PropType } from "vue";
 import ProductType from "~/types/productType";
 import { useCartStore } from "~~/store/useCart";
@@ -85,21 +101,50 @@ import { useWishlistStore } from "~~/store/useWishlist";
 import { useCompareStore } from "~~/store/useCompare";
 import ProductModal from "../common/modals/ProductModal.vue";
 import { IProduct } from "~~/types";
+import { IAction } from "~~/types/action";
 
-export default defineComponent({
-  components: { ProductModal },
-  props: {
-    item: {
-      type: Object as PropType<IProduct>,
-      default: {},
-      required: true,
-    },
-  },
-  setup() {
-    const store = useCartStore();
-    const wishlistState = useWishlistStore();
-    const compareState = useCompareStore();
-    return { store, wishlistState, compareState };
-  },
+const props = defineProps({
+  item: { type: Object as PropType<IProduct>, default: () => {} },
+  style_2: { type: Boolean, default: () => false },
 });
+
+const { getAction, hasAction } = $FN();
+const store = useCartStore();
+const wishlistState = useWishlistStore();
+const compareState = useCompareStore();
+const { setLoader } = useLoader();
+const emit = defineEmits(["updateProductDetails"]);
+
+const removeFromFavourite = async () => {
+  const action: IAction = getAction(props.item, "un_favourite_product");
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "post",
+    });
+    console.log(res);
+    emit("updateProductDetails", {});
+
+    setLoader(true);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(true);
+  }
+};
+const addToFavourite = async () => {
+  const action: IAction = getAction(props.item, "favourite_product");
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "post",
+    });
+    console.log(res);
+    emit("updateProductDetails", {});
+
+    setLoader(true);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(true);
+  }
+};
 </script>

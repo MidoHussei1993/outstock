@@ -2,6 +2,7 @@
   <client-only>
     <header>
       <div
+        v-if="!hideHeader"
         id="header-sticky"
         :class="`header__area header__transparent box-25 ${
           isSticky ? 'sticky' : ''
@@ -49,7 +50,9 @@
                     </li>
                     <li>
                       <a
-                        @click.prevent="changeLanguage()"
+                        @click.prevent="
+                          changeLanguage(locale == 'ar' ? 'en' : 'ar')
+                        "
                         href="#"
                         class="search-toggle"
                       >
@@ -164,6 +167,7 @@ import ExtraInfo from "./header-com/ExtraInfo.vue";
 import SearchPopup from "~~/components/common/modals/SearchPopup.vue";
 import OffCanvas from "~~/components/common/sidebar/OffCanvas.vue";
 import { useI18n } from "vue-i18n";
+import { getLang, setLang } from "~~/util";
 // interface
 interface SearchPopupComponentRef {
   openSearchPopup(): void;
@@ -178,8 +182,8 @@ export default defineComponent({
     return {
       isSticky: false,
       showSearch: false,
-      currentLang: "ar",
       isUserLogin: false,
+      hideHeader: false,
       countryList: [] as any[],
     };
   },
@@ -211,6 +215,8 @@ export default defineComponent({
       navigateTo("/login");
     },
     handleSticky() {
+      if (document.documentElement.scrollTop < 0) this.hideHeader = true;
+      else this.hideHeader = false;
       if (window.scrollY > 80) {
         this.isSticky = true;
       } else {
@@ -225,43 +231,38 @@ export default defineComponent({
       const offCanvas = this.$refs.offcanvas as OffCanvasComponentRef;
       offCanvas.OpenOffcanvas();
     },
-    changeLanguage() {
-      const languages: any = {
-        en: "ar",
-        ar: "en",
-      };
-      const lang = languages[this.currentLang];
-      this.currentLang = lang;
-      console.log(
-        "🚀 ~ file: HeaderTwo.vue:164 ~ changeLanguage ~ lang:",
-        lang
-      );
-      this.currentLangcurrentLang = lang;
-      // setLang(lang)
-      this.locale = lang;
-      // navStore.changeLanguage()
-      let el = document.querySelector("html")!;
-      if (lang == "ar") {
-        // emit('changeLang', true)
-        // el.setAttribute('direction', 'rtl')
-        el.setAttribute("lang", "ar");
-        el.setAttribute("dir", "rtl");
-        // el.style.direction = 'rtl'
-      } else {
-        // emit('changeLang', false)
-        el.setAttribute("lang", "en");
-        // el.setAttribute('direction', 'ltr')
-        el.setAttribute("dir", "ltr");
-        // el.style.direction = 'ltr'
-      }
-    },
   },
   setup() {
     const state = useCartStore();
-
+    const currentLang = ref("ar");
     const { locale } = useI18n();
 
-    return { state, locale };
+    const changeLanguage = (currentLang: string, reload = true) => {
+      console.log(
+        "🚀 ~ file: HeaderTwo.vue:239 ~ changeLanguage ~ currentLang:",
+        currentLang
+      );
+      // navStore.changeLanguage()
+      let el = document.querySelector("html")!;
+      setLang(currentLang);
+      locale.value = currentLang;
+      if (currentLang == "ar") {
+        el.setAttribute("lang", "ar");
+        el.setAttribute("dir", "rtl");
+      } else {
+        el.setAttribute("lang", "en");
+        el.setAttribute("dir", "ltr");
+      }
+      if (reload) window.location.reload();
+    };
+
+    onMounted(() => {
+      if (!getLang()) {
+        changeLanguage("ar");
+      } else changeLanguage(getLang()!, false);
+    });
+
+    return { state, locale, changeLanguage, currentLang };
   },
   mounted() {
     window.addEventListener("scroll", this.handleSticky);

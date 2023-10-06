@@ -75,7 +75,8 @@
                       <video
                         controls
                         autoplay
-                        class="w-100 mx-1"
+                        style="width: 94%"
+                        class="mx-1"
                         :src="active_img?.file"
                         v-if="active_img?.type == 'video'"
                       ></video>
@@ -140,13 +141,16 @@
                 </template>
               </Carousel>
               <span class="m-0" v-html="section.description"></span>
-              <video
-                controls
-                autoplay
-                class="w-100 mx-1 my-2"
-                :src="section.video"
-                v-if="section.video"
-              ></video>
+              <div class="text-center">
+                <video
+                  controls
+                  autoplay
+                  style="height: 350px"
+                  class="mx-1 my-2"
+                  :src="section.video"
+                  v-if="section.video"
+                ></video>
+              </div>
             </Panel>
           </div>
         </div>
@@ -280,7 +284,8 @@ const getProductDetails = async (countryId: any) => {
     const res = await fetch(`/products/${productId}?country_id=${countryId}`, {
       method: "get",
     });
-    const data = formatter.deserialize(res);
+    const data: IProduct = formatter.deserialize(res);
+    data.orderQuantity = 1;
     item.value = data;
     if (item.value?.images && item.value?.images.data) {
       active_img.value = item.value?.images.data[0];

@@ -12,6 +12,9 @@
     "quality_levels": "مستويات الجودة",
     "categories": "الأقسام",
     "mostSoledProducts": "الأكثر مبيعا",
+    "sizeValidation": "تأكد من اختيار الحجم",
+    "size": "الحجم",
+    "quantity": "الكمية",
     "english": "الانجليزية"
   }
 }

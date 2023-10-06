@@ -4,43 +4,48 @@
     <div class="row mt-4">
       <div class="col-xl-12">
         <div class="mb-55 p-relative">
-          <div class="section__title-wrapper text-center mb-55">
+          <!-- <div class="section__title-wrapper text-center mb-55">
             <div class="section__title mb-10">
               <h2>
                 {{ $t("c.brands") }}
               </h2>
             </div>
-          </div>
-          <div class="mb-10">
-            <div class="row mx-3">
-              <div
-                class="col-lg-2 col-md-4 col-sm-6"
-                v-for="(item, index) in brands"
-                :key="item.id"
-              >
-                <div
-                  class="card brand"
-                  :style="{ background: `url('${item.image}')` }"
-                >
-                  <div class="card-body"></div>
-                  <div class="card-footer">
-                    <h4 class="text-white" style="font-weight: 600">
-                      {{ item.name }}
-                    </h4>
+          </div> -->
+          <div class="w-100 px-2" v-if="brands.length">
+            <h2>
+              <i
+                style="padding: 14px; border-radius: 50%; color: #214681"
+                class="fad fa-copyright"
+              ></i>
+              {{ $t("c.brands") }}
+            </h2>
+            <client-only>
+              <Carousel :items-to-show="5" :wrap-around="true" :autoplay="2000">
+                <Slide v-for="(item, index) in brands" :key="item.id">
+                  <div
+                    @click="navigateTo(`brand-categories/${item.id}`)"
+                    class="carousel__item brand d-flex flex-column justify-content-end pointer"
+                    :style="{ background: `url('${item.image}')` }"
+                  >
+                    <h3 class="w-100 text-center">{{ item.name }}</h3>
                   </div>
-                </div>
-              </div>
-            </div>
+                </Slide>
+                <template #addons>
+                  <Navigation />
+                  <Pagination />
+                </template>
+              </Carousel>
+            </client-only>
           </div>
         </div>
       </div>
     </div>
     <div>
-      <div class="w-100 px-2">
+      <div class="w-100 px-2" v-if="categories.length">
         <h2>
           <i
             style="
-              background: blanchedalmond;
+              background: rgba(14, 36, 62, 0.092);
               padding: 14px;
               border-radius: 50%;
               color: #214681;
@@ -49,63 +54,22 @@
           ></i>
           {{ $t("c.categories") }}
         </h2>
-        <Swiper
-          :modules="[SwiperAutoplay, SwiperEffectCreative]"
-          :slides-per-view="1"
-          :loop="true"
-          :effect="'creative'"
-          :autoplay="{
-            delay: 8000,
-            disableOnInteraction: true,
-          }"
-          :creative-effect="{
-            prev: {
-              shadow: false,
-              translate: ['-20%', 0, -1],
-            },
-            next: {
-              translate: ['100%', 0, 0],
-            },
-          }"
-        >
-          <SwiperSlide v-for="slide in 10" :key="slide">
-            <strong>{{ slide }}</strong>
-          </SwiperSlide>
-        </Swiper>
-        <ul class="cards" id="cat">
-          <Swiper
-            :modules="[SwiperAutoplay, SwiperEffectCreative]"
-            :slides-per-view="1"
-            :loop="true"
-            :effect="'creative'"
-            :autoplay="{
-              delay: 8000,
-              disableOnInteraction: true,
-            }"
-            :creative-effect="{
-              prev: {
-                shadow: false,
-                translate: ['-20%', 0, -1],
-              },
-              next: {
-                translate: ['100%', 0, 0],
-              },
-            }"
-          >
-            <SwiperSlide v-for="(item, index) in categories" :key="item.id">
-              <li
-                class="card brand p-0"
+        <client-only>
+          <Carousel :items-to-show="5" :wrap-around="true" :autoplay="2000">
+            <Slide v-for="(item, index) in categories" :key="item.id">
+              <div
+                class="carousel__item brand d-flex flex-column justify-content-end"
                 :style="{ background: `url('${item.image}')` }"
               >
-                <div class="card-body"></div>
-
-                <div class="card-footer">
-                  <h3 class="text-white">{{ item.name }}</h3>
-                </div>
-              </li>
-            </SwiperSlide>
-          </Swiper>
-        </ul>
+                <h3 class="w-100 text-center">{{ item.name }}</h3>
+              </div>
+            </Slide>
+            <template #addons>
+              <Navigation />
+              <Pagination />
+            </template>
+          </Carousel>
+        </client-only>
       </div>
 
       <div class="box-25">
@@ -131,7 +95,7 @@
                 <div
                   v-for="(item, index) in products"
                   :key="item.id"
-                  :class="`col-xl-2 col-lg-3 col-md-4  product__item`"
+                  :class="`col-xl-2 col-lg-3 col-md-4  product__item mt-3`"
                 >
                   <!-- :class="`${
                     style_3 ? 'col-xl-2 col-lg-3 col-md-4' : 'col-lg-3 col-md-4'
@@ -157,12 +121,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+import { Carousel, Navigation, Slide } from "vue3-carousel";
 import { storeToRefs } from "pinia";
 import LayoutFive from "~~/layout/LayoutFive.vue";
 import HomeFiveHeroSlider from "~~/components/hero-banner/HomeFiveHeroSlider.vue";
@@ -179,10 +138,6 @@ const { t } = useI18n();
 useHead({
   title: "Home",
 });
-defineAppConfig({
-  modules: [Navigation, Pagination, Scrollbar, A11y],
-});
-// module.([Navigation, Pagination, Scrollbar, A11y]);
 const fetch = $useHttpClient();
 const country_id = ref<number | null>(null);
 const formatter = new Formatter();
@@ -211,11 +166,6 @@ onMounted(() => {
     country_id.value = selectedCountryId.value as any;
     getHomePageData();
   }
-  const scrollContainer = document.querySelector("#cat")!;
-  scroolEvent = scrollContainer.addEventListener("wheel", (evt: any) => {
-    evt.preventDefault();
-    scrollContainer.scrollLeft += evt.deltaY;
-  });
 });
 
 const getCuntires = async () => {
@@ -344,26 +294,6 @@ const getHomePageData = async () => {
   padding-bottom: 4px;
 }
 
-// .card-wrapper {
-//   -webkit-overflow-scrolling: touch;
-// }
-// .card-wrapper::-webkit-scrollbar-track {
-//   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-//   background-color: #f5f5f5;
-// }
-
-// .card-wrapper::-webkit-scrollbar {
-//   margin-top: 10px;
-//   width: 2px;
-//   height: 2px;
-//   background-color: #f5f5f5;
-//   // display: none;
-// }
-
-// .card-wrapper::-webkit-scrollbar-thumb {
-//   background-color: #000000;
-// }
-
 .cards {
   display: flex;
   padding: 25px 0px;
@@ -464,5 +394,30 @@ const getHomePageData = async () => {
 
 .cards::-webkit-scrollbar-track {
   background: #edf2f4;
+}
+
+.carousel__item {
+  min-height: 200px;
+  width: 100%;
+  background-color: var(--vc-clr-primary);
+  color: var(--vc-clr-white);
+  font-size: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel__slide {
+  padding: 10px;
+}
+
+.carousel__prev,
+.carousel__next {
+  box-sizing: content-box;
+  border: 5px solid white;
+}
+.pointer {
+  cursor: pointer !important;
 }
 </style>

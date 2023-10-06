@@ -15,6 +15,7 @@ export interface IProduct {
   category: { data: ICategory };
   images: { data: IMedia[] };
   category_id: number;
+  rate_avr: number;
   description: string;
   created_at: Date;
   id: string;
@@ -30,4 +31,6 @@ export interface IProduct {
   rates: { data: IRate[] };
   type: string;
   updated_at: Date;
+  orderQuantity: number;
+  selectedSize: string;
 }

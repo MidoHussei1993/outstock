@@ -4,14 +4,18 @@ import ProductType from "~~/types/productType";
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
-    cart_products: [] as ProductType[],
+    cart_products: [] as IProduct[],
     orderQuantity: 1 as number,
     quantityCount: 0 as number,
     total: 0 as number,
   }),
   actions: {
     // add_cart_product
-    add_cart_product(payload: ProductType | IProduct) {
+    add_cart_product(payload: IProduct) {
+      console.log(
+        "🚀 ~ file: useCart.ts:15 ~ add_cart_product ~ payload:",
+        payload
+      );
       const isExist = this.cart_products.some((i) => i.id === payload.id);
       if (!isExist) {
         const newItem = {

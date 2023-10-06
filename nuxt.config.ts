@@ -22,7 +22,13 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Outstock - Clean, Minimal eCommerce Vue Nuxt 3 Template",
-      // link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}],
+      // link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap",
+        },
+      ],
       script: [
         {
           src: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js",

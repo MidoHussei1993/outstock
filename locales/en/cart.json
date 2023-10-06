@@ -12,6 +12,9 @@
     "quality_levels": "Quality levels",
     "categories": " categories",
     "mostSoledProducts": "Most soled products",
-    "english": "الانجليزية"
+    "sizeValidation": "Make sure you select size",
+    "size": "Size",
+    "quantity": "Quantity",
+    "english": "english"
   }
 }
