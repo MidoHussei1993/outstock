@@ -193,7 +193,8 @@ const addProductToCart = async () => {
           id: "null",
           attributes: {
             product_size_id: props.item.selectedSize,
-            product_size_country_price_id: productSizeContries[0].id,
+            product_size_country_price_id:
+              productSizeContries[0].productSizeCountries.data.id,
             quantity: props.item.orderQuantity,
           },
         },
