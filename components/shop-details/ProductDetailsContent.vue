@@ -55,7 +55,7 @@
 
       <span class="rating-no ml-10"> {{ item.rate_avr }} rating(s) </span>
     </div>
-    <!-- <div class="product__price-2 mb-25">
+    <div class="product__price-2 mb-25">
       <span v-if="price == 0"
         >{{
           item.price.data.has_discount
@@ -72,7 +72,7 @@
         class="old-price"
         >${{ item.price.data.price }} {{ item.price.data.currency }}</span
       >
-    </div> -->
+    </div>
     <div class="product__modal-des mb-30">
       <p v-html="item.description"></p>
     </div>

@@ -4,10 +4,8 @@
       <div
         v-if="!hideHeader"
         id="header-sticky"
-        :class="`header__area header__transparent box-25 ${
-          isSticky ? 'sticky' : ''
-        }`"
-        class="px-2"
+        :class="`header__area header__transparent box-25 `"
+        class="px-2 sticky"
       >
         <div class="container-fluid">
           <div class="row align-items-center">
@@ -15,10 +13,7 @@
               <div class="main-menu d-none d-lg-block p-relative">
                 <div class="header__action">
                   <ul>
-                    <li
-                      v-if="!isUserLogin && countryList.length"
-                      @input="selectedCountry($event)"
-                    >
+                    <li v-if="!isUserLogin && countryList.length">
                       <select class="form-control">
                         <option
                           :value="item.id"
@@ -156,6 +151,7 @@
 </template>
 
 <script lang="ts">
+import { Formatter } from "sarala-json-api-data-formatter";
 // external
 import { defineComponent } from "vue";
 import { useCartStore } from "~~/store/useCart";
@@ -236,6 +232,22 @@ export default defineComponent({
     const state = useCartStore();
     const currentLang = ref("ar");
     const { locale } = useI18n();
+    const fetch = $useHttpClient();
+    const formatter = new Formatter();
+    const { setLoader } = useLoader();
+
+    const getUserCart = async () => {
+      try {
+        setLoader(true);
+        const res = await fetch(`carts`, {
+          method: "get",
+        });
+        const data = formatter.deserialize(res);
+        console.log("🚀 ~ file: HeaderTwo.vue:242 ~ getUserCart ~ data:", data);
+      } catch (error) {
+        setLoader(false);
+      }
+    };
 
     const changeLanguage = (currentLang: string, reload = true) => {
       console.log(
@@ -257,6 +269,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      if (localStorage.getItem("token")) getUserCart();
       if (!getLang()) {
         changeLanguage("ar");
       } else changeLanguage(getLang()!, false);

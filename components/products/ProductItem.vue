@@ -2,11 +2,16 @@
   <div class="product__wrapper mb-60">
     <div class="product__thumb">
       <nuxt-link :href="`/product-details/${item.id}`" class="w-img">
-        <img :src="item.image" alt="product-img" />
+        <img
+          :src="item.image"
+          alt="product-img"
+          style="height: 200px; object-fit: contain"
+        />
         <img
           class="product__thumb-2"
           v-if="item.image"
           :src="item.image"
+          style="height: 200px; object-fit: contain"
           alt="product-img"
         />
       </nuxt-link>
@@ -72,10 +77,14 @@
           v-if="item.price && item.price.data"
         >
           <span>
-            {{ item.price.data.price_after_discount }}
+            {{
+              item.price.data.has_discount
+                ? item.price.data.price_after_discount
+                : item.price.data.price
+            }}
             {{ item.price.data.currency }}
           </span>
-          <span class="old-price">
+          <span class="old-price" v-if="item.price.data.has_discount">
             {{ item.price.data.price }} {{ item.price.data.currency }}</span
           >
         </div>

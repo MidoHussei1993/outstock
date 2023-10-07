@@ -27,12 +27,14 @@
                     class="carousel__item brand d-flex flex-column justify-content-end pointer"
                     :style="{ background: `url('${item.image}')` }"
                   >
-                    <h3 class="w-100 text-center">{{ item.name }}</h3>
+                    <h3 class="w-100 text-center slider-text py-2">
+                      {{ item.name }}
+                    </h3>
                   </div>
                 </Slide>
                 <template #addons>
                   <Navigation />
-                  <Pagination />
+                  <!-- <Pagination /> -->
                 </template>
               </Carousel>
             </client-only>
@@ -57,16 +59,40 @@
         <client-only>
           <Carousel :items-to-show="5" :wrap-around="true" :autoplay="2000">
             <Slide v-for="(item, index) in categories" :key="item.id">
-              <div
+              <div class="carousel__item card bg-white h-100">
+                <img
+                  class="card-img-top w-100"
+                  :src="item.image"
+                  style="object-fit: contain"
+                  height="200"
+                  alt="Card image cap"
+                />
+                <div
+                  class="card-body p-0 d-flex flex-column justify-content-between shadow-sm"
+                >
+                  <h4 class="text-center font-weight-bold my-1">
+                    {{ item.name }}
+                  </h4>
+                  <!-- <button
+                    class="btn btn-block btn-outline-primary mt-3 w-100"
+                    @click="navigateTo(`/category-quality-levels/${item.id}`)"
+                  >
+                    {{ $t("action.browse") }}
+                  </button> -->
+                </div>
+              </div>
+              <!-- <div
                 class="carousel__item brand d-flex flex-column justify-content-end"
                 :style="{ background: `url('${item.image}')` }"
               >
-                <h3 class="w-100 text-center">{{ item.name }}</h3>
-              </div>
+                <h3 class="w-100 text-center slider-text py-2">
+                  {{ item.name }}
+                </h3>
+              </div> -->
             </Slide>
             <template #addons>
               <Navigation />
-              <Pagination />
+              <!-- <Pagination /> -->
             </template>
           </Carousel>
         </client-only>
@@ -207,6 +233,21 @@ const getHomePageData = async () => {
 };
 </script>
 <style scoped lang="scss">
+.slider-text {
+  transform: translateY(17px);
+  background: #ec0000a3;
+  mix-blend-mode: multiply;
+  // font-weight: 500;
+  // background: rgb(0, 0, 0);
+  // background: linear-gradient(
+  //   180deg,
+  //   rgba(0, 0, 0, 0.10127801120448177) 0%,
+  //   rgba(0, 0, 0, 0.7063200280112045) 100%
+  // );
+  color: white;
+  // text-shadow: 0 0 3px #fff, 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #5271ff,
+  //   0 0 20px #5271ff, 0 0 250px #5271ff, 0 0 30px #5271ff;
+}
 :root {
   --red: #ef233c;
   --darkred: #c00424;

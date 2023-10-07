@@ -31,10 +31,7 @@
           <div
             v-for="(item, index) in mostSoledProducts"
             :key="item.id"
-            class="mb-3"
-            :class="`${
-              style_3 ? 'col-xl-2 col-lg-3 col-md-4' : 'col-lg-3 col-md-4'
-            } product__item`"
+            class="mb-3 col-xl-2 col-lg-3 col-md-4 product__item"
           >
             <product-item :item="item" />
           </div>

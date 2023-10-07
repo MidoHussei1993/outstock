@@ -4,7 +4,9 @@
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <div class="basic-login">
-            <h3 class="text-center mb-60">Login From Here</h3>
+            <h3 class="text-center mb-60">
+              {{ $t("config.login") }}
+            </h3>
             <!-- form start -->
             <login-form />
             <!-- form end -->

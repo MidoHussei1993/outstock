@@ -1,7 +1,10 @@
 <template>
   <Form :validation-schema="schema" @submit="onSubmit">
     <div class="mb-20">
-      <label for="email-id">Email Address <span>**</span></label>
+      <label for="email-id">
+        {{ $t("form.email") }}
+        <span>**</span></label
+      >
       <Field
         name="email"
         id="email-id"
@@ -12,7 +15,10 @@
     </div>
 
     <div class="mb-20">
-      <label for="pass">Password <span>**</span></label>
+      <label for="pass">
+        {{ $t("form.password") }}
+        <span>**</span></label
+      >
       <Field
         name="password"
         id="pass"
@@ -22,7 +28,7 @@
       <ErrorMessage name="password" class="text-danger" />
     </div>
 
-    <div class="login-action mb-20 fix">
+    <!-- <div class="login-action mb-20 fix">
       <span class="log-rem f-left">
         <input id="remember" type="checkbox" />
         <label for="remember">Remember me!</label>
@@ -30,11 +36,20 @@
       <span class="forgot-login f-right">
         <a href="#">Lost your password?</a>
       </span>
-    </div>
-    <button class="os-btn w-100">Login Now</button>
+    </div> -->
+    <button class="os-btn w-100">
+      <i
+        v-if="busySubmit"
+        class="fa fa-spinner fa-spin h4 mx-2 text-primary"
+        aria-hidden="true"
+      ></i>
+      <span v-if="!busySubmit">
+        {{ $t("config.login") }}
+      </span>
+    </button>
     <div class="or-divide"><span>or</span></div>
     <nuxt-link href="/register" class="os-btn os-btn-black w-100">
-      Register Now
+      {{ $t("config.registerNow") }}
     </nuxt-link>
   </Form>
 </template>
@@ -68,7 +83,6 @@ export default defineComponent({
         });
         setUser(res.data.attributes);
         setToken(res.meta.token);
-        console.log("🚀 ~ file: LoginForm.vue:68 ~ setup ~ message:", res);
         busySubmit.value = false;
         navigateTo("/");
       } catch (error) {
@@ -77,7 +91,7 @@ export default defineComponent({
       }
     };
 
-    return { schema, onSubmit };
+    return { schema, onSubmit, busySubmit };
   },
 });
 </script>
