@@ -1,5 +1,5 @@
 <template>
-  <section class="product__area pt-60 pb-100">
+  <section class="product__area pt-60">
     <div
       :class="`${
         style_2 ? 'custom-container' : style_3 ? 'container-fluid' : 'container'

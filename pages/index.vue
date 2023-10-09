@@ -20,7 +20,7 @@
               {{ $t("c.brands") }}
             </h2>
             <client-only>
-              <Carousel :items-to-show="5" :wrap-around="true" :autoplay="2000">
+              <Carousel :items-to-show="3" :wrap-around="true" :autoplay="2000">
                 <Slide v-for="(item, index) in brands" :key="item.id">
                   <div
                     @click="navigateTo(`brand-categories/${item.id}`)"
@@ -57,7 +57,12 @@
           {{ $t("c.categories") }}
         </h2>
         <client-only>
-          <Carousel :items-to-show="5" :wrap-around="true" :autoplay="2000">
+          <Carousel
+            :items-to-show="5"
+            :wrap-around="true"
+            :autoplay="2000"
+            dir="rtl"
+          >
             <Slide v-for="(item, index) in categories" :key="item.id">
               <div class="carousel__item card bg-white h-100">
                 <img
@@ -73,22 +78,8 @@
                   <h4 class="text-center font-weight-bold my-1">
                     {{ item.name }}
                   </h4>
-                  <!-- <button
-                    class="btn btn-block btn-outline-primary mt-3 w-100"
-                    @click="navigateTo(`/category-quality-levels/${item.id}`)"
-                  >
-                    {{ $t("action.browse") }}
-                  </button> -->
                 </div>
               </div>
-              <!-- <div
-                class="carousel__item brand d-flex flex-column justify-content-end"
-                :style="{ background: `url('${item.image}')` }"
-              >
-                <h3 class="w-100 text-center slider-text py-2">
-                  {{ item.name }}
-                </h3>
-              </div> -->
             </Slide>
             <template #addons>
               <Navigation />
@@ -98,16 +89,81 @@
         </client-only>
       </div>
 
+      <div class="w-100 px-2 my-5" v-if="quality_levels.length">
+        <h2>
+          <i
+            style="
+              background: rgba(14, 36, 62, 0.092);
+              padding: 14px;
+              border-radius: 50%;
+              font-size: 28px;
+              color: #214681;
+            "
+            class="fas fa-procedures"
+          ></i>
+          {{ $t("c.quality_levels") }}
+        </h2>
+        <client-only>
+          <Carousel :items-to-show="7" :wrap-around="true" :autoplay="2000">
+            <Slide v-for="(item, index) in quality_levels" :key="item.id">
+              <div
+                class="carousel__item card bg-white h-100"
+                style="min-height: 12px !important"
+              >
+                <div
+                  class="card-body p-0 d-flex flex-column justify-content-center shadow-sm align-items-center"
+                >
+                  <h4 class="text-center font-weight-bold my-1">
+                    {{ item.name }}
+                  </h4>
+                </div>
+              </div>
+            </Slide>
+            <template #addons>
+              <Navigation />
+              <!-- <Pagination /> -->
+            </template>
+          </Carousel>
+        </client-only>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-11 col-md-11 col-sm-12 mx-auto">
+          <client-only>
+            <Carousel
+              :items-to-show="1"
+              :wrap-around="true"
+              :autoplay="2000"
+              dir="rtl"
+            >
+              <Slide v-for="(item, index) in offers" :key="item.id">
+                <div class="carousel__item card bg-white pointer">
+                  <img
+                    :src="item.image"
+                    alt="offers"
+                    class="w-100"
+                    height="350"
+                  />
+                </div>
+              </Slide>
+              <template #addons>
+                <Navigation />
+                <!-- <Pagination /> -->
+              </template>
+            </Carousel>
+          </client-only>
+        </div>
+      </div>
       <div class="box-25">
         <trending-products
           :mostSoledProducts="most_soled_products"
           :style_3="true"
         />
-        <section class="product__area pt-60 pb-100">
+        <section class="product__area pt-3 pb-100">
           <div class="container-fluid">
             <div class="row">
               <div class="col-xl-12">
-                <div :class="`section__title-wrapper text-center mb-55 `">
+                <div :class="`section__title-wrapper text-center mb-2 `">
                   <div class="section__title mb-10">
                     <h2>
                       {{ $t("c.products") }}
@@ -155,10 +211,11 @@ import TrendingProducts from "~~/components/products/TrendingProducts.vue";
 import ShopBanner from "~~/components/shop-banner/ShopBanner.vue";
 import SubscribeArea from "~~/components/subscribe/SubscribeArea.vue";
 import { useI18n } from "vue-i18n";
-import { IBrand, ICategory, IProduct } from "~~/types";
+import { IBrand, ICategory, IProduct, IQualityLevel } from "~~/types";
 import { Formatter } from "sarala-json-api-data-formatter";
 import ProductItem from "~~/components/products/ProductItem.vue";
 import { UseCountryStore } from "~~/store/country";
+import { IOffer } from "~~/types/offer";
 
 const { t } = useI18n();
 useHead({
@@ -169,10 +226,10 @@ const country_id = ref<number | null>(null);
 const formatter = new Formatter();
 const banners = ref<any[]>([]);
 const brands = ref<IBrand[]>([]);
-const offers = ref<any[]>([]);
+const offers = ref<IOffer[]>([]);
 const products = ref<IProduct[]>([]);
 const most_soled_products = ref<IProduct[]>([]);
-const quality_levels = ref<any[]>([]);
+const quality_levels = ref<IQualityLevel[]>([]);
 const categories = ref<ICategory[]>([]);
 const countryStore = UseCountryStore();
 const { selectedCountryId } = storeToRefs(countryStore);
@@ -215,27 +272,21 @@ const getHomePageData = async () => {
       },
     });
     const data = formatter.deserialize(res);
+    console.log("🚀 ~ file: index.vue:218 ~ getHomePageData ~ data:", data);
     banners.value = data.banners.data;
     brands.value = data.brands.data;
     categories.value = data.categories.data;
     most_soled_products.value = data.most_soled_products.data;
-    console.log(
-      "🚀 ~ file: index.vue:111 ~ getHomePageData ~ most_soled_products.value:",
-      most_soled_products.value
-    );
     offers.value = data.offers.data;
+    quality_levels.value = data.quality_levels.data;
     products.value = data.products.data;
-    console.log(
-      "🚀 ~ file: index.vue:36 ~ getHomePageData ~ res:",
-      formatter.deserialize(res)
-    );
   } catch (error) {}
 };
 </script>
 <style scoped lang="scss">
 .slider-text {
   transform: translateY(17px);
-  background: #ec0000a3;
+  background: #343434a3;
   mix-blend-mode: multiply;
   // font-weight: 500;
   // background: rgb(0, 0, 0);

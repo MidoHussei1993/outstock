@@ -1,7 +1,9 @@
 <template>
   <div>
     <header-two />
-    <slot></slot>
+    <div class="" style="position: relative; top: 84px">
+      <slot></slot>
+    </div>
     <Footer />
     <back-to-top />
   </div>

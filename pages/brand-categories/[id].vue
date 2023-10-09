@@ -15,8 +15,10 @@
             >
               <div class="card h-100">
                 <img
+                  style="object-fit: contain"
                   class="card-img-top"
                   :src="item.image"
+                  height="200"
                   alt="Card image cap"
                 />
                 <div

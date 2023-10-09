@@ -113,33 +113,37 @@
               v-for="(section, index) in item.sections.data"
               :key="index"
             >
-              <Carousel
-                :items-to-show="1"
-                :wrap-around="true"
-                class="slider-active"
-              >
-                <Slide
-                  class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
-                  style="height: 400px"
-                  :style="{ backgroundImage: `url(${section.image})` }"
-                >
-                </Slide>
-                <Slide
-                  class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
-                  style="height: 400px"
-                  :style="{ backgroundImage: `url(${section.image2})` }"
-                >
-                </Slide>
-                <Slide
-                  class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
-                  style="height: 400px"
-                  :style="{ backgroundImage: `url(${section.image3})` }"
-                >
-                </Slide>
-                <template #addons>
-                  <Pagination />
-                </template>
-              </Carousel>
+              <div class="row">
+                <div class="col-md-10 col-sm-12 mx-auto">
+                  <Carousel
+                    :items-to-show="1"
+                    :wrap-around="true"
+                    class="slider-active"
+                  >
+                    <Slide
+                      class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
+                      style="height: 300px"
+                      :style="{ backgroundImage: `url(${section.image})` }"
+                    >
+                    </Slide>
+                    <Slide
+                      class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
+                      style="height: 300px"
+                      :style="{ backgroundImage: `url(${section.image2})` }"
+                    >
+                    </Slide>
+                    <Slide
+                      class="single-slider single-slider-2 slider__height-5 d-flex align-items-center"
+                      style="height: 300px"
+                      :style="{ backgroundImage: `url(${section.image3})` }"
+                    >
+                    </Slide>
+                    <template #addons>
+                      <Pagination />
+                    </template>
+                  </Carousel>
+                </div>
+              </div>
               <span class="m-0" v-html="section.description"></span>
               <div class="text-center">
                 <video

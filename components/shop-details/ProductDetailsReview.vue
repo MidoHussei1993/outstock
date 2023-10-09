@@ -12,7 +12,7 @@
         </h3>
       </div>
       <div class="latest-comments mb-30">
-        <ul>
+        <ul v-if="item.rates && item.rates.data">
           <li v-for="(review, index) in item.rates.data" :key="index">
             <!-- :class="`${review.children ? 'children' : ''}`"> -->
             <div class="comments-box">

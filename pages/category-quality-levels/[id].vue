@@ -15,14 +15,16 @@
             >
               <div class="card h-100">
                 <img
+                  style="object-fit: contain"
                   class="card-img-top"
                   :src="item.image"
+                  height="200"
                   alt="Card image cap"
                 />
                 <div
                   class="card-body d-flex flex-column justify-content-between shadow-sm"
                 >
-                  <h4 class="card-title text-center my-2">
+                  <h4 class="card-title text-center my-2 font-weight-bold">
                     {{ item.name }}
                   </h4>
 
@@ -32,14 +34,14 @@
                       :key="level.id"
                       class="d-inline-block mx-1"
                     >
-                      <span class="badge bg-warning px-1">
+                      <span class="badge bg-dark ml-1 pointer">
                         {{ level.name }}
                       </span>
                     </h5>
                   </div>
                   <button
                     class="btn btn-block btn-outline-primary mt-3 w-100"
-                    @click="$navigateTo(`/category-quality-levels/${item.id}`)"
+                    @click="navigateTo(`/category-quality-levels/${item.id}`)"
                   >
                     {{ $t("action.browse") }}
                   </button>
@@ -57,58 +59,32 @@
 import Layout from "~~/layout/Layout.vue";
 import BreadcrumbArea from "~~/components/common/breadcrumb/BreadcrumbArea.vue";
 // import { Formatter } from "sarala-json-api-data-formatter";
-import { IQualityLevel } from "~~/types";
-import { storeToRefs } from "pinia";
-import { UseCountryStore } from "~~/store/country";
+import { ICategory } from "~~/types";
 
 useHead({
   title: "Category List",
 });
-const country_id = ref<number | null>(null);
+
 const fetch = $useHttpClient();
 const { setLoader } = useLoader();
 // const formatter = new Formatter();
-const categoryId = useRoute().params.id;
-const qualityLevelsList = ref<IQualityLevel[]>([]);
-const countryStore = UseCountryStore();
-const { selectedCountryId } = storeToRefs(countryStore);
+const brandId = useRoute().params.id;
+const categoriesList = ref<ICategory[]>([]);
 
-watch(selectedCountryId, async (newVal, oldVal) => {
-  country_id.value = newVal as any;
-  getQualityLevelsByCategoryId();
-});
-
-const getQualityLevelsByCategoryId = async () => {
-  if (localStorage.getItem("token")) {
-    const user = JSON.parse(localStorage.getItem("user")!);
-    console.log(
-      "🚀 ~ file: [id].vue:79 ~ getQualityLevelsByCategoryId ~ user:",
-      user
-    );
-    country_id.value = user.country_id;
-  } else {
-    country_id.value = selectedCountryId.value;
-    console.log(
-      "🚀 ~ file: [id].vue:83 ~ getQualityLevelsByCategoryId ~ selectedCountryId.value:",
-      selectedCountryId.value
-    );
-  }
+const getCategoriesByBrandId = async () => {
   try {
     setLoader(true);
-    const { data } = await fetch(
-      `quality-levels/get-by-category/${categoryId}?country_id=${country_id.value}`,
-      {
-        method: "get",
-      }
-    );
-    qualityLevelsList.value = data;
-    console.log(
-      "🚀 ~ file: [id].vue:23 ~ getCategoriesByBrandId ~ categoriesList.value :",
-      qualityLevelsList.value
-    );
+    const { data } = await fetch(`categories/get-by-brand/${brandId}`, {
+      method: "get",
+    });
+    categoriesList.value = data;
   } catch (error) {
     setLoader(false);
   }
 };
+
+onMounted(() => {
+  getCategoriesByBrandId();
+});
 </script>
 <style lang=""></style>
