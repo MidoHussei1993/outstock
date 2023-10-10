@@ -64,7 +64,10 @@
             dir="rtl"
           >
             <Slide v-for="(item, index) in categories" :key="item.id">
-              <div class="carousel__item card bg-white h-100">
+              <div
+                class="carousel__item card bg-white h-100 pointer"
+                @click="navigateToCategoryQualityLevel(item)"
+              >
                 <img
                   class="card-img-top w-100"
                   :src="item.image"
@@ -107,7 +110,8 @@
           <Carousel :items-to-show="7" :wrap-around="true" :autoplay="2000">
             <Slide v-for="(item, index) in quality_levels" :key="item.id">
               <div
-                class="carousel__item card bg-white h-100"
+                @click="navigateToProducts(item)"
+                class="carousel__item card bg-white h-100 pointer"
                 style="min-height: 12px !important"
               >
                 <div
@@ -142,7 +146,10 @@
                 dir="rtl"
               >
                 <Slide v-for="(item, index) in offers" :key="item.id">
-                  <div class="carousel__item card bg-white pointer">
+                  <div
+                    class="carousel__item card bg-white pointer"
+                    @click="navigateToProductsWithOffers(item)"
+                  >
                     <img
                       :src="item.image"
                       alt="offers"
@@ -233,13 +240,39 @@ const quality_levels = ref<IQualityLevel[]>([]);
 const categories = ref<ICategory[]>([]);
 const countryStore = UseCountryStore();
 const { selectedCountryId } = storeToRefs(countryStore);
-let scroolEvent = null;
+const router = useRouter();
+const { getAction, hasAction } = $FN();
 
 watch(selectedCountryId, async (newVal, oldVal) => {
   country_id.value = newVal as any;
   getHomePageData();
 });
 
+const navigateToCategoryQualityLevel = (item: any) => {
+  router.push({
+    path: `/category-quality-levels/${item.id}`,
+    query: {
+      showAction: JSON.stringify(getAction(item, "quality_levels")),
+    },
+  });
+};
+
+const navigateToProducts = (item: any) => {
+  router.push({
+    path: `/products`,
+    query: {
+      showAction: JSON.stringify(getAction(item, "get_quality_level_product")),
+    },
+  });
+};
+const navigateToProductsWithOffers = (item: any) => {
+  router.push({
+    path: `/products`,
+    query: {
+      showAction: JSON.stringify(getAction(item, "get_offer_products")),
+    },
+  });
+};
 onMounted(() => {
   console.log(
     "🚀 ~ file: index.vue:154 ~ onMounted ~ selectedCountryId:",
