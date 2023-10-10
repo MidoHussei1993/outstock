@@ -127,38 +127,38 @@
         </client-only>
       </div>
 
-      <div class="row">
-        <div class="col-lg-11 col-md-11 col-sm-12 mx-auto">
-          <client-only>
-            <Carousel
-              :items-to-show="1"
-              :wrap-around="true"
-              :autoplay="2000"
-              dir="rtl"
-            >
-              <Slide v-for="(item, index) in offers" :key="item.id">
-                <div class="carousel__item card bg-white pointer">
-                  <img
-                    :src="item.image"
-                    alt="offers"
-                    class="w-100"
-                    height="350"
-                  />
-                </div>
-              </Slide>
-              <template #addons>
-                <Navigation />
-                <!-- <Pagination /> -->
-              </template>
-            </Carousel>
-          </client-only>
-        </div>
-      </div>
       <div class="box-25">
         <trending-products
           :mostSoledProducts="most_soled_products"
           :style_3="true"
         />
+        <div class="row" v-if="offers.length">
+          <div class="col-lg-11 col-md-11 col-sm-12 mx-auto">
+            <client-only>
+              <Carousel
+                :items-to-show="1"
+                :wrap-around="true"
+                :autoplay="2000"
+                dir="rtl"
+              >
+                <Slide v-for="(item, index) in offers" :key="item.id">
+                  <div class="carousel__item card bg-white pointer">
+                    <img
+                      :src="item.image"
+                      alt="offers"
+                      class="w-100"
+                      height="350"
+                    />
+                  </div>
+                </Slide>
+                <template #addons>
+                  <Navigation />
+                  <!-- <Pagination /> -->
+                </template>
+              </Carousel>
+            </client-only>
+          </div>
+        </div>
         <section class="product__area pt-3 pb-100">
           <div class="container-fluid">
             <div class="row">

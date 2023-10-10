@@ -40,10 +40,11 @@
                     </h5>
                   </div>
                   <button
+                    v-if="hasAction(item, 'quality_levels')"
                     class="btn btn-block btn-outline-primary mt-3 w-100"
-                    @click="navigateTo(`/category-quality-levels/${item.id}`)"
+                    @click="navigateToQualityLevel(item)"
                   >
-                    {{ $t("action.browse") }}
+                    {{ getAction(item, "quality_levels").label }}
                   </button>
                 </div>
               </div>
@@ -64,11 +65,12 @@ import { ICategory } from "~~/types";
 useHead({
   title: "Category List",
 });
-
+const router = useRouter();
 const fetch = $useHttpClient();
 const { setLoader } = useLoader();
 // const formatter = new Formatter();
 const brandId = useRoute().params.id;
+const { getAction, hasAction } = $FN();
 const categoriesList = ref<ICategory[]>([]);
 
 const getCategoriesByBrandId = async () => {
@@ -81,6 +83,14 @@ const getCategoriesByBrandId = async () => {
   } catch (error) {
     setLoader(false);
   }
+};
+const navigateToQualityLevel = (item: any) => {
+  router.push({
+    path: `/category-quality-levels/${item.id}`,
+    query: {
+      showAction: JSON.stringify(getAction(item, "quality_levels")),
+    },
+  });
 };
 
 onMounted(() => {
