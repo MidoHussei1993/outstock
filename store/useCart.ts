@@ -1,15 +1,36 @@
 import { defineStore } from "pinia";
-import { IProduct } from "~~/types";
+import { CartProduct, ICart, IProduct } from "~~/types";
 import ProductType from "~~/types/productType";
+import { Formatter } from "sarala-json-api-data-formatter";
+
+const formatter = new Formatter();
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
-    cart_products: [] as IProduct[],
+    fetch: $useHttpClient(),
+    LoaderState: useLoader(),
+    cart_products: [] as CartProduct[],
     orderQuantity: 1 as number,
     quantityCount: 0 as number,
     total: 0 as number,
+    currency: "",
   }),
   actions: {
+    async getUserCart() {
+      try {
+        this.LoaderState.setLoader(true);
+        const res = await this.fetch(`carts`, {
+          method: "get",
+        });
+        const data: ICart = formatter.deserialize(res);
+        this.cart_products = data.cartProducts.data;
+        this.total = data.total_coast;
+        this.currency = data.currency;
+        console.log("🚀 ~ file: HeaderTwo.vue:242 ~ getUserCart ~ data:", data);
+      } catch (error) {
+        this.LoaderState.setLoader(false);
+      }
+    },
     // add_cart_product
     add_cart_product(payload: IProduct) {
       console.log(

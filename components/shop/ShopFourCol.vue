@@ -82,15 +82,6 @@
                 />
               </div>
             </div>
-            <div class="row mt-40">
-              <div class="col-xl-12">
-                <pagination
-                  :items="state.products"
-                  :count-of-page="12"
-                  @paginatedData="paginatedData"
-                />
-              </div>
-            </div>
           </div>
         </div>
       </div>

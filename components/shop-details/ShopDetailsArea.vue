@@ -277,6 +277,7 @@ const countryStore = UseCountryStore();
 const { selectedCountryId } = storeToRefs(countryStore);
 const item = ref<IProduct>();
 const active_img = ref<IMedia>();
+const emit = defineEmits(["getProduct"]);
 
 watch(selectedCountryId, async (newVal, oldVal) => {
   await getProductDetails(selectedCountryId.value);
@@ -291,6 +292,7 @@ const getProductDetails = async (countryId: any) => {
     const data: IProduct = formatter.deserialize(res);
     data.orderQuantity = 1;
     item.value = data;
+    emit("getProduct", data);
     if (item.value?.images && item.value?.images.data) {
       active_img.value = item.value?.images.data[0];
     } else if (item.value?.image) {

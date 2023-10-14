@@ -83,7 +83,29 @@
             {{ $t("c.size") }}
             <i class="fas fa-star-of-life"></i
           ></label>
-          <select v-model="item.selectedSize" @input="setProductPrice($event)">
+          <div class="d-flex justify-content-start">
+            <p
+              @click="item.selectedSize = size.id"
+              :class="{ active: item.selectedSize == size.id }"
+              class="p-2 btn border border-2 px-4 size-item mx-2"
+              v-for="(size, i) in item.sizes.data"
+              :key="i"
+            >
+              <span class="text-dark">
+                {{ size.size }}
+              </span>
+              <br />
+              <span class="text-warning font-weight-bold h5 py-2 pt-4">
+                <i class="fas fa-coins"></i>
+                {{
+                  size.productSizeCountries.data.has_discount
+                    ? size.productSizeCountries.data.price_after_discount
+                    : size.productSizeCountries.data.price
+                }}
+              </span>
+            </p>
+          </div>
+          <!-- <select v-model="item.selectedSize" @input="setProductPrice($event)">
             <option
               :value="size.id"
               v-for="(size, i) in item.sizes.data"
@@ -91,7 +113,7 @@
             >
               {{ size.size }}
             </option>
-          </select>
+          </select> -->
         </div>
         <!-- <div class="product__modal-input color mb-20">
           <label>Color <i class="fas fa-star-of-life"></i></label>
@@ -200,13 +222,12 @@ const addProductToCart = async () => {
         },
       },
     });
-    console.log(res);
     emit("updateProductDetails", {});
-
-    setLoader(true);
+    state.getUserCart();
+    setLoader(false);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+    setLoader(false);
   }
 };
 const removeFromFavourite = async () => {
@@ -242,3 +263,16 @@ const addToFavourite = async () => {
   }
 };
 </script>
+<style lang="scss" scoped>
+.size-item {
+  &.active {
+    color: white;
+    background: #437797;
+    border-color: #315178 !important;
+  }
+  &:hover {
+    background: antiquewhite;
+    border-color: currentColor !important;
+  }
+}
+</style>

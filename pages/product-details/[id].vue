@@ -1,7 +1,12 @@
 <template>
   <layout :transparent="true">
-    <breadcrumb-area title="Product Details" subtitle="Product Details" />
-    <shop-details-area />
+    <breadcrumb-area
+      :title="$t('routes.home')"
+      :subtitle="
+        productDetails && productDetails.name ? productDetails.name : ''
+      "
+    />
+    <shop-details-area @getProduct="productDetails = $event" />
   </layout>
 </template>
 
@@ -19,6 +24,8 @@ import { Formatter } from "sarala-json-api-data-formatter";
 useHead({
   title: "Product Details",
 });
+const productDetails = ref<IProduct>();
+
 // const formatter = new Formatter();
 // const state = useProductsStore();
 // const { setLoader } = useLoader();
@@ -26,7 +33,6 @@ useHead({
 // const productId = useRoute().params.id;
 // const countryStore = UseCountryStore();
 // const { selectedCountryId } = storeToRefs(countryStore);
-// const productDetails = ref<IProduct>();
 // watch(selectedCountryId, async (newVal, oldVal) => {
 //   await getProductDetails(selectedCountryId.value);
 // });

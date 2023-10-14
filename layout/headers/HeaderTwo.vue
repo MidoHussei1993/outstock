@@ -99,7 +99,7 @@
                       <a href="#" class="cart"
                         ><i class="ion-bag"></i>
                         {{ $t("c.cart") }}
-                        <span>({{ state.totalPriceQuantity.quantity }})</span>
+                        <span>({{ cart_products.length }})</span>
                       </a>
                       <!-- cart mini start -->
                       <cart-mini />
@@ -164,6 +164,9 @@ import SearchPopup from "~~/components/common/modals/SearchPopup.vue";
 import OffCanvas from "~~/components/common/sidebar/OffCanvas.vue";
 import { useI18n } from "vue-i18n";
 import { getLang, setLang } from "~~/util";
+import { storeToRefs } from "pinia";
+
+import { ICart } from "~~/types";
 // interface
 interface SearchPopupComponentRef {
   openSearchPopup(): void;
@@ -230,24 +233,12 @@ export default defineComponent({
   },
   setup() {
     const state = useCartStore();
+    const { cart_products } = storeToRefs(state);
     const currentLang = ref("ar");
     const { locale } = useI18n();
     const fetch = $useHttpClient();
     const formatter = new Formatter();
     const { setLoader } = useLoader();
-
-    const getUserCart = async () => {
-      try {
-        setLoader(true);
-        const res = await fetch(`carts`, {
-          method: "get",
-        });
-        const data = formatter.deserialize(res);
-        console.log("🚀 ~ file: HeaderTwo.vue:242 ~ getUserCart ~ data:", data);
-      } catch (error) {
-        setLoader(false);
-      }
-    };
 
     const changeLanguage = (currentLang: string, reload = true) => {
       console.log(
@@ -267,19 +258,18 @@ export default defineComponent({
       }
       if (reload) window.location.reload();
     };
-
     onMounted(() => {
-      if (localStorage.getItem("token")) getUserCart();
       if (!getLang()) {
         changeLanguage("ar");
       } else changeLanguage(getLang()!, false);
     });
 
-    return { state, locale, changeLanguage, currentLang };
+    return { state, locale, changeLanguage, currentLang, cart_products };
   },
   mounted() {
-    window.addEventListener("scroll", this.handleSticky);
+    // window.addEventListener("scroll", this.handleSticky);
     if (localStorage.getItem("token")) {
+      this.state.getUserCart();
       this.isUserLogin = true;
     }
   },

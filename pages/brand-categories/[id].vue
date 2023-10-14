@@ -53,14 +53,28 @@
         </div>
       </div>
     </div>
+    <div class="row my-4">
+      <div class="col-xl-12 text-center">
+        <pagination
+          class="mx-auto"
+          v-if="pagination?.total_pages"
+          :pagination="pagination"
+          :totalPage="pagination?.total_pages"
+          :count-of-page="pagination?.total_pages"
+          @paginatedData="paginatedData"
+        />
+      </div>
+    </div>
   </layout>
 </template>
 
 <script lang="ts" setup>
 import Layout from "~~/layout/Layout.vue";
 import BreadcrumbArea from "~~/components/common/breadcrumb/BreadcrumbArea.vue";
+import Pagination from "~~/ui/Pagination.vue";
+
 // import { Formatter } from "sarala-json-api-data-formatter";
-import { ICategory } from "~~/types";
+import { ICategory, IPagination } from "~~/types";
 
 useHead({
   title: "Category List",
@@ -72,14 +86,27 @@ const { setLoader } = useLoader();
 const brandId = useRoute().params.id;
 const { getAction, hasAction } = $FN();
 const categoriesList = ref<ICategory[]>([]);
+const pagination = ref<IPagination>();
+const paginatedData = (page: number) => {
+  getCategoriesByBrandId(page);
+};
 
-const getCategoriesByBrandId = async () => {
+const getCategoriesByBrandId = async (page: number = 1) => {
+  console.log("🚀 ~ file: [id].vue:95 ~ getCategoriesByBrandId ~ page:", page);
   try {
     setLoader(true);
-    const { data } = await fetch(`categories/get-by-brand/${brandId}`, {
-      method: "get",
-    });
+    const { data, meta, ...res } = await fetch(
+      `categories/get-by-brand/${brandId}`,
+      {
+        method: "get",
+        params: {
+          page: page,
+        },
+      }
+    );
+    console.log("🚀 ~ file: [id].vue:95 ~ getCategoriesByBrandId ~ res:", meta);
     categoriesList.value = data;
+    pagination.value = meta.pagination;
   } catch (error) {
     setLoader(false);
   }

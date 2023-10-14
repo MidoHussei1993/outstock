@@ -2,6 +2,18 @@
   <layout :transparent="true">
     <breadcrumb-area title="Shop" subtitle="Shop" />
     <shop-four-col :products="productList" />
+    <div class="row my-4">
+      <div class="col-xl-12 text-center">
+        <pagination
+          class="mx-auto"
+          v-if="pagination"
+          :pagination="pagination"
+          :totalPage="pagination.total_pages"
+          :count-of-page="pagination?.total_pages"
+          @paginatedData="paginatedData"
+        />
+      </div>
+    </div>
   </layout>
 </template>
 
@@ -9,9 +21,10 @@
 import Layout from "~~/layout/Layout.vue";
 import BreadcrumbArea from "~~/components/common/breadcrumb/BreadcrumbArea.vue";
 import ShopFourCol from "~~/components/shop/ShopFourCol.vue";
+import Pagination from "~~/ui/Pagination.vue";
 
 // import { Formatter } from "sarala-json-api-data-formatter";
-import { IProduct } from "~~/types";
+import { IPagination, IProduct, IResponse } from "~~/types";
 import { IAction } from "~~/types/action";
 
 useHead({
@@ -23,19 +36,34 @@ const { setLoader } = useLoader();
 const { query } = useRoute();
 const router = useRouter();
 const productList = ref<IProduct[]>([]);
+const pagination = ref<IPagination>();
 const { getAction, hasAction } = $FN();
 
-const getCategoriesByBrandId = async () => {
+const paginatedData = (page: any) => {
+  console.log("🚀 ~ file: index.vue:42 ~ paginatedData ~ page:", page[0]);
+  getProductList(page);
+};
+
+const getProductList = async (page?: number) => {
+  console.log("🚀 ~ file: index.vue:48 ~ getProductList ~ page:", page);
   try {
     setLoader(true);
     const action: IAction = JSON.parse(query.showAction as any);
-    const { data } = await fetch(action.endpoint_url, {
-      method: "get",
-    });
+    const { data, meta, ...res }: IResponse<IProduct[]> = await fetch(
+      action.endpoint_url,
+      {
+        method: "get",
+        // params: {
+        //   ...(page && { page }),
+        // },
+      }
+    );
+    console.log("🚀 ~ file: index.vue:36 ~ getProductList ~ res:", res);
+    pagination.value = meta.pagination;
     productList.value = data;
     console.log(
-      "🚀 ~ file: index.vue:36 ~ getCategoriesByBrandId ~  productList.value:",
-      productList.value
+      "🚀 ~ file: index.vue:36 ~ getProductList ~  productList.value:",
+      pagination.value
     );
   } catch (error) {
     setLoader(false);
@@ -51,7 +79,7 @@ const navigateProducts = (item: any) => {
 };
 
 onMounted(() => {
-  getCategoriesByBrandId();
+  getProductList();
 });
 </script>
 <style lang=""></style>

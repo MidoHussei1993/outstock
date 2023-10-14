@@ -137,7 +137,7 @@
           :style_3="true"
         />
         <div class="row" v-if="offers.length">
-          <div class="col-lg-11 col-md-11 col-sm-12 mx-auto">
+          <div class="col-lg-8 col-md-8 col-sm-12 mx-auto">
             <client-only>
               <Carousel
                 :items-to-show="1"
@@ -154,7 +154,7 @@
                       :src="item.image"
                       alt="offers"
                       class="w-100"
-                      height="350"
+                      height="300"
                     />
                   </div>
                 </Slide>

@@ -41,6 +41,18 @@
         </div>
       </div>
     </div>
+    <div class="row my-4">
+      <div class="col-xl-12 text-center">
+        <pagination
+          class="mx-auto"
+          v-if="pagination?.total_pages"
+          :pagination="pagination"
+          :totalPage="pagination?.total_pages"
+          :count-of-page="pagination?.total_pages"
+          @paginatedData="paginatedData"
+        />
+      </div>
+    </div>
   </layout>
 </template>
 
@@ -48,7 +60,7 @@
 import Layout from "~~/layout/Layout.vue";
 import BreadcrumbArea from "~~/components/common/breadcrumb/BreadcrumbArea.vue";
 // import { Formatter } from "sarala-json-api-data-formatter";
-import { IQualityLevel } from "~~/types";
+import { IPagination, IQualityLevel } from "~~/types";
 import { IAction } from "~~/types/action";
 
 useHead({
@@ -61,13 +73,21 @@ const { query } = useRoute();
 const router = useRouter();
 const qualityLevelList = ref<IQualityLevel[]>([]);
 const { getAction, hasAction } = $FN();
+const pagination = ref<IPagination>();
+const paginatedData = (page: number) => {
+  console.log("🚀 ~ file: index.vue:41 ~ paginatedData ~ arg:", page);
+  getCategoriesByBrandId(page);
+};
 
-const getCategoriesByBrandId = async () => {
+const getCategoriesByBrandId = async (page: number = 1) => {
   try {
     setLoader(true);
     const action: IAction = JSON.parse(query.showAction as any);
     const { data } = await fetch(action.endpoint_url, {
       method: "get",
+      params: {
+        page: page,
+      },
     });
     console.log(
       "🚀 ~ file: [id].vue:83 ~ getCategoriesByBrandId ~ data:",
