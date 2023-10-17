@@ -2,6 +2,7 @@ import { IAction } from "./action";
 import { IBrand } from "./brand";
 import { ICategory } from "./category";
 import { IMedia } from "./media";
+import { IOffer } from "./offer";
 import { IPrice } from "./price";
 import { IQualityLevel } from "./qualityLevel";
 import { IRate } from "./rate";
@@ -13,6 +14,7 @@ export interface IProduct {
   brand_id: number;
   brand: { data: IBrand };
   category: { data: ICategory };
+  offer: { data: IOffer };
   images: { data: IMedia[] };
   category_id: number;
   rate_avr: number;

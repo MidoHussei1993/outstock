@@ -80,10 +80,15 @@
                         :src="active_img?.file"
                         v-if="active_img?.type == 'video'"
                       ></video>
-                      <!-- <div class="product__sale">
+                      <div
+                        class="product__sale"
+                        v-if="item.offer && item.offer.data"
+                      >
                         <span class="new">new</span>
-                        <span class="percent">-16%</span>
-                      </div> -->
+                        <span class="percent">
+                          % {{ item.offer.data.discount_percentage }}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -92,6 +97,7 @@
                 <product-details-content
                   :item="item"
                   :style_2="true"
+                  :duration="duration"
                   @updateProductDetails="getProductDetails(selectedCountryId)"
                 />
               </div>
@@ -276,8 +282,10 @@ const productId = useRoute().params.id;
 const countryStore = UseCountryStore();
 const { selectedCountryId } = storeToRefs(countryStore);
 const item = ref<IProduct>();
+const duration = ref<any>({});
 const active_img = ref<IMedia>();
 const emit = defineEmits(["getProduct"]);
+let timer: any;
 
 watch(selectedCountryId, async (newVal, oldVal) => {
   await getProductDetails(selectedCountryId.value);
@@ -292,6 +300,11 @@ const getProductDetails = async (countryId: any) => {
     const data: IProduct = formatter.deserialize(res);
     data.orderQuantity = 1;
     item.value = data;
+    if (item.value.offer && item.value.offer.data)
+      timer = setInterval(() => {
+        showRemaining(item.value?.offer.data.end_date);
+      }, 1000);
+
     emit("getProduct", data);
     if (item.value?.images && item.value?.images.data) {
       active_img.value = item.value?.images.data[0];
@@ -307,6 +320,32 @@ const getProductDetails = async (countryId: any) => {
 };
 const handleActiveImg = (img: IMedia): void => {
   active_img.value = img;
+};
+
+const showRemaining = (end: any) => {
+  let _second = 1000;
+  let _minute = _second * 60;
+  let _hour = _minute * 60;
+  let _day = _hour * 24;
+  let now = new Date();
+  // @ts-ignore
+  let distance = new Date(end) - now;
+  if (distance < 0) {
+    clearInterval(timer);
+    // document.getElementById("countdown").innerHTML = "EXPIRED!";
+
+    return;
+  }
+  let days = Math.floor(distance / _day);
+  let hours = Math.floor((distance % _day) / _hour);
+  let minutes = Math.floor((distance % _hour) / _minute);
+  let seconds = Math.floor((distance % _minute) / _second);
+  duration.value = {
+    days,
+    hours,
+    minutes,
+    seconds,
+  };
 };
 
 onMounted(() => {

@@ -15,6 +15,10 @@
     "sizeValidation": "Make sure you select size",
     "size": "Size",
     "quantity": "Quantity",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
     "english": "english"
   }
 }

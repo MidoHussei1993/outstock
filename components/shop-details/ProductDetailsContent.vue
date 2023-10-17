@@ -55,6 +55,31 @@
 
       <span class="rating-no ml-10"> {{ item.rate_avr }} rating(s) </span>
     </div>
+    <div class="row">
+      <div
+        class="col-lg-6 col-md-8 col-sm-12 mx-2 d-flex justify-content-around duration"
+        v-if="item.offer && item.offer.data"
+      >
+        <div class="p-2 text-center">
+          <div>
+            {{ duration.days }}
+          </div>
+          <span class=""> {{ $t("c.days") }} </span>
+        </div>
+        <div class="p-2 text-center">
+          <div>{{ duration.hours }}</div>
+          <span class=""> {{ $t("c.hours") }} </span>
+        </div>
+        <div class="p-2 text-center">
+          <div>{{ duration.minutes }}</div>
+          <span class=""> {{ $t("c.minutes") }} </span>
+        </div>
+        <div class="p-2 text-center">
+          <div>{{ duration.seconds }}</div>
+          <span class=""> {{ $t("c.seconds") }} </span>
+        </div>
+      </div>
+    </div>
     <div class="product__price-2 mb-25" v-if="item.price && item.price.data">
       <span v-if="price == 0"
         >{{
@@ -183,6 +208,7 @@ import { IAction } from "~~/types/action";
 const props = defineProps({
   item: { type: Object as PropType<IProduct>, default: () => {} },
   style_2: { type: Boolean, default: () => false },
+  duration: { type: Object, default: () => {} },
 });
 const fetch = $useHttpClient();
 const { setLoader } = useLoader();
@@ -264,6 +290,24 @@ const addToFavourite = async () => {
 };
 </script>
 <style lang="scss" scoped>
+.duration {
+  div {
+    div {
+      min-width: 77px;
+      background: #bc8246;
+      padding-top: 11px;
+      text-align: center;
+      font-weight: 500;
+      min-height: 45px;
+      color: white;
+      font-size: 29px;
+      vertical-align: middle;
+      margin-bottom: 5px;
+      border-radius: 9px;
+      text-shadow: 3px 4px 5px #000000ad;
+    }
+  }
+}
 .size-item {
   &.active {
     color: white;
