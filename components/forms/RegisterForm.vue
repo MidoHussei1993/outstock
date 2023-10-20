@@ -32,7 +32,7 @@
       <Field
         name="name"
         type="text"
-        :placeholder="$t('form.enter') + $t('form.name')"
+        :placeholder="$t('form.enter') + ' ' + $t('form.name')"
       />
       <ErrorMessage name="name" class="text-danger" />
     </div>
@@ -43,7 +43,7 @@
         name="email"
         id="email-id"
         type="text"
-        :placeholder="$t('form.enter') + $t('form.name')"
+        :placeholder="$t('form.enter') + ' ' + $t('form.name')"
       />
       <ErrorMessage name="email" class="text-danger" />
     </div>
@@ -54,7 +54,7 @@
         name="mobile_number"
         id="mobile_number"
         type="number"
-        :placeholder="$t('form.enter') + $t('form.mobile')"
+        :placeholder="$t('form.enter') + ' ' + $t('form.mobile')"
       />
       <ErrorMessage name="email" class="text-danger" />
     </div>
@@ -65,7 +65,7 @@
         name="country_id"
         id="country_id"
         as="select"
-        :placeholder="$t('form.country') + $t('form.name')"
+        :placeholder="$t('form.country') + ' ' + $t('form.name')"
       >
         <option
           v-for="(item, index) in countries"
@@ -77,7 +77,19 @@
       </Field>
       <ErrorMessage name="country_id" class="text-danger" />
     </div>
-
+    <div class="mb-20">
+      <label for="pass">
+        {{ $t("config.token") }}
+      </label>
+      <Field
+        name="token"
+        v-model="token"
+        id="token"
+        type="text"
+        :placeholder="$t('form.enter') + ' ' + $t('config.token')"
+      />
+      <!-- <ErrorMessage name="password" class="text-danger" /> -->
+    </div>
     <div class="mb-20">
       <label for="pass">
         {{ $t("form.password") }}
@@ -87,7 +99,7 @@
         name="password"
         id="pass"
         type="password"
-        :placeholder="$t('form.enter') + $t('form.password')"
+        :placeholder="$t('form.enter') + ' ' + $t('form.password')"
       />
       <ErrorMessage name="password" class="text-danger" />
     </div>
@@ -100,7 +112,7 @@
         name="password_confirmation"
         id="password_confirmation"
         type="password"
-        :placeholder="$t('form.enter') + $t('form.passwordConfierm')"
+        :placeholder="$t('form.enter') + ' ' + $t('form.passwordConfierm')"
       />
       <ErrorMessage name="password_confirmation" class="text-danger" />
     </div>
@@ -130,11 +142,13 @@ import { ICountry, ImageResponse } from "~~/types";
 const { t } = useI18n();
 // const { setLoader } = useLoader();
 const fetch = $useHttpClient();
+const token = ref("");
 const countries = ref<ICountry[]>([]);
 const busySubmit = ref<boolean>(false);
 const image = ref<ImageResponse>({} as ImageResponse);
 const lat = ref<any>(null);
 const lng = ref<any>(null);
+const { query } = useRoute();
 const schema = yup.object({
   name: yup.string().trim().required(t("_.required")).label(t("form.name")),
   email: yup
@@ -144,6 +158,7 @@ const schema = yup.object({
     .email(t("_.email"))
     .label(t("form.email")),
   mobile_number: yup.number().required(t("_.required")).label(t("form.mobile")),
+  invitation_token: yup.string().label(t("config.token")),
   country_id: yup.string().label(t("form.country")).required(t("_.required")),
   password: yup.string().trim().required().min(8).label(t("form.password")),
   password_confirmation: yup
@@ -154,7 +169,9 @@ const schema = yup.object({
 });
 
 onMounted(() => {
-  getCuntires();
+  if (query.invitation_token) {
+    token.value = query.invitation_token.toString();
+  }
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       lat.value = position.coords.latitude;

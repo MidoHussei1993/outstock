@@ -5,7 +5,8 @@
         <div class="col-xxl-4 col-md-4">
           <div class="profile__menu-left bg-white mb-50">
             <h3 class="profile__menu-title">
-              <i class="fa fa-list-alt"></i> Your Menu
+              <i class="mx-2 h6 fa fa-list-alt"></i>
+              {{ $t("p.yourMenu") }}
             </h3>
             <div class="profile__menu-tab">
               <div
@@ -22,8 +23,9 @@
                   role="tab"
                   aria-controls="nav-account"
                   aria-selected="true"
+                  style="text-align: right"
                 >
-                  <i class="fa fa-user"></i> My Account
+                  <i class="fa fa-user mx-2 h6"></i> {{ $t("p.MyAcccount") }}
                 </button>
                 <button
                   class="nav-link"
@@ -34,8 +36,10 @@
                   role="tab"
                   aria-controls="nav-order"
                   aria-selected="false"
+                  style="text-align: right"
                 >
-                  <i class="fa fa-file"></i>Orders
+                  <i class="fa fa-file mx-2 h6"></i>
+                  {{ $t("p.orders") }}
                 </button>
                 <button
                   class="nav-link"
@@ -46,11 +50,18 @@
                   role="tab"
                   aria-controls="nav-password"
                   aria-selected="false"
+                  style="text-align: right"
                 >
-                  <i class="fa fa-lock"></i>Change Password
+                  <i class="fa fa-lock mx-2 h6"></i>
+                  {{ $t("p.changePassword") }}
                 </button>
-                <button class="nav-link" @click="logout()">
-                  <i class="fa fa-sign-out"></i> Logout
+                <button
+                  style="text-align: right"
+                  class="nav-link"
+                  @click="logout()"
+                >
+                  <i class="fa fa-sign-out mx-2 h6"></i>
+                  {{ $t("auth.singOut") }}
                 </button>
               </div>
             </div>
@@ -71,11 +82,12 @@
                   >
                     <h3 class="profile__info-title">Profile Information</h3>
                     <button
-                      class="profile__info-btn"
+                      class="profile__info-btn border py-1 px-2 rounded-3"
                       type="button"
                       @click="showModal = true"
                     >
-                      <i class="fa-regular fa-pen-to-square"></i> Edit Profile
+                      <i class="fad fa-edit h6"></i>
+                      {{ $t("action.edit") }}
                     </button>
                   </div>
                   <div class="profile__info-wrapper white-bg" v-if="user">
@@ -107,6 +119,49 @@
                       </p>
                       <h4>
                         {{ user.mobile_number }}
+                      </h4>
+                    </div>
+
+                    <div class="profile__info-item">
+                      <div class="d-flex justify-content-between mb-2">
+                        <p class="p-1 mb-0">
+                          {{ $t("config.token") }}
+                        </p>
+                        <button
+                          @click="copyContent(user.unique_token)"
+                          type="button"
+                          style="font-weight: 500"
+                          class="btn btn-outline-primary btn-sm mx-2 font-weight-bolder"
+                        >
+                          <i class="fad fa-copy h6"></i>
+                          {{ $t("action.copy") }}
+                        </button>
+                      </div>
+                      <h4 class="border p-2 bg-light">
+                        <span>
+                          {{ user.unique_token }}
+                        </span>
+                      </h4>
+                    </div>
+                    <div class="profile__info-item">
+                      <div class="d-flex justify-content-between mb-2">
+                        <p class="p-1 mb-0">
+                          {{ $t("config.inviteFrind") }}
+                        </p>
+                        <button
+                          @click="copyContent(user.invite_friend_url)"
+                          type="button"
+                          style="font-weight: 500"
+                          class="btn btn-outline-primary btn-sm mx-2 font-weight-bolder"
+                        >
+                          <i class="fad fa-copy h6"></i>
+                          {{ $t("action.copy") }}
+                        </button>
+                      </div>
+                      <h4 class="border p-2 bg-light">
+                        <span>
+                          {{ user.invite_friend_url }}
+                        </span>
                       </h4>
                     </div>
                     <!-- <div class="profile__info-item">
@@ -225,7 +280,7 @@
   <Dialog
     class="transparent-dialog"
     v-model:visible="showModal"
-    :showHeader="false"
+    :showHeader="true"
     modal
     :style="{ width: '30%' }"
   >
@@ -233,7 +288,7 @@
   </Dialog>
 
   <!-- edit modal start -->
-  <profile-edit-modal />
+  <!-- <profile-edit-modal /> -->
   <!-- edit modal end -->
 </template>
 
@@ -242,11 +297,22 @@ import { User } from "~~/types";
 import ProfileEditModal from "../common/modals/ProfileEditModal.vue";
 import ChangePasswordForm from "../forms/ChangePasswordForm.vue";
 import ProfileEditForm from "../forms/ProfileEditForm.vue";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
   user: { type: Object, default: () => ({} as User) },
 });
 const showModal = ref(false);
+const { t } = useI18n();
+const copyContent = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    useNuxtApp().$toast.success(t("action.copy"));
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+};
+
 const logout = () => {
   localStorage.clear();
   navigateTo("/login");

@@ -193,10 +193,6 @@ export default defineComponent({
       setSelectedCountryId(this.countryList[0].id);
     } else {
       const user = JSON.parse(localStorage.getItem("user")!);
-      console.log(
-        "🚀 ~ file: HeaderTwo.vue:208 ~ created ~ user.country_id:",
-        user.country_id
-      );
       setSelectedCountryId(user.country_id);
     }
   },
@@ -241,10 +237,6 @@ export default defineComponent({
     const { setLoader } = useLoader();
 
     const changeLanguage = (currentLang: string, reload = true) => {
-      console.log(
-        "🚀 ~ file: HeaderTwo.vue:239 ~ changeLanguage ~ currentLang:",
-        currentLang
-      );
       // navStore.changeLanguage()
       let el = document.querySelector("html")!;
       setLang(currentLang);

@@ -4,13 +4,36 @@
       style_2 ? 'product__modal-content-2' : ''
     }`"
   >
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-around align-items-center">
       <div class="p-2">
         <h4>
           <nuxt-link :href="`/product-details/${item.id}`">
             <span v-html="item.name"></span>
           </nuxt-link>
         </h4>
+      </div>
+      <div
+        class="p-2 d-flex justify-content-around duration"
+        v-if="item.offer && item.offer.data && duration"
+      >
+        <div class="p-2 text-center">
+          <div>
+            {{ duration.days }}
+          </div>
+          <span class=""> {{ $t("c.days") }} </span>
+        </div>
+        <div class="p-2 text-center">
+          <div>{{ duration.hours }}</div>
+          <span class=""> {{ $t("c.hours") }} </span>
+        </div>
+        <div class="p-2 text-center">
+          <div>{{ duration.minutes }}</div>
+          <span class=""> {{ $t("c.minutes") }} </span>
+        </div>
+        <div class="p-2 text-center">
+          <div>{{ duration.seconds }}</div>
+          <span class=""> {{ $t("c.seconds") }} </span>
+        </div>
       </div>
       <div class="p-2">
         <i
@@ -54,31 +77,6 @@
       <br />
 
       <span class="rating-no ml-10"> {{ item.rate_avr }} rating(s) </span>
-    </div>
-    <div class="row">
-      <div
-        class="col-lg-6 col-md-8 col-sm-12 mx-2 d-flex justify-content-around duration"
-        v-if="item.offer && item.offer.data"
-      >
-        <div class="p-2 text-center">
-          <div>
-            {{ duration.days }}
-          </div>
-          <span class=""> {{ $t("c.days") }} </span>
-        </div>
-        <div class="p-2 text-center">
-          <div>{{ duration.hours }}</div>
-          <span class=""> {{ $t("c.hours") }} </span>
-        </div>
-        <div class="p-2 text-center">
-          <div>{{ duration.minutes }}</div>
-          <span class=""> {{ $t("c.minutes") }} </span>
-        </div>
-        <div class="p-2 text-center">
-          <div>{{ duration.seconds }}</div>
-          <span class=""> {{ $t("c.seconds") }} </span>
-        </div>
-      </div>
     </div>
     <div class="product__price-2 mb-25" v-if="item.price && item.price.data">
       <span v-if="price == 0"

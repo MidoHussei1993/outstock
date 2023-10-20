@@ -1,9 +1,0 @@
-{
-  "routes": {
-    "home": "الرئيسية",
-    "subjects": "المواد",
-    "logout": "تسجيل الخروج",
-    "general_exam": "امتحانات عامة",
-    "question_reports": "تقارير الاسئلة"
-  }
-}

@@ -37,9 +37,9 @@
               <div class="cart-item">
                 <nuxt-link href="/cart">
                   <i class="fa-regular fa-basket-shopping"></i>
-                  <span class="cart-quantity">{{
+                  <sofferspan class="cart-quantity">{{
                     state.cart_products.length
-                  }}</span>
+                  }}</sofferspan>
                 </nuxt-link>
               </div>
             </div>

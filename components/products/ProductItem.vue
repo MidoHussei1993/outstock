@@ -60,12 +60,10 @@
           <i class="fal fa-search"></i>
         </a>
       </div>
-      <!-- <div v-if="item.sale_of_per || item.new" class="product__sale">
-        <span v-if="item.new || item.sale_of_per" class="new">new</span>
-        <span v-if="item.sale_of_per" class="percent"
-          >-{{ item.sale_of_per }}%</span
-        >
-      </div> -->
+      <div class="product__sale" v-if="item.offer && item.offer.data">
+        <span class="new">new</span>
+        <span class="percent">-{{ item.offer.data.discount_percentage }}%</span>
+      </div>
     </div>
     <div class="product__content p-relative">
       <div class="product__content-inner">
