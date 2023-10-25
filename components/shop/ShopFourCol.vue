@@ -8,13 +8,13 @@
               class="shop__header d-sm-flex justify-content-between align-items-center mb-40"
             >
               <div class="shop__header-left">
-                <div class="show-text">
+                <div class="show-text " v-if="pagination && pagination.total_pages">
                   <span
-                    >Showing 1–{{
-                      state.products.slice(pageStart, pageStart + countOfPage)
-                        .length
-                    }}
-                    of {{ state.products.length }} results</span
+                    > 
+                    {{ $t('c.currentPage') }}
+                    {{pagination.current_page }}
+                    {{ $t('c.of') }}
+{{pagination.total_pages }} </span
                   >
                 </div>
               </div>
@@ -96,10 +96,11 @@ import { useProductsStore } from "~~/store/useProducts";
 import ProductItem from "../products/ProductItem.vue";
 import ProductListItem from "../products/ProductListItem.vue";
 import Pagination from "~~/ui/Pagination.vue";
-import { IProduct } from "~~/types";
+import { IPagination, IProduct } from "~~/types";
 
 const props = defineProps({
   products: { type: Array as PropType<IProduct[]>, default: () => [] },
+    pagination: { type: Object as PropType<IPagination>, default: () =>{} },
 });
 
 const state = useProductsStore();

@@ -4,32 +4,44 @@
       style_2 ? 'product__modal-content-2' : ''
     }`"
   >
-    <div class="d-flex justify-content-around align-items-center">
+    <div class="d-flex justify-content-between align-items-center">
+      
       <div class="p-2">
-        <h4>
+        <h4> 
           <nuxt-link :href="`/product-details/${item.id}`">
             <span v-html="item.name"></span>
           </nuxt-link>
         </h4>
       </div>
+    
       <div
-        class="p-2 d-flex justify-content-around duration"
-        v-if="item.offer && item.offer.data && duration"
+      class="p-2 d-flex justify-content-around duration"
+      v-if="item.offer && item.offer.data && duration"
       >
+      <img  v-if="item.offer" src="~/assets/img/offer.png" width="85" alt="">
         <div class="p-2 text-center">
           <div>
             {{ duration.days }}
           </div>
           <span class=""> {{ $t("c.days") }} </span>
         </div>
+        <span class="p1 h2 mt-2">
+          :
+        </span>
         <div class="p-2 text-center">
           <div>{{ duration.hours }}</div>
           <span class=""> {{ $t("c.hours") }} </span>
         </div>
+        <span class="p1 h2 mt-2">
+          :
+        </span>
         <div class="p-2 text-center">
           <div>{{ duration.minutes }}</div>
           <span class=""> {{ $t("c.minutes") }} </span>
         </div>
+        <span class="p1 h2 mt-2">
+          :
+        </span>
         <div class="p-2 text-center">
           <div>{{ duration.seconds }}</div>
           <span class=""> {{ $t("c.seconds") }} </span>
@@ -291,18 +303,17 @@ const addToFavourite = async () => {
 .duration {
   div {
     div {
-      min-width: 77px;
-      background: #bc8246;
-      padding-top: 11px;
-      text-align: center;
-      font-weight: 500;
-      min-height: 45px;
-      color: white;
-      font-size: 29px;
-      vertical-align: middle;
-      margin-bottom: 5px;
-      border-radius: 9px;
-      text-shadow: 3px 4px 5px #000000ad;
+      min-width: 53px;
+    padding-top: 11px;
+    text-align: center;
+    font-weight: 200;
+    min-height: 45px;
+    color: #bc8246;
+    font-size: 23px;
+    vertical-align: middle;
+    margin-bottom: 1px;
+    border-radius: 6px;
+    border: 1px solid #bc8246;
     }
   }
 }

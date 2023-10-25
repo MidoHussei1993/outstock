@@ -19,6 +19,8 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "seconds": "Seconds",
+    "currentPage": "Current page",
+    "of": "Of",
     "english": "english"
   }
 }

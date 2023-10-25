@@ -1,8 +1,12 @@
 <template>
   <layout :transparent="true">
-    <breadcrumb-area title="Shop" subtitle="Shop" />
-    <shop-four-col :products="productList" />
-    <div class="row my-4">
+    <breadcrumb-area title="Shop" subtitle="Shop"  imageNamber="bg3" />
+    <shop-four-col :products="productList" :pagination="pagination" v-if="productList.length"/>
+    <h2 class="text-center display-5" style="font-weight: 400;" v-if="!productList.length">
+      <i class="fad fa-person-dolly-empty mx-2 my-5"></i>
+     {{ $t('config.noData') }}
+    </h2>
+    <div class="row my-4"  v-if="productList.length">
       <div class="col-xl-12 text-center">
         <pagination
           class="mx-auto"

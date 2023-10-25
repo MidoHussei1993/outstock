@@ -3,9 +3,10 @@
     <breadcrumb-area
       :title="$t('c.categories')"
       :subtitle="$t('c.categories')"
+      imageNamber="bg2"
     />
     <div>
-      <div class="row my-4">
+      <div class="row my-4" v-if="qualityLevelList.length">
         <div class="col-lg-11 col-md-11 col-sm-12 mx-auto">
           <div class="row">
             <div
@@ -41,7 +42,11 @@
         </div>
       </div>
     </div>
-    <div class="row my-4">
+    <h2 class="text-center display-5" style="font-weight: 400;" v-if="!qualityLevelList.length">
+      <i class="fad fa-person-dolly-empty mx-2 my-5"></i>
+     {{ $t('config.noData') }}
+    </h2>
+    <div class="row my-4"  v-if="qualityLevelList.length">
       <div class="col-xl-12 text-center">
         <pagination
           class="mx-auto"

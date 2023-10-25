@@ -18,6 +18,7 @@ export const UseCountryStore = defineStore("country", {
         const { data } = await fetch("/countries?page=1&per_page=1000", {
           method: "get",
         });
+        console.log(data)
         this.countryList = data;
         setLoader(false);
         return data;

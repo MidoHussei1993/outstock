@@ -13,12 +13,13 @@
               <div class="main-menu d-none d-lg-block p-relative">
                 <div class="header__action">
                   <ul>
-                    <li v-if="!isUserLogin && countryList.length">
-                      <select class="form-control">
+                    <li v-if="!isUserLogin && countryList && countryList.length">
+                      <select v-model="selectedCountryModal" class="form-control"  @change="changeSelectedCuntory($event.target?.value)">
                         <option
                           :value="item.id"
                           v-for="(item, index) in countryList"
                           :key="index"
+                         
                         >
                           {{ item.name }}
                         </option>
@@ -184,26 +185,35 @@ export default defineComponent({
       isUserLogin: false,
       hideHeader: false,
       countryList: [] as any[],
+      selectedCountryModal:null
     };
   },
   async created() {
-    const { getCountryList, setSelectedCountryId } = UseCountryStore();
-    this.countryList = await getCountryList();
+    this.countryList = await this.getCountryList();
+    console.log(this.countryList)
     if (!this.isUserLogin) {
-      setSelectedCountryId(this.countryList[0].id);
+      if (localStorage.getItem('selectedCountry')) {
+        // @ts-ignore
+        this.selectedCountryModal = localStorage.getItem('selectedCountry')
+      this.setSelectedCountryId( this.selectedCountryModal);
+      }else{
+        localStorage.setItem('selectedCountry',this.countryList[0].id)
+        this.selectedCountryModal = this.countryList[0].id
+      this.setSelectedCountryId(this.countryList[0].id);
+      }
     } else {
       const user = JSON.parse(localStorage.getItem("user")!);
-      setSelectedCountryId(user.country_id);
+      this.selectedCountryModal = user.country_id
+      this.setSelectedCountryId(user.country_id);
     }
   },
   methods: {
     selectedCountry(event: any) {
-      const { setSelectedCountryId } = UseCountryStore();
       console.log(
         "🚀 ~ file: HeaderTwo.vue:226 ~ selectedCountry ~ event:",
         event.target.value
       );
-      setSelectedCountryId(event.target.value);
+      this.setSelectedCountryId(event.target.value);
     },
     logout() {
       localStorage.clear();
@@ -229,6 +239,7 @@ export default defineComponent({
   },
   setup() {
     const state = useCartStore();
+    const { setSelectedCountryId,getCountryList } = UseCountryStore();
     const { cart_products } = storeToRefs(state);
     const currentLang = ref("ar");
     const { locale } = useI18n();
@@ -236,6 +247,10 @@ export default defineComponent({
     const formatter = new Formatter();
     const { setLoader } = useLoader();
 
+    const changeSelectedCuntory = (id)=>{
+      setSelectedCountryId(id)
+      localStorage.setItem('selectedCountry',id)
+    }
     const changeLanguage = (currentLang: string, reload = true) => {
       // navStore.changeLanguage()
       let el = document.querySelector("html")!;
@@ -256,7 +271,7 @@ export default defineComponent({
       } else changeLanguage(getLang()!, false);
     });
 
-    return { state, locale, changeLanguage, currentLang, cart_products };
+    return { state, locale, changeLanguage, currentLang, cart_products,setSelectedCountryId,getCountryList,changeSelectedCuntory };
   },
   mounted() {
     // window.addEventListener("scroll", this.handleSticky);

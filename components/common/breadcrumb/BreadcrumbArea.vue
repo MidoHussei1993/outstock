@@ -1,5 +1,5 @@
 <template>
-  <section class="page__title p-relative d-flex align-items-center" :style="{ backgroundImage: `url(${bg})`}">
+  <section class="page__title p-relative d-flex align-items-center" :style="{ backgroundImage:`url(${bg})`}">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -22,7 +22,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import bg from '~/assets/img/page-title/page-title-1.jpg';
+import bg1 from '~/assets/img/page-title/page-title-1.jpg';
+import bg2 from '~/assets/img/pexels-castorly-stock-3682240.jpg';
+import bg3 from '~/assets/img/pexels-cottonbro-studio-3171066.jpg';
+import bg4 from '~/assets/img/pexels-malidate-van-833046 (1).jpg';
 
 export default defineComponent({
   props:{
@@ -34,11 +37,23 @@ export default defineComponent({
       type:String,
       required:true,
     },
+    imageNamber:{
+      type:String,
+      required:true,
+      default:'bg1'
+    },
   },
   data() {
     return {
-      bg
+      bg1,
+      bg2,
+      bg3,
+      bg4,
+      bg:null
     }
   },
+  mounted(){
+    this.bg = this[this.$props.imageNamber]
+  }
 })
 </script>
