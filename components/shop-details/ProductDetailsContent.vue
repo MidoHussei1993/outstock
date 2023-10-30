@@ -121,20 +121,20 @@
           ></label>
           <div
             class="card card-body my-2 py-0 rounded-3 pointer"
+            :style="{width:size.selected?'50%':'145px'}"
             v-for="(size, i) in item.sizes.data"
             :key="i"
             @click.self="size.selected = !size.selected;getTotalPrice()"
             :class="{ 'border-success bg-light selected-size': size.selected }"
           >
-            <div class="d-flex justify-content-around align-content-center"
+            <div class="d-flex justify-content-around align-items-center"
             @click.self="size.selected = !size.selected;getTotalPrice()">
-              <div class="p-1">
+              <div class="p-1"  @click="size.selected = !size.selected;getTotalPrice()">
                 <strong class="d-block text-center">
                   {{ $t("c.size") }}
                 </strong>
                 {{ size.size }}
-              </div>
-              <div class="p-1">
+
                 <strong class="d-block text-center">
                   {{ $t("c.price") }}
                 </strong>
@@ -147,7 +147,8 @@
                   }}
                 </span>
               </div>
-              <div class="p-1">
+           
+              <div class="p-1" v-if="size.selected">
                 <strong class="text-center d-block">
                   {{ $t("c.quantity") }}
                 </strong>
@@ -173,7 +174,7 @@
                   </div>
                 </div>
               </div>
-              <div class="p-1">
+              <div class="p-1" v-if="size.selected">
                 <strong>
                   {{ $t("c.price") }}
                 </strong>
