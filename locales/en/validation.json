@@ -25,7 +25,6 @@
     "regex": "The field format is invalid",
     "requiredIf": "The field is required",
     "required": "The field is required",
-    "size": "The field size must be less than {size}KB",
     "choicesNumber": "Make sure there are at least two choices",
     "selectOneChoice": "Please select one choice for each question",
     "selectTwoChoice": "Please select two choices for each question",
@@ -34,6 +33,7 @@
     "oneQuestionAtleast": "Make sure to enter at least one question",
     "password_confirmation": "Make sure to enter matching password",
     "locationRequired": "Make sure to allow the browser to access your location",
+    "size":"Make sure you choose at least one size",
     "double": "The field must be a valid decimal"
   }
 }

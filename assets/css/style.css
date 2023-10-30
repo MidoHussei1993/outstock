@@ -3469,7 +3469,7 @@ p {
   -moz-appearance: none;
   color: #444;
 }
-.product__modal-input::after {
+/* .product__modal-input::after {
   position: absolute;
   content: "\f107";
   right: 20px;
@@ -3477,7 +3477,7 @@ p {
   font-family: "Font Awesome 5 Pro";
   font-size: 18px;
   color: #7d7d7d;
-}
+} */
 .product__modal-required span {
   color: #ff0000;
   font-size: 14px;

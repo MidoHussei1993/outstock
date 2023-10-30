@@ -1,4 +1,6 @@
 export interface ISize {
+  selected: boolean;
+  quantity: number;
   id: string;
   is_active: boolean;
   is_default_size: boolean;

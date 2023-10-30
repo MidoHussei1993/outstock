@@ -299,6 +299,11 @@ const getProductDetails = async (countryId: any) => {
         file: item.value?.image,
       } as IMedia;
     }
+    item.value.sizes.data.map(size=>{
+      size.quantity = 1
+      size.selected = false
+      return size
+    })
     console.log("🚀 ~ file: [id].vue:28 ~ getProductDetails ~ data:", data);
   } catch (error) {
     setLoader(false);
