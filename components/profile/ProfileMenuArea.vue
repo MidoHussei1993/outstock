@@ -43,12 +43,12 @@
                 </button>
                 <button
                   class="nav-link"
-                  id="nav-order-tab"
+                  id="nav-activeo-tab"
                   data-bs-toggle="tab"
-                  data-bs-target="#nav-activeOrders"
+                  data-bs-target="#nav-activeo"
                   type="button"
                   role="tab"
-                  aria-controls="nav-activeOrders"
+                  aria-controls="nav-activeo"
                   aria-selected="false"
                   style="text-align: right"
                 >
@@ -248,6 +248,7 @@ import ChangePasswordForm from "../forms/ChangePasswordForm.vue";
 import ProfileEditForm from "../forms/ProfileEditForm.vue";
 import { useI18n } from "vue-i18n";
 import PreOrder from "./PreOrder.vue";
+import ActiveOrder from "./ActiveOrder.vue";
 
 const props = defineProps({
   user: { type: Object, default: () => ({} as User) },

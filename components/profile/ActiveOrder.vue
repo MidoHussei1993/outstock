@@ -1,9 +1,9 @@
 <template lang="">
   <div
     class="tab-pane fade"
-    id="nav-activeOrders"
+    id="nav-activeo"
     role="tabpanel"
-    aria-labelledby="nav-activeOrders-tab"
+    aria-labelledby="nav-activeo-tab"
   >
     <div class="order__info">
       <div
