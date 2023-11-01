@@ -10,6 +10,7 @@ import { ISection } from "./section";
 import { ISize } from "./size";
 
 export interface IProduct {
+  cover: string;
   actions: { data: IAction[] };
   brand_id: number;
   brand: { data: IBrand };

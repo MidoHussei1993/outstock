@@ -121,15 +121,29 @@
           ></label>
           <div
             class="card card-body my-2 py-0 rounded-3 pointer"
-            :style="{width:size.selected?'50%':'145px'}"
+            :style="{ width: size.selected ? '100%' : '145px' }"
             v-for="(size, i) in item.sizes.data"
             :key="i"
-            @click.self="size.selected = !size.selected;getTotalPrice()"
+            @click.self="
+              size.selected = !size.selected;
+              getTotalPrice();
+            "
             :class="{ 'border-success bg-light selected-size': size.selected }"
           >
-            <div class="d-flex justify-content-around align-items-center"
-            @click.self="size.selected = !size.selected;getTotalPrice()">
-              <div class="p-1"  @click="size.selected = !size.selected;getTotalPrice()">
+            <div
+              class="d-flex justify-content-around align-items-center"
+              @click.self="
+                size.selected = !size.selected;
+                getTotalPrice();
+              "
+            >
+              <div
+                class="p-1"
+                @click="
+                  size.selected = !size.selected;
+                  getTotalPrice();
+                "
+              >
                 <strong class="d-block text-center">
                   {{ $t("c.size") }}
                 </strong>
@@ -147,7 +161,7 @@
                   }}
                 </span>
               </div>
-           
+
               <div class="p-1" v-if="size.selected">
                 <strong class="text-center d-block">
                   {{ $t("c.quantity") }}
@@ -159,14 +173,18 @@
                       @click="
                         size.quantity > 1
                           ? size.quantity--
-                          : (size.quantity = 1)
-                     ;getTotalPrice() "
+                          : (size.quantity = 1);
+                        getTotalPrice();
+                      "
                       class="dec qtybutton"
                     >
                       -
                     </div>
                     <div
-                      @click="size.quantity = size.quantity + 1;getTotalPrice()"
+                      @click="
+                        size.quantity = size.quantity + 1;
+                        getTotalPrice();
+                      "
                       class="inc qtybutton"
                     >
                       +
@@ -264,25 +282,24 @@
           </div> -->
           <div class="d-flex justify-content-between w-100">
             <div class="p-2">
-              {{ $t('c.total') }}
+              {{ $t("c.total") }}
               :
-             {{ totalPrice}}
+              {{ totalPrice }}
             </div>
             <div class="p-2">
               <div class="pro-cart-btn ml-20">
-            <button
-              v-if="hasAction(item, 'add_product_to_cart')"
-              :disabled="!item.sizes.data.includes"
-              @click.prevent="addProductToCart()"
-              class="os-btn os-btn-black os-btn-3 mr-10"
-            >
-              <i class="fad fa-cart-plus h4 mx-2"></i>
-              {{ $t("action.addToCart") }}
-            </button>
-          </div>
+                <button
+                  v-if="hasAction(item, 'add_product_to_cart')"
+                  :disabled="!item.sizes.data.includes"
+                  @click.prevent="addProductToCart()"
+                  class="os-btn os-btn-black os-btn-3 mr-10"
+                >
+                  <i class="fad fa-cart-plus h4 mx-2"></i>
+                  {{ $t("action.addToCart") }}
+                </button>
+              </div>
             </div>
           </div>
-          
         </div>
       </form>
     </div>
@@ -312,18 +329,16 @@ const { getAction, hasAction } = $FN();
 const emit = defineEmits(["updateProductDetails"]);
 const price = ref(0);
 const totalPrice = ref(0);
-const getTotalPrice = ()=>{
-  totalPrice.value = 0
+const getTotalPrice = () => {
+  totalPrice.value = 0;
   const selectedSizes = props.item.sizes.data.filter((item) => item.selected);
   totalPrice.value = selectedSizes.reduce((acc, item) => {
-    acc +=
-      item.productSizeCountries.data.has_discount
-        ? item.productSizeCountries.data.price_after_discount *
-          item.quantity
-        : item.productSizeCountries.data.price * item.quantity;
+    acc += item.productSizeCountries.data.has_discount
+      ? item.productSizeCountries.data.price_after_discount * item.quantity
+      : item.productSizeCountries.data.price * item.quantity;
     return acc;
   }, 0);
-}
+};
 const addProductToCart = async () => {
   const selectedSizes = props.item.sizes.data.filter((item) => item.selected);
   if (!selectedSizes.length) {
@@ -352,7 +367,7 @@ const addProductToCart = async () => {
         },
       },
     });
-    useNuxtApp().$toast.success('Success');
+    useNuxtApp().$toast.success("Success");
     emit("updateProductDetails", {});
     state.getUserCart();
     setLoader(false);

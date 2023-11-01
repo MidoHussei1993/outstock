@@ -23,6 +23,12 @@
     "of": "Of",
     "price": "Price",
     "total": "Total",
+    "preOrders": "Previous orders",
+    "activeOrders": "Active orders",
+    "orderId": "Order Id",
+    "date": "Date",
+    "status": "Status",
+    "total_coast": "Total Coast",
     "english": "english"
   }
 }

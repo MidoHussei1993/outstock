@@ -764,7 +764,7 @@ p {
   color: #323232;
 }
 .page__title-breadcrumb .breadcrumb-item.active::before {
-  color: #444;
+  color: white;
 }
 
 /* rating */

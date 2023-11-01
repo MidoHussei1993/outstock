@@ -44,7 +44,10 @@
                             />
                           </div>
                           <div v-if="img.type == 'video'" class="text-center">
-                            <img src="~/assets/img/video.png" style="max-width:70px;">
+                            <img
+                              src="~/assets/img/video.png"
+                              style="max-width: 70px"
+                            />
                           </div>
                         </button>
                       </div>
@@ -74,7 +77,8 @@
                         <span class="percent">
                           % {{ item.offer.data.discount_percentage }}
                         </span>
-                      </div>margin-bottom: 5px;
+                      </div>
+                      margin-bottom: 5px;
                     </div>
                   </div>
                 </div>
@@ -164,7 +168,7 @@
                     id="pro-details"
                     role="tablist"
                   >
-                    <a
+                    <!-- <a
                       class="nav-item nav-link active"
                       id="des-tab"
                       data-bs-toggle="tab"
@@ -173,7 +177,7 @@
                       aria-controls="des"
                       aria-selected="true"
                       >Description</a
-                    >
+                    > -->
                     <a
                       class="nav-item nav-link"
                       id="add-tab"
@@ -185,7 +189,7 @@
                       >Additional Information</a
                     >
                     <a
-                      class="nav-item nav-link"
+                      class="nav-item nav-link active"
                       id="review-tab"
                       data-bs-toggle="tab"
                       href="#review"
@@ -204,19 +208,19 @@
                 </nav>
               </div>
               <div class="tab-content" id="pro-detailsContent">
-                <div class="tab-pane fade show active" id="des" role="tabpanel">
+                <!-- <div class="tab-pane fade show active" id="des" role="tabpanel">
                   <div class="product__details-des">
                     <p v-html="item.description"></p>
                     <div class="product__details-des-list mb-20">
                       <ul>
-                        <!-- <li v-for="(list,i) in item.details.details_list" :key="i">
+                        <li v-for="(list,i) in item.details.details_list" :key="i">
                                               <span>{{list}}</span>
-                                            </li> -->
+                                            </li>
                       </ul>
                     </div>
-                    <!-- <p>{{item.details.details_text_2}}</p> -->
+                    <p>{{item.details.details_text_2}}</p>
                   </div>
-                </div>
+                </div> -->
                 <div class="tab-pane fade" id="add" role="tabpanel">
                   <div class="product__details-add">
                     <ul>
@@ -299,11 +303,11 @@ const getProductDetails = async (countryId: any) => {
         file: item.value?.image,
       } as IMedia;
     }
-    item.value.sizes.data.map(size=>{
-      size.quantity = 1
-      size.selected = false
-      return size
-    })
+    item.value.sizes.data.map((size) => {
+      size.quantity = 1;
+      size.selected = false;
+      return size;
+    });
     console.log("🚀 ~ file: [id].vue:28 ~ getProductDetails ~ data:", data);
   } catch (error) {
     setLoader(false);

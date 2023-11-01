@@ -1,10 +1,11 @@
 <template>
   <layout :transparent="true">
     <breadcrumb-area
-      :title="$t('routes.home')"
+      :title="$t('config.home')"
       :subtitle="
         productDetails && productDetails.name ? productDetails.name : ''
       "
+      :background="productDetails?.cover"
     />
     <shop-details-area @getProduct="productDetails = $event" />
   </layout>

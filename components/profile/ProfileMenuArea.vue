@@ -39,7 +39,21 @@
                   style="text-align: right"
                 >
                   <i class="fa fa-file mx-2 h6"></i>
-                  {{ $t("p.orders") }}
+                  {{ $t("c.preOrders") }}
+                </button>
+                <button
+                  class="nav-link"
+                  id="nav-order-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-activeOrders"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-activeOrders"
+                  aria-selected="false"
+                  style="text-align: right"
+                >
+                  <i class="fa fa-file mx-2 h6"></i>
+                  {{ $t("c.activeOrders") }}
                 </button>
                 <button
                   class="nav-link"
@@ -187,73 +201,8 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="tab-pane fade"
-                id="nav-order"
-                role="tabpanel"
-                aria-labelledby="nav-order-tab"
-              >
-                <div class="order__info">
-                  <div
-                    class="order__info-top d-flex justify-content-between align-items-center"
-                  >
-                    <h3 class="order__info-title">My Orders</h3>
-                    <button type="button" class="order__info-btn">
-                      <i class="fa-regular fa-trash-can"></i> Clear
-                    </button>
-                  </div>
-                  <div class="order__list white-bg table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Order ID</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Price</th>
-                          <th scope="col">Details</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="order__id">#3520</td>
-                          <td>
-                            <nuxt-link
-                              href="/product-details"
-                              class="order__title"
-                              >University seminar series global.</nuxt-link
-                            >
-                          </td>
-                          <td>$144.00</td>
-                          <td>
-                            <nuxt-link
-                              href="/product-details"
-                              class="order__view-btn"
-                              >View</nuxt-link
-                            >
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="order__id">#2441</td>
-                          <td>
-                            <nuxt-link
-                              href="/product-details"
-                              class="order__title"
-                              >Web coding and apache basics</nuxt-link
-                            >
-                          </td>
-                          <td>$59.54</td>
-                          <td>
-                            <nuxt-link
-                              href="/product-details"
-                              class="order__view-btn"
-                              >View</nuxt-link
-                            >
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+              <PreOrder />
+              <ActiveOrder />
               <div
                 class="tab-pane fade"
                 id="nav-password"
@@ -298,6 +247,7 @@ import ProfileEditModal from "../common/modals/ProfileEditModal.vue";
 import ChangePasswordForm from "../forms/ChangePasswordForm.vue";
 import ProfileEditForm from "../forms/ProfileEditForm.vue";
 import { useI18n } from "vue-i18n";
+import PreOrder from "./PreOrder.vue";
 
 const props = defineProps({
   user: { type: Object, default: () => ({} as User) },
