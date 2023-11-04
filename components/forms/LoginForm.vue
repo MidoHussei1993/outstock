@@ -59,6 +59,7 @@ import { defineComponent } from "vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { setToken, setUser } from "~~/util";
+import { Formatter } from "sarala-json-api-data-formatter";
 
 export default defineComponent({
   components: { Field, Form, ErrorMessage },
@@ -81,7 +82,9 @@ export default defineComponent({
           method: "post",
           body: $payloadParser({ id: 1, ...values }, "user"),
         });
-        setUser(res.data.attributes);
+        const formatter = new Formatter();
+        const userData = formatter.deserialize(res);
+        setUser(userData);
         setToken(res.meta.token);
         busySubmit.value = false;
         navigateTo("/");

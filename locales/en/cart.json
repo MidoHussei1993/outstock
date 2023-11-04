@@ -29,6 +29,8 @@
     "date": "Date",
     "status": "Status",
     "total_coast": "Total Coast",
+    "addresses": "Addresses",
+    "savedAddresses": "Saved addresses",
     "english": "english"
   }
 }

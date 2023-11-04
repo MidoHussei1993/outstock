@@ -29,6 +29,20 @@
                 </button>
                 <button
                   class="nav-link"
+                  id="nav-address-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#nav-address"
+                  type="button"
+                  role="tab"
+                  aria-controls="nav-address"
+                  aria-selected="false"
+                  style="text-align: right"
+                >
+                  <i class="fas fa-map-marked-alt mx-2 h6"></i>
+                  {{ $t("c.addresses") }}
+                </button>
+                <button
+                  class="nav-link"
                   id="nav-order-tab"
                   data-bs-toggle="tab"
                   data-bs-target="#nav-order"
@@ -203,6 +217,7 @@
               </div>
               <PreOrder />
               <ActiveOrder />
+              <UserAddresses />
               <div
                 class="tab-pane fade"
                 id="nav-password"
@@ -249,6 +264,7 @@ import ProfileEditForm from "../forms/ProfileEditForm.vue";
 import { useI18n } from "vue-i18n";
 import PreOrder from "./PreOrder.vue";
 import ActiveOrder from "./ActiveOrder.vue";
+import UserAddresses from "./UserAddresses.vue";
 
 const props = defineProps({
   user: { type: Object, default: () => ({} as User) },
