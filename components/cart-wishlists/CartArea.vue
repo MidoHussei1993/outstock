@@ -27,6 +27,7 @@
                     <cart-item
                       v-for="(cartItem, i) in cart_products"
                       :key="i"
+                      :index="i"
                       :item="cartItem"
                     />
                   </tbody>

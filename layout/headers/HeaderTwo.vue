@@ -13,13 +13,18 @@
               <div class="main-menu d-none d-lg-block p-relative">
                 <div class="header__action">
                   <ul>
-                    <li v-if="!isUserLogin && countryList && countryList.length">
-                      <select v-model="selectedCountryModal" class="form-control"  @change="changeSelectedCuntory($event.target?.value)">
+                    <li
+                      v-if="!isUserLogin && countryList && countryList.length"
+                    >
+                      <select
+                        v-model="selectedCountryModal"
+                        class="form-control"
+                        @change="changeSelectedCuntory($event.target?.value)"
+                      >
                         <option
                           :value="item.id"
                           v-for="(item, index) in countryList"
                           :key="index"
-                         
                         >
                           {{ item.name }}
                         </option>
@@ -97,6 +102,19 @@
                     </li> -->
 
                     <li v-if="isUserLogin">
+                      <a class="cart">
+                        <i class="fad fa-bell h4"></i>
+                        <span class="text-danger h6">
+                          {{ totalNotificationCount }}
+                        </span>
+                      </a>
+                      <!-- cart mini start -->
+                      <Notification
+                        @UpdateNotificationCount="setNotificationCount($event)"
+                      />
+                      <!-- cart mini end -->
+                    </li>
+                    <li v-if="isUserLogin">
                       <a href="#" class="cart"
                         ><i class="ion-bag"></i>
                         {{ $t("c.cart") }}
@@ -117,6 +135,7 @@
                       </a>
                     </li>
                     <li v-if="!isUserLogin">
+                      6
                       <a
                         @click.prevent="navigateTo('/login')"
                         href="#"
@@ -161,6 +180,7 @@ import { UseCountryStore } from "~~/store/country";
 import Menus from "./Menus.vue";
 import CartMini from "./header-com/CartMini.vue";
 import ExtraInfo from "./header-com/ExtraInfo.vue";
+import Notification from "./header-com/Notification.vue";
 import SearchPopup from "~~/components/common/modals/SearchPopup.vue";
 import OffCanvas from "~~/components/common/sidebar/OffCanvas.vue";
 import { useI18n } from "vue-i18n";
@@ -177,7 +197,14 @@ interface OffCanvasComponentRef {
 }
 
 export default defineComponent({
-  components: { Menus, CartMini, ExtraInfo, SearchPopup, OffCanvas },
+  components: {
+    Menus,
+    CartMini,
+    ExtraInfo,
+    SearchPopup,
+    OffCanvas,
+    Notification,
+  },
   data() {
     return {
       isSticky: false,
@@ -185,29 +212,33 @@ export default defineComponent({
       isUserLogin: false,
       hideHeader: false,
       countryList: [] as any[],
-      selectedCountryModal:null
+      selectedCountryModal: null,
+      totalNotificationCount: 0,
     };
   },
   async created() {
     this.countryList = await this.getCountryList();
-    console.log(this.countryList)
+    console.log(this.countryList);
     if (!this.isUserLogin) {
-      if (localStorage.getItem('selectedCountry')) {
+      if (localStorage.getItem("selectedCountry")) {
         // @ts-ignore
-        this.selectedCountryModal = localStorage.getItem('selectedCountry')
-      this.setSelectedCountryId( this.selectedCountryModal);
-      }else{
-        localStorage.setItem('selectedCountry',this.countryList[0].id)
-        this.selectedCountryModal = this.countryList[0].id
-      this.setSelectedCountryId(this.countryList[0].id);
+        this.selectedCountryModal = localStorage.getItem("selectedCountry");
+        this.setSelectedCountryId(this.selectedCountryModal);
+      } else {
+        localStorage.setItem("selectedCountry", this.countryList[0].id);
+        this.selectedCountryModal = this.countryList[0].id;
+        this.setSelectedCountryId(this.countryList[0].id);
       }
     } else {
       const user = JSON.parse(localStorage.getItem("user")!);
-      this.selectedCountryModal = user.country_id
+      this.selectedCountryModal = user.country_id;
       this.setSelectedCountryId(user.country_id);
     }
   },
   methods: {
+    setNotificationCount(event: { count: number }) {
+      this.totalNotificationCount = event.count;
+    },
     selectedCountry(event: any) {
       console.log(
         "🚀 ~ file: HeaderTwo.vue:226 ~ selectedCountry ~ event:",
@@ -239,7 +270,7 @@ export default defineComponent({
   },
   setup() {
     const state = useCartStore();
-    const { setSelectedCountryId,getCountryList } = UseCountryStore();
+    const { setSelectedCountryId, getCountryList } = UseCountryStore();
     const { cart_products } = storeToRefs(state);
     const currentLang = ref("ar");
     const { locale } = useI18n();
@@ -247,10 +278,10 @@ export default defineComponent({
     const formatter = new Formatter();
     const { setLoader } = useLoader();
 
-    const changeSelectedCuntory = (id)=>{
-      setSelectedCountryId(id)
-      localStorage.setItem('selectedCountry',id)
-    }
+    const changeSelectedCuntory = (id) => {
+      setSelectedCountryId(id);
+      localStorage.setItem("selectedCountry", id);
+    };
     const changeLanguage = (currentLang: string, reload = true) => {
       // navStore.changeLanguage()
       let el = document.querySelector("html")!;
@@ -271,7 +302,16 @@ export default defineComponent({
       } else changeLanguage(getLang()!, false);
     });
 
-    return { state, locale, changeLanguage, currentLang, cart_products,setSelectedCountryId,getCountryList,changeSelectedCuntory };
+    return {
+      state,
+      locale,
+      changeLanguage,
+      currentLang,
+      cart_products,
+      setSelectedCountryId,
+      getCountryList,
+      changeSelectedCuntory,
+    };
   },
   mounted() {
     // window.addEventListener("scroll", this.handleSticky);

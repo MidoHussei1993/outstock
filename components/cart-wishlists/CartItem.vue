@@ -37,10 +37,7 @@
         {{ state.currency }}</span
       >
     </td>
-    <td
-      class="product-remove"
-      @click.prevent="state.remover_cart_products(item)"
-    >
+    <td class="product-remove" @click.prevent="deleteItem()">
       <a href="#">
         <i class="fa fa-times"></i>
       </a>
@@ -52,9 +49,29 @@
 import { PropType } from "vue";
 import { useCartStore } from "~~/store/useCart";
 import { CartProduct } from "~~/types";
+import { IAction } from "~~/types/action";
 
 const state = useCartStore();
+const { getAction, hasAction } = $FN();
+const { setLoader } = useLoader();
 const props = defineProps({
   item: { type: Object as PropType<CartProduct>, default: () => {} },
+  index: { type: Number, default: () => null },
 });
+const emit = defineEmits(["deleteProduct"]);
+const deleteItem = async () => {
+  const action: IAction = getAction(props.item, "delete_product_from_cart");
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "get",
+    });
+    console.log(res);
+    emit("deleteProduct", props.index);
+    setLoader(true);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(true);
+  }
+};
 </script>
