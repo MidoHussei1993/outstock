@@ -135,7 +135,6 @@
                       </a>
                     </li>
                     <li v-if="!isUserLogin">
-                      6
                       <a
                         @click.prevent="navigateTo('/login')"
                         href="#"
