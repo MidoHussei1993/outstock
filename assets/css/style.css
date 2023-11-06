@@ -1071,9 +1071,14 @@ p {
   visibility: visible;
   opacity: 1;
 }
+html[lang="ar"] .header__action ul li .mini-cart{
+    right: -148px;
+}
+html[lang="en"] .header__action ul li .mini-cart{
+  right: 0;
+}
 .header__action ul li .mini-cart {
   position: absolute;
-  right: 0;
   top: 100%;
   background: #ffffff;
   padding: 25px;

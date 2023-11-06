@@ -1,7 +1,17 @@
 /*----------------------------------------*/
 /*  02. HEADER CSS
 /*----------------------------------------*/
+html[lang="ar"] {
+  .header__action ul li .mini-cart {
+    right: -148px;
+  }
+}
 
+html[lang="en"] {
+  .header__action ul li .mini-cart {
+    right: 0;
+  }
+}
 /* logo */
 .logo {
   @media #{$xs} {
@@ -109,7 +119,7 @@
         }
         & .mini-cart {
           position: absolute;
-          right: 0;
+          // right: 0;
           top: 100%;
           background: $white;
           padding: 25px;

@@ -281,8 +281,27 @@ export default defineComponent({
       setSelectedCountryId(id);
       localStorage.setItem("selectedCountry", id);
     };
-    const changeLanguage = (currentLang: string, reload = true) => {
+    const changeLanguage = async (currentLang: string, reload = true) => {
       // navStore.changeLanguage()
+      try {
+        setLoader(true);
+        await fetch("/profile/update-language", {
+          method: "post",
+          body: {
+            data: {
+              type: "user",
+              id: "null",
+              attributes: {
+                language: currentLang,
+              },
+            },
+          },
+        });
+        setLoader(false);
+      } catch (error) {
+        console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+        setLoader(false);
+      }
       let el = document.querySelector("html")!;
       setLang(currentLang);
       locale.value = currentLang;
