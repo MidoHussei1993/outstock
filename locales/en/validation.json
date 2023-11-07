@@ -33,7 +33,8 @@
     "oneQuestionAtleast": "Make sure to enter at least one question",
     "password_confirmation": "Make sure to enter matching password",
     "locationRequired": "Make sure to allow the browser to access your location",
-    "size":"Make sure you choose at least one size",
+    "size": "Make sure you choose at least one size",
+    "address": "Make sure you select address",
     "double": "The field must be a valid decimal"
   }
 }

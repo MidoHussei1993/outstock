@@ -20,7 +20,13 @@
           style="margin-bottom: 5px"
           class="notification-item"
         >
-          <div class="d-flex justify-content-between border rounded-2">
+          <div
+            class="d-flex justify-content-between border rounded-2 notif"
+            :class="{
+              'bg-light': item.is_read,
+              ' bg-secondary text-white': !item.is_read,
+            }"
+          >
             <div class="p-2">
               <h4>
                 {{ item.title }}
@@ -29,10 +35,20 @@
                 {{ item.body }}
               </p>
             </div>
-            <div class="p-2">
-              <small>
-                {{ item.created_at }}
-              </small>
+            <div class="p-1 d-flex flex-column justify-content-between">
+              <div class="p-1">
+                <small>
+                  {{ item.created_at }}
+                </small>
+              </div>
+              <div class="p-1">
+                <p class="mb-0 text-center" v-if="!item.is_read">
+                  <i
+                    class="fad fa-eye h5 pointer"
+                    @click.prevent="readOnlyNotification(item)"
+                  ></i>
+                </p>
+              </div>
             </div>
           </div>
         </li>
@@ -96,6 +112,20 @@ const readNotification = async (notification: INotification) => {
     setLoader(false);
   }
 };
+const readOnlyNotification = async (notification: INotification) => {
+  if (!hasAction(notification, "mark_notification_as_read")) return;
+  const action: IAction = getAction(notification, "mark_notification_as_read");
+  try {
+    setLoader(true);
+    const { data, ...res } = await fetch(action.endpoint_url, {
+      method: "get",
+    });
+    setLoader(false);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(false);
+  }
+};
 onMounted(() => {
   getNotificationList();
 });
@@ -133,54 +163,12 @@ Not supports in Firefox and IE */
   display: none;
 }
 .notification-item {
-  background-image: linear-gradient(
-      222deg,
-      rgba(137, 137, 137, 0.02) 0%,
-      rgba(137, 137, 137, 0.02) 21%,
-      transparent 21%,
-      transparent 63%,
-      rgba(101, 101, 101, 0.02) 63%,
-      rgba(101, 101, 101, 0.02) 99%,
-      rgba(35, 35, 35, 0.02) 99%,
-      rgba(35, 35, 35, 0.02) 100%
-    ),
-    linear-gradient(
-      267deg,
-      rgba(40, 40, 40, 0.02) 0%,
-      rgba(40, 40, 40, 0.02) 23%,
-      transparent 23%,
-      transparent 48%,
-      rgba(87, 87, 87, 0.02) 48%,
-      rgba(87, 87, 87, 0.02) 98%,
-      rgba(47, 47, 47, 0.02) 98%,
-      rgba(47, 47, 47, 0.02) 100%
-    ),
-    linear-gradient(
-      78deg,
-      rgba(103, 103, 103, 0.02) 0%,
-      rgba(103, 103, 103, 0.02) 40%,
-      transparent 40%,
-      transparent 64%,
-      rgba(100, 100, 100, 0.02) 64%,
-      rgba(100, 100, 100, 0.02) 84%,
-      rgba(35, 35, 35, 0.02) 84%,
-      rgba(35, 35, 35, 0.02) 100%
-    ),
-    linear-gradient(
-      136deg,
-      rgba(135, 135, 135, 0.02) 0%,
-      rgba(135, 135, 135, 0.02) 14%,
-      transparent 14%,
-      transparent 67%,
-      rgba(51, 51, 51, 0.02) 67%,
-      rgba(51, 51, 51, 0.02) 68%,
-      rgba(178, 178, 178, 0.02) 68%,
-      rgba(178, 178, 178, 0.02) 100%
-    ),
-    linear-gradient(90deg, rgb(255, 255, 255), rgb(255, 255, 255));
+  cursor: pointer;
   &:hover {
     cursor: pointer;
-    border-color: rgba(51, 51, 51, 0.02);
   }
+}
+.notif {
+  border-color: 1px solid black !important;
 }
 </style>

@@ -28,6 +28,16 @@
           +
         </div>
       </div>
+      <i
+        v-if="item.quantity != itemClone?.quantity"
+        @click="changeProductQuantity()"
+        class="fas fa-check-circle mx-2 text-success h4 pointer"
+      ></i>
+      <i
+        v-if="item.quantity != itemClone?.quantity"
+        @click="item.quantity = itemClone?.quantity!"
+        class="fas fa-times-circle text-danger h4 pointer"
+      ></i>
     </td>
     <td class="product-subtotal">
       <span class="amount"
@@ -47,17 +57,28 @@
 
 <script lang="ts" setup>
 import { PropType } from "vue";
+import { useI18n } from "vue-i18n";
 import { useCartStore } from "~~/store/useCart";
 import { CartProduct } from "~~/types";
 import { IAction } from "~~/types/action";
 
 const state = useCartStore();
+const fetch = $useHttpClient();
 const { getAction, hasAction } = $FN();
+const { t } = useI18n();
 const { setLoader } = useLoader();
 const props = defineProps({
   item: { type: Object as PropType<CartProduct>, default: () => {} },
   index: { type: Number, default: () => null },
 });
+const itemClone = ref<CartProduct>();
+// watch(() => props.selected, (first, second) => {
+//       console.log(
+//         "Watch props.selected function called with args:",
+//         first,
+//         second
+//       );
+//     });
 const emit = defineEmits(["deleteProduct"]);
 const deleteItem = async () => {
   const action: IAction = getAction(props.item, "delete_product_from_cart");
@@ -74,4 +95,41 @@ const deleteItem = async () => {
     setLoader(true);
   }
 };
+
+const changeProductQuantity = async () => {
+  const action: IAction = getAction(
+    props.item,
+    "update_product_amount_in_cart"
+  );
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "post",
+      body: $payloadParser(
+        {
+          id: 1,
+          quantity: props.item.quantity,
+        },
+        "user"
+      ),
+    });
+    console.log(res);
+    useNuxtApp().$toast.success("done");
+    // @ts-ignore
+    itemClone.value.quantity = props.item.quantity;
+    setLoader(true);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(true);
+  }
+};
+
+onMounted(() => {
+  itemClone.value = { ...props.item };
+});
 </script>
+<style lang="scss" scoped>
+.pointer {
+  cursor: pointer;
+}
+</style>

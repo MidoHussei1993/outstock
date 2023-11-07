@@ -33,7 +33,7 @@
                   </tbody>
                 </table>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-12">
                   <div class="coupon-all">
                     <div class="coupon">
@@ -66,7 +66,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="row">
                 <div class="col-md-5 ms-auto">
                   <div class="cart-page-total">
@@ -167,6 +167,7 @@
                     <div class="form-group" v-if="addressList.length">
                       <select
                         class=""
+                        v-model="user_address_id"
                         style="
                           width: 100%;
                           height: 45px;
@@ -193,9 +194,9 @@
               </div>
               <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
-                  <nuxt-link class="os-btn" href="/checkout"
-                    >Proceed to checkout</nuxt-link
-                  >
+                  <button type="button" class="os-btn" @click="checkout()">
+                    Proceed to checkout
+                  </button>
                 </div>
               </div>
             </form>
@@ -224,6 +225,7 @@ const addressList = ref([]);
 const formatter = new Formatter();
 const visible = ref<boolean>(false);
 const busySubmit = ref<boolean>(false);
+const user_address_id = ref();
 const schema = yup.object({
   address: yup
     .string()
@@ -261,6 +263,30 @@ const onSubmit = async (
     busySubmit.value = false;
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
     setLoader(false);
+  }
+};
+const checkout = async () => {
+  console.log("fireeeeeeeeee");
+  if (!user_address_id.value) {
+    useNuxtApp().$toast.error(t("_.address"));
+    return;
+  }
+  try {
+    setLoader(true);
+    const { message, ...res } = await fetch("/user/add-new-address", {
+      method: "post",
+      body: $payloadParser(
+        {
+          id: 1,
+          user_address_id: user_address_id.value,
+          lat: "30.375936",
+          lng: "30.5135616",
+        },
+        "checkout order"
+      ),
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 onMounted(async () => {
