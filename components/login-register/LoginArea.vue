@@ -10,6 +10,15 @@
             <!-- form start -->
             <login-form />
             <!-- form end -->
+            <client-only>
+    <GoogleSignInButton
+@success="handleLoginSuccess"
+@error="handleLoginError"
+></GoogleSignInButton>
+
+    <!-- <VFacebookLogin app-id="966242223397117"></VFacebookLogin> -->
+  </client-only>
+
           </div>
         </div>
       </div>
@@ -17,14 +26,22 @@
   </section>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import {
+  GoogleSignInButton,
+  type CredentialResponse,
+} from "vue3-google-signin";
 import { defineComponent } from "vue";
 import LoginForm from "../forms/LoginForm.vue";
+// import VFacebookLogin from 'vue-facebook-login-component'
 
-export default defineComponent({
-  components: { LoginForm },
-  setup() {
-    return {};
-  },
-});
+const handleLoginSuccess = (response: CredentialResponse) => {
+  const { credential } = response;
+  console.log("Access Token", credential);
+};
+
+// handle an error event
+const handleLoginError = () => {
+  console.error("Login failed");
+};
 </script>
