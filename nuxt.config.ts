@@ -18,10 +18,11 @@ export default defineNuxtConfig({
       },
     ],
     "nuxt-swiper",
-    'nuxt-vue3-google-signin'
+    "nuxt-vue3-google-signin",
   ],
   googleSignIn: {
-    clientId: "240635830325-np9jnu7qtpi5l48eaevd3bco6jj6h94s.apps.googleusercontent.com",
+    clientId:
+      "240635830325-np9jnu7qtpi5l48eaevd3bco6jj6h94s.apps.googleusercontent.com",
   },
   app: {
     head: {

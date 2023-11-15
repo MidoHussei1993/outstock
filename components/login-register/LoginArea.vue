@@ -11,37 +11,54 @@
             <login-form />
             <!-- form end -->
             <client-only>
-    <GoogleSignInButton
-@success="handleLoginSuccess"
-@error="handleLoginError"
-></GoogleSignInButton>
-
-    <!-- <VFacebookLogin app-id="966242223397117"></VFacebookLogin> -->
-  </client-only>
-
+              <button :disabled="!isReady" @click="() => login()">
+                Login with Google
+              </button>
+            </client-only>
+            <client-only>
+              <VFacebookLogin class="button" appId="871199088044654">
+              </VFacebookLogin>
+            </client-only>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
-
+<!-- <script lang="ts">
+// import VFacebookLogin from "vue-facebook-login-component";
+// import facebookLogin from "facebook-login-vuejs";
+export default {
+  components: {
+    VFacebookLogin,
+  },
+};
+</script> -->
 <script lang="ts" setup>
-import {
-  GoogleSignInButton,
-  type CredentialResponse,
-} from "vue3-google-signin";
+import VFacebookLogin from "vue-facebook-login-component-next";
+// import {
+//   GoogleSignInButton,
+//   type CredentialResponse,
+// } from "nuxt-vue3-google-signin";
 import { defineComponent } from "vue";
 import LoginForm from "../forms/LoginForm.vue";
-// import VFacebookLogin from 'vue-facebook-login-component'
+import {
+  AuthCodeFlowErrorResponse,
+  AuthCodeFlowSuccessResponse,
+} from "vue3-google-signin/dist/composables/useTokenClient";
 
-const handleLoginSuccess = (response: CredentialResponse) => {
-  const { credential } = response;
-  console.log("Access Token", credential);
+const handleOnSuccess = (response: AuthCodeFlowSuccessResponse) => {
+  console.log(response);
+  console.log("Access Token: ", response.access_token);
 };
 
-// handle an error event
-const handleLoginError = () => {
-  console.error("Login failed");
+const handleOnError = (errorResponse: AuthCodeFlowErrorResponse) => {
+  console.log("Error: ", errorResponse);
 };
+
+const { isReady, login } = useTokenClient({
+  onSuccess: handleOnSuccess,
+  onError: handleOnError,
+  // other options
+});
 </script>
