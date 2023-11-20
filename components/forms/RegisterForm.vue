@@ -56,7 +56,7 @@
         type="number"
         :placeholder="$t('form.enter') + ' ' + $t('form.mobile')"
       />
-      <ErrorMessage name="email" class="text-danger" />
+      <ErrorMessage name="mobile_number" class="text-danger" />
     </div>
 
     <div class="mb-20" v-if="countries && countries.length">
@@ -140,7 +140,7 @@ import { useI18n } from "vue-i18n";
 import { ICountry, ImageResponse } from "~~/types";
 
 const { t } = useI18n();
-// const { setLoader } = useLoader();
+const { setLoader } = useLoader();
 const fetch = $useHttpClient();
 const token = ref("");
 const countries = ref<ICountry[]>([]);
@@ -229,6 +229,7 @@ const onSubmit = async (
   }
   try {
     busySubmit.value = true;
+    setLoader(true);
     const { message } = await fetch("/auth/register", {
       method: "post",
       body: $payloadParser(
@@ -242,10 +243,12 @@ const onSubmit = async (
         "user"
       ),
     });
+    setLoader(false);
     busySubmit.value = false;
     useNuxtApp().$toast.success(message);
     navigateTo("/otp");
   } catch (error) {
+    setLoader(false);
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
     busySubmit.value = false;
   }

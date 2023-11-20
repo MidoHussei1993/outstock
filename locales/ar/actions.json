@@ -49,6 +49,8 @@
     "addToCart": "أضاف إلي عربة التسوق",
     "copy": "نسخ",
     "addNewAddress": "اضافة عنوان جديد",
+    "loginWithGoogle": "تسجيل الدخول من خلال جوجل",
+    "loginWithFacebook": "تسجيل الدخول من خلال فيسبوك",
     "drag_drop": "سحب و القاء"
   }
 }

@@ -72,7 +72,7 @@
                     style="text-shadow: 0px 10px 8px #424242b5"
                     class="font-weight-bold"
                   >
-                    Marateb
+                    Mattress
                   </h2>
                 </nuxt-link>
               </div>
@@ -282,6 +282,7 @@ export default defineComponent({
       localStorage.setItem("selectedCountry", id);
     };
     const changeLanguage = async (currentLang: string, reload = true) => {
+      if (!localStorage.getItem("token")) return;
       // navStore.changeLanguage()
       try {
         setLoader(true);

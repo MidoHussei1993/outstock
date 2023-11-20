@@ -49,6 +49,8 @@
     "addToCart": "Add to cart",
     "copy": "Copy",
     "addNewAddress": "Add New Adress",
+    "loginWithGoogle": "Login with Google",
+    "loginWithFacebook": "Login With Facebook",
     "drag_drop": "Drag & Drop"
   }
 }
