@@ -1,14 +1,14 @@
 <template>
   <div class="mini-cart p-2">
-    <div v-if="cart_products.length === 0">
-      <h5>Your cart is empty</h5>
+    <div v-if="!notificationList.length">
+      <h5>No Notifications</h5>
     </div>
-    <div v-if="cart_products.length > 0" class="mini-cart-inner">
+    <div v-if="notificationList.length" class="mini-cart-inner">
       <ul
         :class="`mini-cart-list ${
-          cart_products.length === 1
+          notificationList.length === 1
             ? 'slider-height_1'
-            : cart_products.length === 2
+            : notificationList.length === 2
             ? 'slider-height_2'
             : 'slider-height'
         }`"
@@ -63,6 +63,12 @@
           </div>
         </li>
       </ul>
+      <div class="total-price d-flex justify-content-between mb-10 pt-2">
+        <button class="btn btn-dark mx-auto" @click="MarkAllAsRead()">
+          <i class="fas fa-low-vision mx-1"></i>
+          {{ $t("action.markAllAsRead") }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -70,8 +76,8 @@
 <script lang="ts" setup>
 import { useCartStore } from "~~/store/useCart";
 import { storeToRefs } from "pinia";
-import { INotification, IPagination } from "~~/types";
-import { IAction } from "~~/types/action";
+import { INotification, IPagination } from "~/types";
+import { IAction } from "~/types/action";
 const { setLoader } = useLoader();
 const fetch = $useHttpClient();
 const emit = defineEmits(["UpdateNotificationCount"]);
@@ -99,7 +105,7 @@ const getNotificationList = async () => {
 };
 const readNotification = async (notification: INotification) => {
   if (!hasAction(notification, "mark_notification_as_read")) return;
-  const action: IAction = getAction(notification, "mark_notification_as_read");
+  const action: any = getAction(notification, "mark_notification_as_read");
   try {
     setLoader(true);
     const { data, ...res } = await fetch(action.endpoint_url, {
@@ -121,6 +127,19 @@ const readOnlyNotification = async (notification: INotification) => {
       method: "get",
     });
     setLoader(false);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(false);
+  }
+};
+const MarkAllAsRead = async () => {
+  try {
+    setLoader(true);
+    const res = await fetch("/notifications/mark-all-as-read", {
+      method: "get",
+    });
+    setLoader(false);
+    getNotificationList();
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
     setLoader(false);

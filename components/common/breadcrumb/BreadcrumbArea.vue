@@ -12,7 +12,9 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
                   <li class="breadcrumb-item">
-                    <nuxt-link href="/">Home</nuxt-link>
+                    <nuxt-link href="/">
+                      {{ $t("config.home") }}
+                    </nuxt-link>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     {{ subtitle }}
@@ -33,6 +35,7 @@ import bg1 from "~/assets/img/page-title/page-title-1.jpg";
 import bg2 from "~/assets/img/pexels-castorly-stock-3682240.jpg";
 import bg3 from "~/assets/img/pexels-cottonbro-studio-3171066.jpg";
 import bg4 from "~/assets/img/pexels-malidate-van-833046 (1).jpg";
+import bg5 from "~/assets/img/pexels-burst-545012.jpg";
 
 export default defineComponent({
   props: {
@@ -61,6 +64,7 @@ export default defineComponent({
       bg2,
       bg3,
       bg4,
+      bg5,
       bg: null,
     };
   },

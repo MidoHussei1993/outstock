@@ -51,6 +51,8 @@
     "addNewAddress": "Add New Adress",
     "loginWithGoogle": "Login with Google",
     "loginWithFacebook": "Login With Facebook",
+    "markAllAsRead": "Mark all as read",
+    "loadMore": "Load more",
     "drag_drop": "Drag & Drop"
   }
 }

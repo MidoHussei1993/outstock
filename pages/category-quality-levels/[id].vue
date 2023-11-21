@@ -1,8 +1,8 @@
 <template>
   <layout :transparent="true">
     <breadcrumb-area
-      :title="$t('c.categories')"
-      :subtitle="$t('c.categories')"
+      :title="$t('c.quality_levels')"
+      :subtitle="$t('c.quality_levels')"
       imageNamber="bg2"
     />
     <div>
@@ -14,11 +14,11 @@
               v-for="(item, index) in qualityLevelList"
               :key="index"
             >
-              <div class="card h-100">
+              <div class="card h-100 rounded-3">
                 <img
                   style="object-fit: contain"
                   class="card-img-top"
-                  :src="item.image"
+                  :src="getRandomImage()"
                   height="200"
                   alt="Card image cap"
                 />
@@ -26,7 +26,9 @@
                   class="card-body d-flex flex-column justify-content-between shadow-sm"
                 >
                   <h4 class="card-title text-center my-2 font-weight-bold">
-                    {{ item.name }}
+                    <strong>
+                      {{ item.name }}
+                    </strong>
                   </h4>
                   <button
                     v-if="hasAction(item, 'get_quality_level_product')"
@@ -42,11 +44,15 @@
         </div>
       </div>
     </div>
-    <h2 class="text-center display-5" style="font-weight: 400;" v-if="!qualityLevelList.length">
+    <h2
+      class="text-center display-5"
+      style="font-weight: 400"
+      v-if="!qualityLevelList.length"
+    >
       <i class="fad fa-person-dolly-empty mx-2 my-5"></i>
-     {{ $t('config.noData') }}
+      {{ $t("config.noData") }}
     </h2>
-    <div class="row my-4"  v-if="qualityLevelList.length">
+    <div class="row my-4" v-if="qualityLevelList.length">
       <div class="col-xl-12 text-center">
         <pagination
           class="mx-auto"
@@ -62,6 +68,10 @@
 </template>
 
 <script lang="ts" setup>
+import bg1 from "~/assets/img/bg-1.jpg";
+import bg2 from "~/assets/img/bg-2.jpg";
+import bg3 from "~/assets/img/bg-3.jpg";
+import bg4 from "~/assets/img/bg-4.jpg";
 import Layout from "~~/layout/Layout.vue";
 import BreadcrumbArea from "~~/components/common/breadcrumb/BreadcrumbArea.vue";
 // import { Formatter } from "sarala-json-api-data-formatter";
@@ -82,6 +92,13 @@ const pagination = ref<IPagination>();
 const paginatedData = (page: number) => {
   console.log("🚀 ~ file: index.vue:41 ~ paginatedData ~ arg:", page);
   getCategoriesByBrandId(page);
+};
+
+const getRandomImage = () => {
+  const imageArray = [bg1, bg2, bg3, bg4];
+  const random = Math.floor(Math.random() * imageArray.length);
+  console.log(random, imageArray[random]);
+  return imageArray[random];
 };
 
 const getCategoriesByBrandId = async (page: number = 1) => {

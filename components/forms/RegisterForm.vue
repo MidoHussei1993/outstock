@@ -169,6 +169,7 @@ const schema = yup.object({
 });
 
 onMounted(() => {
+  getCuntires();
   if (query.invitation_token) {
     token.value = query.invitation_token.toString();
   }

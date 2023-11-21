@@ -3,6 +3,7 @@
     <breadcrumb-area
       :title="$t('c.categories')"
       :subtitle="$t('c.categories')"
+      :imageNamber="'bg5'"
     />
     <div>
       <div class="row my-4">

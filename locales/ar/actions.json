@@ -51,6 +51,8 @@
     "addNewAddress": "اضافة عنوان جديد",
     "loginWithGoogle": "تسجيل الدخول من خلال جوجل",
     "loginWithFacebook": "تسجيل الدخول من خلال فيسبوك",
+    "markAllAsRead": "اشر عليها بانها قرات",
+    "loadMore": "تحميل المزيد",
     "drag_drop": "سحب و القاء"
   }
 }
