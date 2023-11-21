@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   ],
   googleSignIn: {
     clientId:
-      "240635830325-np9jnu7qtpi5l48eaevd3bco6jj6h94s.apps.googleusercontent.com",
+      "693735287406-7bgk29nbiv7ufsa6vj4vn4i2f8rv33k2.apps.googleusercontent.com",
   },
   app: {
     head: {

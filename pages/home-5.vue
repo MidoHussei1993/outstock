@@ -1,10 +1,10 @@
 <template>
-  <layout-five> 
-    <home-five-hero-slider/>
+  <layout-five>
+    <home-five-hero-slider />
     <div class="box-25">
-      <trending-products :style_3="true"/>
-      <shop-banner/>
-      <subscribe-area/>
+      <trending-products :style_3="true" />
+      <shop-banner />
+      <subscribe-area />
     </div>
   </layout-five>
 </template>
@@ -23,7 +23,7 @@ export default defineComponent({
     HomeFiveHeroSlider,
     TrendingProducts,
     ShopBanner,
-    SubscribeArea
+    SubscribeArea,
   },
   setup() {
     useHead({

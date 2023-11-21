@@ -1,18 +1,18 @@
 <template>
-  <layout-four> 
-    <home-four-hero-slider/>
-    <category-area :style_3="true"/>
-    <trending-products :style_2="true"/>
-    <shop-banner :style_2="true" :style_3="true"/>
-    <offer-products-slider :style_2="true"/>
-    <blog-area :style_3="true"/>
-    <subscribe-area :style_3="true"/>
+  <layout-four>
+    <home-four-hero-slider />
+    <category-area :style_3="true" />
+    <trending-products :style_2="true" />
+    <shop-banner :style_2="true" :style_3="true" />
+    <offer-products-slider :style_2="true" />
+    <blog-area :style_3="true" />
+    <subscribe-area :style_3="true" />
   </layout-four>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LayoutFour from "~~/layout/LayoutFour.vue";
+import LayoutFour from "~~/layout/LayoutFive.vue";
 import HomeFourHeroSlider from "~~/components/hero-banner/HomeFourHeroSlider.vue";
 import CategoryArea from "~~/components/category/CategoryArea.vue";
 import TrendingProducts from "~~/components/products/TrendingProducts.vue";

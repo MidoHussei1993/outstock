@@ -4,10 +4,10 @@
       <home-two-hero-slider />
       <category-area :style_2="true" />
       <trending-product-two />
-      <shop-banner :style_2="true"/>
-      <sale-off-area-two/>
-      <blog-area/>
-      <client-brand-slider :style_2="true"/>
+      <shop-banner :style_2="true" />
+      <sale-off-area-two />
+      <blog-area />
+      <client-brand-slider :style_2="true" />
       <subscribe-area :style_2="true" />
     </main>
   </layout-two>
@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LayoutTwo from "~~/layout/LayoutTwo.vue";
+import LayoutTwo from "~~/layout/LayoutFive.vue";
 import HomeTwoHeroSlider from "~~/components/hero-banner/HomeTwoHeroSlider.vue";
 import CategoryArea from "~~/components/category/CategoryArea.vue";
 import TrendingProductTwo from "~~/components/products/TrendingProductTwo.vue";

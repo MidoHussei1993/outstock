@@ -1,18 +1,18 @@
 <template>
-  <layout-six> 
-    <home-hero-slider :style_2="true"/>
-    <category-area :style_4="true"/>
-    <trending-product-three/>
-    <shop-banner/>
-    <sale-off-product/>
-    <blog-area/>
-    <subscribe-area/>
+  <layout-six>
+    <home-hero-slider :style_2="true" />
+    <category-area :style_4="true" />
+    <trending-product-three />
+    <shop-banner />
+    <sale-off-product />
+    <blog-area />
+    <subscribe-area />
   </layout-six>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LayoutSix from "~~/layout/LayoutSix.vue";
+import LayoutSix from "~~/layout/LayoutFive.vue";
 import HomeHeroSlider from "~~/components/hero-banner/HomeHeroSlider.vue";
 import CategoryArea from "~~/components/category/CategoryArea.vue";
 import TrendingProductThree from "~~/components/products/TrendingProductThree.vue";
@@ -30,7 +30,7 @@ export default defineComponent({
     ShopBanner,
     SaleOffProduct,
     BlogArea,
-    SubscribeArea
+    SubscribeArea,
   },
   setup() {
     useHead({

@@ -3,16 +3,16 @@
     <home-seven-hero-slider />
     <category-area-two />
     <best-saller-products />
-    <video-box/>
-    <featured-products/>
-    <home-seven-testimonial/>
-    <blog-area-two/>
-    <client-brand-slider-two/>
+    <video-box />
+    <featured-products />
+    <home-seven-testimonial />
+    <blog-area-two />
+    <client-brand-slider-two />
   </layout-seven>
 </template>
 
 <script lang="ts">
-import LayoutSeven from "~~/layout/LayoutSeven.vue";
+import LayoutSeven from "~~/layout/LayoutFive.vue";
 import HomeSevenHeroSlider from "~~/components/hero-banner/HomeSevenHeroSlider.vue";
 import CategoryAreaTwo from "~~/components/category/CategoryAreaTwo.vue";
 import BestSallerProducts from "~~/components/products/BestSallerProducts.vue";
