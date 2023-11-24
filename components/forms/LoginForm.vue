@@ -201,47 +201,39 @@ function facebookLogin() {
           "🚀 ~ file: LoginForm.vue:197 ~ facebookLogin ~ response:",
           response
         );
-        try {
-          setLoader(true);
-          busySubmit.value = true;
-          const res = fetch("/auth/social-login", {
-            method: "post",
-            body: $payloadParser(
-              {
-                id: 1,
-                provider: "facebook",
-                token: response.authResponse.accessToken,
-              },
-              "user"
-            ),
+        setLoader(true);
+        busySubmit.value = true;
+        fetch("/auth/social-login", {
+          method: "post",
+          body: $payloadParser(
+            {
+              id: 1,
+              provider: "facebook",
+              token: response.authResponse.accessToken,
+            },
+            "user"
+          ),
+        })
+          .then((res: any) => {
+            const formatter = new Formatter();
+            const data = formatter.deserialize(res);
+            if (data && data.country_id) {
+              localStorage.setItem("user", JSON.stringify(data));
+              localStorage.setItem("token", res.meta.token);
+              navigateTo("/");
+            } else {
+              localStorage.setItem("tempUser", JSON.stringify(data));
+              navigateTo("complete-info");
+            }
+          })
+          .catch((err) => {
+            busySubmit.value = false;
+            console.log(
+              "🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:",
+              err
+            );
+            setLoader(false);
           });
-          console.log(
-            "🚀 ~ file: LoginForm.vue:107 ~ handleOnSuccess ~ res:",
-            res
-          );
-          const formatter = new Formatter();
-          const data = formatter.deserialize(res);
-          console.log(
-            "🚀 ~ file: LoginForm.vue:107 ~ handleOnSuccess ~ res:",
-            data
-          );
-          if (data && data.country_id) {
-            localStorage.setItem("user", JSON.stringify(data));
-            localStorage.setItem("token", res.meta.token);
-            navigateTo("/");
-          } else {
-            localStorage.setItem("tempUser", JSON.stringify(data));
-            navigateTo("complete-info");
-          }
-          // useNuxtApp().$toast.success("done");
-        } catch (error) {
-          busySubmit.value = false;
-          console.log(
-            "🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:",
-            error
-          );
-          setLoader(false);
-        }
         // User is logged in and authenticated
         console.log("Welcome! Fetching your information.... ");
         //@ts-ignore
