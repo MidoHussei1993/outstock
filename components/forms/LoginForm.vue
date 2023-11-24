@@ -191,7 +191,7 @@ function loadScript(src, callback?): void {
 function facebookLogin() {
   //@ts-ignore
   FB.login(
-    async function (response) {
+    function (response: any) {
       console.log(
         "🚀 ~ file: LoginForm.vue:195 ~ facebookLogin ~ response:",
         response
@@ -204,7 +204,7 @@ function facebookLogin() {
         try {
           setLoader(true);
           busySubmit.value = true;
-          const res = await fetch("/auth/social-login", {
+          const res = fetch("/auth/social-login", {
             method: "post",
             body: $payloadParser(
               {
