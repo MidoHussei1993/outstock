@@ -191,7 +191,7 @@ function loadScript(src, callback?): void {
 function facebookLogin() {
   //@ts-ignore
   FB.login(
-    function (response) {
+    async function (response) {
       console.log(
         "🚀 ~ file: LoginForm.vue:195 ~ facebookLogin ~ response:",
         response
@@ -201,6 +201,47 @@ function facebookLogin() {
           "🚀 ~ file: LoginForm.vue:197 ~ facebookLogin ~ response:",
           response
         );
+        try {
+          setLoader(true);
+          busySubmit.value = true;
+          const res = await fetch("/auth/social-login", {
+            method: "post",
+            body: $payloadParser(
+              {
+                id: 1,
+                provider: "facebook",
+                token: response.authResponse.accessToken,
+              },
+              "user"
+            ),
+          });
+          console.log(
+            "🚀 ~ file: LoginForm.vue:107 ~ handleOnSuccess ~ res:",
+            res
+          );
+          const formatter = new Formatter();
+          const data = formatter.deserialize(res);
+          console.log(
+            "🚀 ~ file: LoginForm.vue:107 ~ handleOnSuccess ~ res:",
+            data
+          );
+          if (data && data.country_id) {
+            localStorage.setItem("user", JSON.stringify(data));
+            localStorage.setItem("token", res.meta.token);
+            navigateTo("/");
+          } else {
+            localStorage.setItem("tempUser", JSON.stringify(data));
+            navigateTo("complete-info");
+          }
+          // useNuxtApp().$toast.success("done");
+        } catch (error) {
+          busySubmit.value = false;
+          console.log(
+            "🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:",
+            error
+          );
+          setLoader(false);
+        }
         // User is logged in and authenticated
         console.log("Welcome! Fetching your information.... ");
         //@ts-ignore
