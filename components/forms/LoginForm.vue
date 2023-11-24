@@ -192,7 +192,15 @@ function facebookLogin() {
   //@ts-ignore
   FB.login(
     function (response) {
+      console.log(
+        "🚀 ~ file: LoginForm.vue:195 ~ facebookLogin ~ response:",
+        response
+      );
       if (response.authResponse) {
+        console.log(
+          "🚀 ~ file: LoginForm.vue:197 ~ facebookLogin ~ response:",
+          response
+        );
         // User is logged in and authenticated
         console.log("Welcome! Fetching your information.... ");
         //@ts-ignore
