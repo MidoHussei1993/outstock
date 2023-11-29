@@ -94,7 +94,7 @@
                       <div class="p-2">
                         <button
                           class="btn btn-dark btn-sm"
-                          @click="visible = true"
+                          @click.prevent="visible = true"
                         >
                           {{ $t("action.addNewAddress") }}
                         </button>

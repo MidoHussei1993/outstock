@@ -88,9 +88,9 @@
         </div>
       </div>
       <div class="add-cart p-absolute transition-3">
-        <a @click.prevent="store.add_cart_product(item)" href="#"
-          >+ Add to Cart</a
-        >
+        <nuxt-link :to="`/product-details/${item.id}`">
+          {{ $t("c.viewProduct") }}
+        </nuxt-link>
       </div>
     </div>
   </div>

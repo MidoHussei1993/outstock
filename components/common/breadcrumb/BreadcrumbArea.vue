@@ -7,16 +7,19 @@
       <div class="row">
         <div class="col-xl-12">
           <div class="page__title-inner text-center">
-            <h1>{{ title }}</h1>
+            <h1 class="text-white">{{ title }}</h1>
             <div class="page__title-breadcrumb">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
                   <li class="breadcrumb-item">
-                    <nuxt-link href="/">
+                    <nuxt-link href="/" class="text-white">
                       {{ $t("config.home") }}
                     </nuxt-link>
                   </li>
-                  <li class="breadcrumb-item active" aria-current="page">
+                  <li
+                    class="breadcrumb-item active text-white"
+                    aria-current="page"
+                  >
                     {{ subtitle }}
                   </li>
                 </ol>

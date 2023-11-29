@@ -63,7 +63,6 @@
                       />
                       <video
                         controls
-                        autoplay
                         style="width: 94%"
                         class="mx-1"
                         :src="active_img?.file"

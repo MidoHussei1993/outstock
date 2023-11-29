@@ -31,12 +31,12 @@
       <i
         v-if="item.quantity != itemClone?.quantity"
         @click="changeProductQuantity()"
-        class="fas fa-check-circle mx-2 text-success h4 pointer"
+        class="fas fa-check mx-3 pointer"
       ></i>
       <i
         v-if="item.quantity != itemClone?.quantity"
         @click="item.quantity = itemClone?.quantity!"
-        class="fas fa-times-circle text-danger h4 pointer"
+        class="fas fa-times pointer"
       ></i>
     </td>
     <td class="product-subtotal">

@@ -104,8 +104,8 @@
                     <li v-if="isUserLogin">
                       <a class="cart">
                         <i class="fad fa-bell h4"></i>
-                        <span class="text-danger h6">
-                          {{ totalNotificationCount }}
+                        <span class="" v-if="totalNotificationCount">
+                          ({{ totalNotificationCount }})
                         </span>
                       </a>
                       <!-- cart mini start -->
@@ -236,6 +236,10 @@ export default defineComponent({
   },
   methods: {
     setNotificationCount(event: { count: number }) {
+      console.log(
+        "🚀 ~ file: HeaderTwo.vue:239 ~ setNotificationCount ~ event:",
+        event
+      );
       this.totalNotificationCount = event.count;
     },
     selectedCountry(event: any) {
@@ -282,27 +286,6 @@ export default defineComponent({
       localStorage.setItem("selectedCountry", id);
     };
     const changeLanguage = async (currentLang: string, reload = true) => {
-      if (!localStorage.getItem("token")) return;
-      // navStore.changeLanguage()
-      try {
-        setLoader(true);
-        await fetch("/profile/update-language", {
-          method: "post",
-          body: {
-            data: {
-              type: "user",
-              id: "null",
-              attributes: {
-                language: currentLang,
-              },
-            },
-          },
-        });
-        setLoader(false);
-      } catch (error) {
-        console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-        setLoader(false);
-      }
       let el = document.querySelector("html")!;
       setLang(currentLang);
       locale.value = currentLang;
@@ -312,6 +295,30 @@ export default defineComponent({
       } else {
         el.setAttribute("lang", "en");
         el.setAttribute("dir", "ltr");
+      }
+      if (localStorage.getItem("token")) {
+        try {
+          setLoader(true);
+          await fetch("/profile/update-language", {
+            method: "post",
+            body: {
+              data: {
+                type: "user",
+                id: "null",
+                attributes: {
+                  language: currentLang,
+                },
+              },
+            },
+          });
+          setLoader(false);
+        } catch (error) {
+          console.log(
+            "🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:",
+            error
+          );
+          setLoader(false);
+        }
       }
       if (reload) window.location.reload();
     };

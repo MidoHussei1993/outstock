@@ -110,7 +110,11 @@
       >
     </div>
     <div class="product__modal-des mb-30">
-      <p v-html="item.description"></p>
+      <div
+        class="discription px-2"
+        v-html="item.description"
+        style="max-height: 500px; overflow-y: scroll"
+      ></div>
     </div>
     <div class="product__modal-form">
       <form action="#">
@@ -445,5 +449,22 @@ const addToFavourite = async () => {
   strong {
     color: black;
   }
+}
+
+.discription::-webkit-scrollbar {
+  height: 7px;
+}
+
+.discription::-webkit-scrollbar-thumb,
+.discription::-webkit-scrollbar-track {
+  border-radius: 92px;
+}
+
+.discription::-webkit-scrollbar-thumb {
+  background: #bc8246;
+}
+
+.discription::-webkit-scrollbar-track {
+  background: #edf2f4;
 }
 </style>

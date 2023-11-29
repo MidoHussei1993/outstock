@@ -138,6 +138,7 @@ const MarkAllAsRead = async () => {
     const res = await fetch("/notifications/mark-all-as-read", {
       method: "get",
     });
+    emit("UpdateNotificationCount", { count: 0 });
     setLoader(false);
     getNotificationList();
   } catch (error) {

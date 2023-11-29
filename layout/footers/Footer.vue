@@ -92,16 +92,16 @@
     <div class="footer__bottom">
       <div class="container">
         <div class="row">
-          <div class="col-xl-6 col-lg-7">
+          <div class="col-xl-6 col-lg-7 mx-auto">
             <div class="footer__copyright">
               <p>
                 Copyright {{ new Date().getFullYear() }} ©
-                <nuxt-link href="/">Outstock</nuxt-link> all rights reserved.
-                Powered by <nuxt-link href="/">Theme_pure</nuxt-link>
+                <nuxt-link href="/">Mattress</nuxt-link> all rights reserved.
+                Powered by <nuxt-link href="/">Mohamed Hussin </nuxt-link>
               </p>
             </div>
           </div>
-          <div class="col-xl-6 col-lg-5">
+          <!-- <div class="col-xl-6 col-lg-5">
             <div class="footer__social f-right">
               <ul>
                 <social />
@@ -110,7 +110,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
