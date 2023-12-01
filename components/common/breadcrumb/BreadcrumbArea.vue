@@ -6,20 +6,18 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-12">
-          <div class="page__title-inner text-center">
-            <h1 class="text-white">{{ title }}</h1>
+          <div class="page__title-inner text-center custom-bg">
+            <h1 class="text-dark">{{ title }}</h1>
             <div class="page__title-breadcrumb">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
-                  <li class="breadcrumb-item">
-                    <nuxt-link href="/" class="text-white">
+                  <li class="">
+                    <nuxt-link href="/" class="text-dark">
                       {{ $t("config.home") }}
                     </nuxt-link>
                   </li>
-                  <li
-                    class="breadcrumb-item active text-white"
-                    aria-current="page"
-                  >
+                  <li class="mx-2">/</li>
+                  <li class="active text-dark" aria-current="page">
                     {{ subtitle }}
                   </li>
                 </ol>
@@ -76,3 +74,17 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+.custom-bg {
+  background: rgba(255, 255, 255, 0.26);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3.9px);
+  -webkit-backdrop-filter: blur(3.9px);
+  border: 1px solid rgba(255, 255, 255, 0.47);
+  width: fit-content;
+  margin: 0 auto;
+  padding: 35px;
+  padding-inline: 60px;
+}
+</style>

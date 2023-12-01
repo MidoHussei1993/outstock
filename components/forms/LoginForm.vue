@@ -48,28 +48,39 @@
           {{ $t("config.login") }}
         </span>
       </button>
-      <client-only>
-        <button
-          type="button"
-          class="os-btn os-btn-black w-100 mt-2"
-          :disabled="!isReady"
-          @click.prevent="() => login()"
-        >
-          <i class="fab fa-google mx-2" style="font-size: 15px"></i>
-          {{ $t("action.loginWithGoogle") }}
-        </button>
-      </client-only>
-      <client-only>
-        <!-- <VFacebookLogin class="button" appId="871199088044654">
-        </VFacebookLogin> -->
-        <button
-          class="os-btn os-btn-black w-100 mt-2"
-          @click.prevent="facebookLogin()"
-        >
-          <i class="fab fa-facebook-f mx-2"></i>
-          {{ $t("action.loginWithFacebook") }}
-        </button>
-      </client-only>
+      <div class="d-flex">
+        <div class="p-2">
+          <client-only>
+            <button
+              type="button"
+              class="btn btn-light border w-100 mt-2"
+              :disabled="!isReady"
+              @click.prevent="() => login()"
+            >
+              <i
+                class="fab fa-google mx-2"
+                style="font-size: 20px; color: #dd4b39"
+              ></i>
+              {{ $t("action.loginWithGoogle") }}
+            </button>
+          </client-only>
+        </div>
+        <div class="p-2">
+          <client-only>
+            <button
+              class="btn btn-light w-100 mt-2 border"
+              @click.prevent="facebookLogin()"
+            >
+              <i
+                class="fab fa-facebook-f mx-2"
+                style="font-size: 20px; color: #3b5998"
+              ></i>
+              {{ $t("action.loginWithFacebook") }}
+            </button>
+          </client-only>
+        </div>
+      </div>
+
       <div class="or-divide"><span>or</span></div>
       <nuxt-link href="/register" class="os-btn os-btn-black w-100">
         {{ $t("config.registerNow") }}

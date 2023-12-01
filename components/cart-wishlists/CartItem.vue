@@ -85,10 +85,11 @@ const deleteItem = async () => {
   try {
     setLoader(true);
     const res = await fetch(action.endpoint_url, {
-      method: "get",
+      method: "delete",
     });
     console.log(res);
     emit("deleteProduct", props.index);
+    state.getUserCart();
     setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);

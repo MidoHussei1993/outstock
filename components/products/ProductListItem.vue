@@ -1,6 +1,6 @@
 <template>
   <div class="product__wrapper mb-40">
-    <div class="row">
+    <div class="row align-items-center">
       <div class="col-xl-4 col-lg-4">
         <div class="product__thumb">
           <nuxt-link :href="`/product-details/${item.id}`" class="w-img">
@@ -40,7 +40,7 @@
                 {{ item.price.data.price }} {{ item.price.data.currency }}
               </span>
             </div>
-            <p v-html="item.description"></p>
+            <div class="description border" v-html="item.description"></div>
             <!-- <div class="product__list mb-30">
                           <ul>
                               <li v-for="(list,i) in item.details.details_list?.slice(0,3)" :key="i">
@@ -49,8 +49,13 @@
                           </ul>
                       </div> -->
           </div>
-          <div class="add-cart-list d-sm-flex align-items-center">
-            <a href="#" class="add-cart-btn mr-10">+ Add to Cart</a>
+          <div class="add-cart-list d-sm-flex align-items-center mt-1">
+            <nuxt-link
+              class="add-cart-btn mr-10"
+              :to="`/product-details/${item.id}`"
+            >
+              {{ $t("c.viewProduct") }}
+            </nuxt-link>
             <div class="product__action-2 transition-3 mr-20">
               <a
                 v-if="hasAction(item, 'favourite_product')"
@@ -111,4 +116,27 @@ const wishlistState = useWishlistStore();
 const { getAction, hasAction } = $FN();
 </script>
 
-<style scoped></style>
+<style scoped>
+.description {
+  max-height: 150px;
+  overflow-y: scroll;
+  padding-inline: 5px;
+}
+
+.description::-webkit-scrollbar {
+  height: 15px;
+}
+
+.description::-webkit-scrollbar-thumb,
+.description::-webkit-scrollbar-track {
+  border-radius: 92px;
+}
+
+.description::-webkit-scrollbar-thumb {
+  background: #bc8246;
+}
+
+.description::-webkit-scrollbar-track {
+  background: #edf2f4;
+}
+</style>

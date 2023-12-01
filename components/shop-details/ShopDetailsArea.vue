@@ -77,7 +77,6 @@
                           % {{ item.offer.data.discount_percentage }}
                         </span>
                       </div>
-                      margin-bottom: 5px;
                     </div>
                   </div>
                 </div>

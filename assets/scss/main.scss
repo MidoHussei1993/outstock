@@ -29,6 +29,9 @@
     15. Footer CSS	
 
 -----------------------------------------------------------------------------------*/
+:root {
+  --toastify-color-success: #bc8246 !important;
+}
 @import "../css/fontAwesome5Pro.css";
 @import "../css/ionicons.min.css";
 @import "../css/animate.min.css";

@@ -318,19 +318,13 @@ const getHomePageData = async () => {
 </script>
 <style scoped lang="scss">
 .slider-text {
-  transform: translateY(17px);
-  background: #343434a3;
-  mix-blend-mode: multiply;
-  // font-weight: 500;
-  // background: rgb(0, 0, 0);
-  // background: linear-gradient(
-  //   180deg,
-  //   rgba(0, 0, 0, 0.10127801120448177) 0%,
-  //   rgba(0, 0, 0, 0.7063200280112045) 100%
-  // );
-  color: white;
-  // text-shadow: 0 0 3px #fff, 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #5271ff,
-  //   0 0 20px #5271ff, 0 0 250px #5271ff, 0 0 30px #5271ff;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.21);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0.8px);
+  -webkit-backdrop-filter: blur(0.8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 :root {
   --red: #ef233c;

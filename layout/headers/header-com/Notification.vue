@@ -1,5 +1,15 @@
 <template>
-  <div class="mini-cart p-2">
+  <div
+    class="mini-cart p-2"
+    style="
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(2.2px);
+      -webkit-backdrop-filter: blur(2.2px);
+      border: 1px solid rgba(255, 255, 255, 0.47);
+    "
+  >
     <div v-if="!notificationList.length">
       <h5>No Notifications</h5>
     </div>
@@ -19,14 +29,12 @@
           :key="i"
           style="margin-bottom: 5px"
           class="notification-item"
+          :class="{
+            'notification-item text-dark': item.is_read,
+            'un-read-notification-item  text-white': !item.is_read,
+          }"
         >
-          <div
-            class="d-flex justify-content-between border rounded-2 notif"
-            :class="{
-              'bg-light': item.is_read,
-              ' bg-secondary text-white': !item.is_read,
-            }"
-          >
+          <div class="d-flex justify-content-between rounded-2 notif">
             <div class="p-2">
               <h4>
                 {{ item.title }}
@@ -58,7 +66,7 @@
               v-if="pagination?.current_page < pagination?.total_pages"
               class="btn btn-primary mx-auto px-4 mt-2"
             >
-              load More
+              {{ $t("action.loadMore") }}
             </button>
           </div>
         </li>
@@ -78,10 +86,12 @@ import { useCartStore } from "~~/store/useCart";
 import { storeToRefs } from "pinia";
 import { INotification, IPagination } from "~/types";
 import { IAction } from "~/types/action";
+import { Formatter } from "sarala-json-api-data-formatter";
+
 const { setLoader } = useLoader();
 const fetch = $useHttpClient();
 const emit = defineEmits(["UpdateNotificationCount"]);
-
+const formatter = new Formatter();
 const store = useCartStore();
 const { getAction, hasAction } = $FN();
 const { cart_products, total } = storeToRefs(store);
@@ -96,7 +106,6 @@ const getNotificationList = async () => {
     notificationList.value = data;
     pagination.value = meta.pagination;
     console.log(pagination.value?.total);
-    emit("UpdateNotificationCount", { count: pagination.value?.total });
     setLoader(false);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
@@ -138,7 +147,23 @@ const MarkAllAsRead = async () => {
     const res = await fetch("/notifications/mark-all-as-read", {
       method: "get",
     });
-    emit("UpdateNotificationCount", { count: 0 });
+    setLoader(false);
+    getUnReadCount();
+    getNotificationList();
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(false);
+  }
+};
+const getUnReadCount = async () => {
+  try {
+    setLoader(true);
+    const res = await fetch("/notifications/unread-count", {
+      method: "get",
+    });
+    console.log("🚀 ~ file: Notification.vue:154 ~ getUnReadCount ~ res:", res);
+    const data = formatter.deserialize(res);
+    emit("UpdateNotificationCount", { count: data.unread_count });
     setLoader(false);
     getNotificationList();
   } catch (error) {
@@ -148,6 +173,7 @@ const MarkAllAsRead = async () => {
 };
 onMounted(() => {
   getNotificationList();
+  getUnReadCount();
 });
 const subString = (str: string, len: number, char = "...") => {
   if (str.length > len) {
@@ -161,6 +187,31 @@ const subString = (str: string, len: number, char = "...") => {
 Not supports in Firefox and IE */
 
 /* total width */
+.mini-cart {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2.2px);
+  -webkit-backdrop-filter: blur(2.2px);
+  border: 1px solid rgba(255, 255, 255, 0.47);
+  .notification-item {
+    background: rgba(255, 255, 255, 0.62);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(11.9px);
+    -webkit-backdrop-filter: blur(11.9px);
+    border: 1px solid rgba(255, 255, 255, 0.51);
+  }
+  .un-read-notification-item {
+    /* From https://css.glass */
+    background: rgba(15, 15, 15, 0.62);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(11.9px);
+    -webkit-backdrop-filter: blur(11.9px);
+    border: 1px solid rgba(15, 15, 15, 0.51);
+  }
+}
 .mini-cart-list::-webkit-scrollbar {
   background-color: #fff;
   width: 16px;
