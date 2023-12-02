@@ -14,6 +14,7 @@ export const useCartStore = defineStore("cart", {
     quantityCount: 0 as number,
     total: 0 as number,
     currency: "",
+    cart: {} as any,
   }),
   actions: {
     async getUserCart() {
@@ -23,10 +24,15 @@ export const useCartStore = defineStore("cart", {
           method: "get",
         });
         const data: ICart = formatter.deserialize(res);
+        this.cart = data;
+        console.log(
+          "🚀 ~ file: useCart.ts:28 ~ getUserCart ~ this.cart:",
+          this.cart
+        );
+        console.log("🚀 ~ file: useCart.ts:26 ~ getUserCart ~ data:", data);
         this.cart_products = data.cartProducts.data;
         this.total = data.total_coast;
         this.currency = data.currency;
-        console.log("🚀 ~ file: HeaderTwo.vue:242 ~ getUserCart ~ data:", data);
       } catch (error) {
         this.LoaderState.setLoader(false);
       }

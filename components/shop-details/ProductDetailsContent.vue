@@ -113,7 +113,7 @@
       <div
         class="discription px-2"
         v-html="item.description"
-        style="max-height: 500px; overflow-y: scroll"
+        style="max-height: 700px; overflow-y: scroll"
       ></div>
     </div>
     <div class="product__modal-form">

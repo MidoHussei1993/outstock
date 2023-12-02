@@ -97,7 +97,7 @@
               <p>
                 Copyright {{ new Date().getFullYear() }} ©
                 <nuxt-link href="/">Mattress</nuxt-link> all rights reserved.
-                Powered by <nuxt-link href="/">Mohamed Hussin </nuxt-link>
+                Powered by <nuxt-link href="/">KZWEB </nuxt-link>
               </p>
             </div>
           </div>

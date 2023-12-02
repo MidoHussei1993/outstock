@@ -29,6 +29,7 @@
                       :key="i"
                       :index="i"
                       :item="cartItem"
+                      @getCart="getCart()"
                     />
                   </tbody>
                 </table>
@@ -168,6 +169,7 @@
                       <select
                         class=""
                         v-model="user_address_id"
+                        :placeholder="$t('c.selectAddress')"
                         style="
                           width: 100%;
                           height: 45px;
@@ -179,7 +181,9 @@
                           padding-right: 45px;
                         "
                       >
-                        <option></option>
+                        <option :value="null" disabled selected>
+                          {{ $t("c.selectAddress") }}
+                        </option>
                         <option
                           :value="item.id"
                           v-for="(item, index) in addressList"
@@ -220,12 +224,12 @@ const state = useCartStore();
 const { setLoader } = useLoader();
 const { t } = useI18n();
 const fetch = $useHttpClient();
-const { cart_products, total, currency } = storeToRefs(state);
+const { cart_products, total, currency, cart } = storeToRefs(state);
 const addressList = ref([]);
 const formatter = new Formatter();
 const visible = ref<boolean>(false);
 const busySubmit = ref<boolean>(false);
-const user_address_id = ref();
+const user_address_id = ref(null);
 const schema = yup.object({
   address: yup
     .string()
@@ -265,26 +269,34 @@ const onSubmit = async (
     setLoader(false);
   }
 };
+const getCart = () => {
+  state.getUserCart();
+};
 const checkout = async () => {
-  console.log("fireeeeeeeeee");
+  console.log("🚀 ~ file: CartArea.vue:286 ~ checkout ~ cart:", cart.value.id);
+
   if (!user_address_id.value) {
     useNuxtApp().$toast.error(t("_.address"));
     return;
   }
   try {
     setLoader(true);
-    const { message, ...res } = await fetch("/user/add-new-address", {
-      method: "post",
-      body: $payloadParser(
-        {
-          id: 1,
-          user_address_id: user_address_id.value,
-          lat: "30.375936",
-          lng: "30.5135616",
-        },
-        "checkout order"
-      ),
-    });
+    console.log("fireieieiei");
+    const { message, ...res } = await fetch(
+      `/orders/check-out/${cart.value.id}`,
+      {
+        method: "post",
+        body: $payloadParser(
+          {
+            id: 1,
+            user_address_id: user_address_id.value,
+            lat: "30.375936",
+            lng: "30.5135616",
+          },
+          "checkout order"
+        ),
+      }
+    );
   } catch (error) {
     console.log(error);
   }

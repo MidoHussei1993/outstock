@@ -45,7 +45,24 @@
                         href="#"
                         class="search-toggle"
                       >
-                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        <img
+                          v-if="user.profile_picture"
+                          :src="user.profile_picture"
+                          width="50"
+                          height="50"
+                          class="mx-1"
+                          style="
+                            width: 60px;
+                            height: 60px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                          "
+                        />
+                        <i
+                          v-if="!user.profile_picture"
+                          class="fa fa-user-circle"
+                          aria-hidden="true"
+                        ></i>
                         {{ $t("config.profile") }}
                       </a>
                     </li>
@@ -280,6 +297,7 @@ export default defineComponent({
     const fetch = $useHttpClient();
     const formatter = new Formatter();
     const { setLoader } = useLoader();
+    const user = ref();
 
     const changeSelectedCuntory = (id) => {
       setSelectedCountryId(id);
@@ -326,6 +344,9 @@ export default defineComponent({
       if (!getLang()) {
         changeLanguage("ar");
       } else changeLanguage(getLang()!, false);
+      if (localStorage.getItem("user")) {
+        user.value = JSON.parse(localStorage.getItem("user")!);
+      }
     });
 
     return {
@@ -337,6 +358,7 @@ export default defineComponent({
       setSelectedCountryId,
       getCountryList,
       changeSelectedCuntory,
+      user,
     };
   },
   mounted() {

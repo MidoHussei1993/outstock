@@ -40,7 +40,7 @@
                 {{ item.price.data.price }} {{ item.price.data.currency }}
               </span>
             </div>
-            <div class="description border" v-html="item.description"></div>
+            <!-- <div class="description border" v-html="item.description"></div> -->
             <!-- <div class="product__list mb-30">
                           <ul>
                               <li v-for="(list,i) in item.details.details_list?.slice(0,3)" :key="i">
@@ -59,13 +59,29 @@
             <div class="product__action-2 transition-3 mr-20">
               <a
                 v-if="hasAction(item, 'favourite_product')"
-                @click.prevent="wishlistState.add_wishlist_product(item)"
+                @click="addToFavourite()"
                 href="#"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                title="Add to Wishlist"
+                :title="getAction(item, 'favourite_product').label"
               >
-                <i class="fal fa-heart"></i>
+                <i
+                  class="fal fa-heart"
+                  :style="{ color: item.is_favourite ? '#e30000' : '' }"
+                ></i>
+              </a>
+              <a
+                v-if="hasAction(item, 'un_favourite_product')"
+                @click="removeFromFavourite()"
+                href="#"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                :title="getAction(item, 'un_favourite_product').label"
+              >
+                <i
+                  class="fal fa-heart"
+                  :style="{ color: item.is_favourite ? '#e30000' : '' }"
+                ></i>
               </a>
               <!-- <a
                 @click.prevent="compareState.add_compare_product(item)"
@@ -106,6 +122,8 @@ import { useCartStore } from "~~/store/useCart";
 import { useCompareStore } from "~~/store/useCompare";
 import { useWishlistStore } from "~~/store/useWishlist";
 import { IProduct } from "~~/types";
+import { emit } from "process";
+import { IAction } from "~~/types/action";
 
 const props = defineProps({
   item: { type: Object as PropType<IProduct>, default: () => {} },
@@ -114,6 +132,40 @@ const store = useCartStore();
 const compareState = useCompareStore();
 const wishlistState = useWishlistStore();
 const { getAction, hasAction } = $FN();
+const { setLoader } = useLoader();
+
+const removeFromFavourite = async () => {
+  const action: IAction = getAction(props.item, "un_favourite_product");
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "post",
+    });
+    console.log(res);
+    // emit("updateProductDetails", {});
+
+    setLoader(true);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(true);
+  }
+};
+const addToFavourite = async () => {
+  const action: IAction = getAction(props.item, "favourite_product");
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "post",
+    });
+    console.log(res);
+    // emit("updateProductDetails", {});
+
+    setLoader(true);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(true);
+  }
+};
 </script>
 
 <style scoped>

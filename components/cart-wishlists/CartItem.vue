@@ -79,7 +79,7 @@ const itemClone = ref<CartProduct>();
 //         second
 //       );
 //     });
-const emit = defineEmits(["deleteProduct"]);
+const emit = defineEmits(["getCart"]);
 const deleteItem = async () => {
   const action: IAction = getAction(props.item, "delete_product_from_cart");
   try {
@@ -88,7 +88,7 @@ const deleteItem = async () => {
       method: "delete",
     });
     console.log(res);
-    emit("deleteProduct", props.index);
+    emit("getCart", {});
     state.getUserCart();
     setLoader(true);
   } catch (error) {
@@ -98,6 +98,7 @@ const deleteItem = async () => {
 };
 
 const changeProductQuantity = async () => {
+  console.log("fireeeeeee");
   const action: IAction = getAction(
     props.item,
     "update_product_amount_in_cart"
@@ -115,7 +116,8 @@ const changeProductQuantity = async () => {
       ),
     });
     console.log(res);
-    useNuxtApp().$toast.success("done");
+    // useNuxtApp().$toast.success("done");
+    emit("getCart", {});
     // @ts-ignore
     itemClone.value.quantity = props.item.quantity;
     setLoader(true);
