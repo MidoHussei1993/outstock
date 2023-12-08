@@ -1,5 +1,5 @@
 <template>
-  <div class="product__wrapper mb-40">
+  <div class="product__wrapper mb-40 border p-2 py-3 rounded-4">
     <div class="row align-items-center">
       <div class="col-xl-4 col-lg-4">
         <div class="product__thumb">
@@ -17,12 +17,76 @@
         <div class="product__content p-relative">
           <div class="product__content-inner list">
             <h4>
-              <nuxt-link :href="`/product-details/${item.id}`">
-                <span v-html="item.name"></span>
+              <nuxt-link class="h5" :href="`/product-details/${item.id}`">
+                {{ item.name }}
               </nuxt-link>
             </h4>
+            <div class="rating rating-shop mb-1">
+              <ul>
+                <li>
+                  <span
+                    ><i
+                      :class="{
+                        fas: item.rate_avr >= 1,
+                        fal: item.rate_avr < 1,
+                      }"
+                      class="fa-star"
+                    ></i
+                  ></span>
+                </li>
+                <li>
+                  <span
+                    ><i
+                      :class="{
+                        fas: item.rate_avr >= 2,
+                        fal: item.rate_avr < 2,
+                      }"
+                      class="fa-star"
+                    ></i
+                  ></span>
+                </li>
+                <li>
+                  <span
+                    ><i
+                      :class="{
+                        fas: item.rate_avr >= 3,
+                        fal: item.rate_avr < 3,
+                      }"
+                      class="fa-star"
+                    ></i
+                  ></span>
+                </li>
+                <li>
+                  <span
+                    ><i
+                      :class="{
+                        fas: item.rate_avr >= 4,
+                        fal: item.rate_avr < 4,
+                      }"
+                      class="fa-star"
+                    ></i
+                  ></span>
+                </li>
+                <li>
+                  <span
+                    ><i
+                      :class="{
+                        fas: item.rate_avr >= 5,
+                        fal: item.rate_avr < 5,
+                      }"
+                      class="fa-star"
+                    ></i
+                  ></span>
+                </li>
+              </ul>
+              <br />
+
+              <span class="rating-no ml-10" v-if="item.rate_avr">
+                {{ item.rate_avr }} {{ $t("c.rate") }}
+              </span>
+            </div>
             <div
-              class="product__price-2 mb-10"
+              class="product__price-2 mb-1"
               v-if="item.price && item.price.data"
             >
               <span>
@@ -40,7 +104,9 @@
                 {{ item.price.data.price }} {{ item.price.data.currency }}
               </span>
             </div>
-            <!-- <div class="description border" v-html="item.description"></div> -->
+            <p class=" ">
+              {{ item.mini_description }}
+            </p>
             <!-- <div class="product__list mb-30">
                           <ul>
                               <li v-for="(list,i) in item.details.details_list?.slice(0,3)" :key="i">
@@ -63,7 +129,6 @@
                 href="#"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                :title="getAction(item, 'favourite_product').label"
               >
                 <i
                   class="fal fa-heart"
@@ -76,7 +141,6 @@
                 href="#"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
-                :title="getAction(item, 'un_favourite_product').label"
               >
                 <i
                   class="fal fa-heart"
@@ -93,14 +157,14 @@
                 <i class="fal fa-sliders-h"></i>
               </a> -->
               <!-- Button trigger modal -->
-              <a
+              <!-- <a
                 @click.prevent="store.initialOrderQuantity"
                 href="#"
                 data-bs-toggle="modal"
                 :data-bs-target="`#productModalListId-${item.id}`"
               >
                 <i class="fal fa-search"></i>
-              </a>
+              </a> -->
             </div>
           </div>
           <!-- shop modal start -->
@@ -133,7 +197,7 @@ const compareState = useCompareStore();
 const wishlistState = useWishlistStore();
 const { getAction, hasAction } = $FN();
 const { setLoader } = useLoader();
-
+const fetch = $useHttpClient();
 const removeFromFavourite = async () => {
   const action: IAction = getAction(props.item, "un_favourite_product");
   try {

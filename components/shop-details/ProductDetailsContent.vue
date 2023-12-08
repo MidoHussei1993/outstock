@@ -72,24 +72,51 @@
     <div class="rating rating-shop mb-15">
       <ul>
         <li>
-          <span><i class="fas fa-star"></i></span>
+          <span
+            ><i
+              :class="{ fas: item.rate_avr >= 1, fal: item.rate_avr < 1 }"
+              class="fa-star"
+            ></i
+          ></span>
         </li>
         <li>
-          <span><i class="fas fa-star"></i></span>
+          <span
+            ><i
+              :class="{ fas: item.rate_avr >= 2, fal: item.rate_avr < 2 }"
+              class="fa-star"
+            ></i
+          ></span>
         </li>
         <li>
-          <span><i class="fas fa-star"></i></span>
+          <span
+            ><i
+              :class="{ fas: item.rate_avr >= 3, fal: item.rate_avr < 3 }"
+              class="fa-star"
+            ></i
+          ></span>
         </li>
         <li>
-          <span><i class="fas fa-star"></i></span>
+          <span
+            ><i
+              :class="{ fas: item.rate_avr >= 4, fal: item.rate_avr < 4 }"
+              class="fa-star"
+            ></i
+          ></span>
         </li>
         <li>
-          <span><i class="fal fa-star"></i></span>
+          <span
+            ><i
+              :class="{ fas: item.rate_avr >= 5, fal: item.rate_avr < 5 }"
+              class="fa-star"
+            ></i
+          ></span>
         </li>
       </ul>
       <br />
 
-      <span class="rating-no ml-10"> {{ item.rate_avr }} rating(s) </span>
+      <span class="rating-no ml-10" v-if="item.rate_avr">
+        {{ item.rate_avr }} {{ $t("c.rate") }}
+      </span>
     </div>
     <div class="product__price-2 mb-25" v-if="item.price && item.price.data">
       <span v-if="price == 0"

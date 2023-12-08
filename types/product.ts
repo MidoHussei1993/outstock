@@ -20,6 +20,7 @@ export interface IProduct {
   category_id: number;
   rate_avr: number;
   description: string;
+  mini_description: string;
   created_at: Date;
   id: string;
   image: string;

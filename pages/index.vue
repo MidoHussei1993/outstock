@@ -166,7 +166,7 @@
             </client-only>
           </div>
         </div>
-        <section class="product__area pt-3 pb-100">
+        <section class="product__area pt-3 pb-100" v-if="products.length">
           <div class="container-fluid">
             <div class="row">
               <div class="col-xl-12">
@@ -305,15 +305,20 @@ const getHomePageData = async () => {
       },
     });
     const data = formatter.deserialize(res);
+    console.log("🚀 ~ file: index.vue:308 ~ getHomePageData ~ data:", data);
     console.log("🚀 ~ file: index.vue:218 ~ getHomePageData ~ data:", data);
-    banners.value = data.banners.data;
-    brands.value = data.brands.data;
-    categories.value = data.categories.data;
-    most_soled_products.value = data.most_soled_products.data;
-    offers.value = data.offers.data;
-    quality_levels.value = data.quality_levels.data;
-    products.value = data.products.data;
-  } catch (error) {}
+
+    if (data.banners) banners.value = data.banners.data;
+    if (data.brands) brands.value = data.brands.data;
+    if (data.categories) categories.value = data.categories.data;
+    if (data.most_soled_products)
+      most_soled_products.value = data.most_soled_products.data;
+    if (data.offers) offers.value = data.offers.data;
+    if (data.quality_levels) quality_levels.value = data.quality_levels.data;
+    if (data.products) products.value = data.products.data;
+  } catch (error) {
+    console.log("🚀 ~ file: index.vue:326 ~ getHomePageData ~ error:", error);
+  }
 };
 </script>
 <style scoped lang="scss">

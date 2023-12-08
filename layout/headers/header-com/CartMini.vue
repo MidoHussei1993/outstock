@@ -50,10 +50,12 @@
         <span>${{ total }}</span>
       </div>
       <div class="checkout-link">
-        <nuxt-link href="/cart" class="os-btn">view Cart</nuxt-link>
-        <nuxt-link class="os-btn os-btn-black" href="/checkout"
+        <nuxt-link href="/cart" class="os-btn">
+          {{ $t("action.preview") }}
+        </nuxt-link>
+        <!-- <nuxt-link class="os-btn os-btn-black" href="/checkout"
           >Checkout</nuxt-link
-        >
+        > -->
       </div>
     </div>
   </div>

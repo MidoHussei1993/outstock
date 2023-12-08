@@ -297,7 +297,10 @@ const checkout = async () => {
         ),
       }
     );
+    setLoader(false);
+    getCart();
   } catch (error) {
+    setLoader(false);
     console.log(error);
   }
 };

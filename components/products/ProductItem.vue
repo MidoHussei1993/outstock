@@ -67,9 +67,12 @@
     </div>
     <div class="product__content p-relative">
       <div class="product__content-inner">
-        <nuxt-link :href="`/product-details/${item.id}`">
-          <span v-html="item.name"></span>
+        <nuxt-link class="h6" :href="`/product-details/${item.id}`">
+          {{ item.name }}
         </nuxt-link>
+        <p class=" ">
+          {{ item.mini_description }}
+        </p>
         <div
           class="product__price transition-3"
           v-if="item.price && item.price.data"
@@ -121,6 +124,12 @@ const wishlistState = useWishlistStore();
 const compareState = useCompareStore();
 const { setLoader } = useLoader();
 const emit = defineEmits(["updateProductDetails"]);
+onMounted(() => {
+  console.log(
+    "🚀 ~ file: ProductItem.vue:126 ~ onMounted ~ props.item:",
+    props.item
+  );
+});
 
 const removeFromFavourite = async () => {
   const action: IAction = getAction(props.item, "un_favourite_product");
