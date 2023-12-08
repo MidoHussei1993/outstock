@@ -5,6 +5,7 @@
       :products="productList"
       :pagination="pagination"
       v-if="productList.length"
+      @getProductList="getProductList()"
     />
     <h2
       class="text-center display-5"

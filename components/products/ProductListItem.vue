@@ -124,7 +124,9 @@
             </nuxt-link>
             <div class="product__action-2 transition-3 mr-20">
               <a
-                v-if="hasAction(item, 'favourite_product')"
+                v-if="
+                  hasAction(item, 'favourite_product') && !item.is_favourite
+                "
                 @click="addToFavourite()"
                 href="#"
                 data-bs-toggle="tooltip"
@@ -136,7 +138,9 @@
                 ></i>
               </a>
               <a
-                v-if="hasAction(item, 'un_favourite_product')"
+                v-if="
+                  hasAction(item, 'un_favourite_product') && item.is_favourite
+                "
                 @click="removeFromFavourite()"
                 href="#"
                 data-bs-toggle="tooltip"
@@ -192,6 +196,8 @@ import { IAction } from "~~/types/action";
 const props = defineProps({
   item: { type: Object as PropType<IProduct>, default: () => {} },
 });
+const emit = defineEmits(["getProductList"]);
+
 const store = useCartStore();
 const compareState = useCompareStore();
 const wishlistState = useWishlistStore();
@@ -206,7 +212,7 @@ const removeFromFavourite = async () => {
       method: "post",
     });
     console.log(res);
-    // emit("updateProductDetails", {});
+    emit("getProductList", {});
 
     setLoader(true);
   } catch (error) {
@@ -221,9 +227,7 @@ const addToFavourite = async () => {
     const res = await fetch(action.endpoint_url, {
       method: "post",
     });
-    console.log(res);
-    // emit("updateProductDetails", {});
-
+    emit("getProductList", {});
     setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);

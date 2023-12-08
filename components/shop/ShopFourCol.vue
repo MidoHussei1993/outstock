@@ -8,14 +8,16 @@
               class="shop__header d-sm-flex justify-content-between align-items-center mb-40"
             >
               <div class="shop__header-left">
-                <div class="show-text " v-if="pagination && pagination.total_pages">
-                  <span
-                    > 
-                    {{ $t('c.currentPage') }}
-                    {{pagination.current_page }}
-                    {{ $t('c.of') }}
-{{pagination.total_pages }} </span
-                  >
+                <div
+                  class="show-text"
+                  v-if="pagination && pagination.total_pages"
+                >
+                  <span>
+                    {{ $t("c.currentPage") }}
+                    {{ pagination.current_page }}
+                    {{ $t("c.of") }}
+                    {{ pagination.total_pages }}
+                  </span>
                 </div>
               </div>
               <div
@@ -79,6 +81,7 @@
                   v-for="(item, i) in products"
                   :key="i"
                   :item="item"
+                  @getProductList="emit('getProductList', {})"
                 />
               </div>
             </div>
@@ -100,8 +103,9 @@ import { IPagination, IProduct } from "~~/types";
 
 const props = defineProps({
   products: { type: Array as PropType<IProduct[]>, default: () => [] },
-    pagination: { type: Object as PropType<IPagination>, default: () =>{} },
+  pagination: { type: Object as PropType<IPagination>, default: () => {} },
 });
+const emit = defineEmits(["getProductList"]);
 
 const state = useProductsStore();
 const filteredRows = ref<any[]>([]);
