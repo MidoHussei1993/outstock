@@ -248,7 +248,7 @@
     modal
     :style="{ width: '30%' }"
   >
-    <ProfileEditForm />
+    <ProfileEditForm :user="user" @profileUpdated="showModal = false" />
   </Dialog>
 
   <!-- edit modal start -->
@@ -287,6 +287,6 @@ const logout = () => {
 </script>
 <style>
 .p-dialog-content {
-  overflow: hidden;
+  overflow-y: scroll;
 }
 </style>

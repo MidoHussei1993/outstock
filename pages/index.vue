@@ -273,29 +273,13 @@ const navigateToProductsWithOffers = (item: any) => {
     },
   });
 };
-onMounted(() => {
-  console.log(
-    "🚀 ~ file: index.vue:154 ~ onMounted ~ selectedCountryId:",
-    selectedCountryId.value
-  );
+onMounted(async () => {
   if (selectedCountryId.value) {
     country_id.value = selectedCountryId.value as any;
     getHomePageData();
   }
 });
 
-const getCuntires = async () => {
-  try {
-    const { data } = await fetch("/countries?page=1&per_page=1000", {
-      method: "get",
-    });
-    if (!localStorage.getItem("token")) {
-      country_id.value = data[0].id;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
 const getHomePageData = async () => {
   try {
     const res = await fetch("/pages/home-page", {
@@ -305,8 +289,7 @@ const getHomePageData = async () => {
       },
     });
     const data = formatter.deserialize(res);
-    console.log("🚀 ~ file: index.vue:308 ~ getHomePageData ~ data:", data);
-    console.log("🚀 ~ file: index.vue:218 ~ getHomePageData ~ data:", data);
+    console.log("🚀 ~ file: index.vue:292 ~ getHomePageData ~ data:", data);
 
     if (data.banners) banners.value = data.banners.data;
     if (data.brands) brands.value = data.brands.data;
@@ -320,6 +303,35 @@ const getHomePageData = async () => {
     console.log("🚀 ~ file: index.vue:326 ~ getHomePageData ~ error:", error);
   }
 };
+// const getHomeCategories = async () => {
+//   try {
+//     const res = await fetch("/pages/home-page-categories", {
+//       method: "get",
+//       params: {
+//         country_id: country_id.value,
+//       },
+//     });
+//     console.log("🚀 ~ file: index.vue:340 ~ getHomeCategories ~ res:", res);
+//     if (res.data) categories.value = res.data;
+//   } catch (error) {
+//     console.log("🚀 ~ file: index.vue:326 ~ getHomePageData ~ error:", error);
+//   }
+// };
+// const getHomeQualityLevel = async () => {
+//   try {
+//     const fetch = $useHttpClient();
+//     const res = await fetch("/pages/home-page-quality-level", {
+//       method: "get",
+//       params: {
+//         country_id: country_id.value,
+//       },
+//     });
+//     console.log("🚀 ~ file: index.vue:356 ~ getHomeQualityLevel ~ res:", res);
+//     if (res.data) quality_levels.value = res.data;
+//   } catch (error) {
+//     console.log("🚀 ~ file: index.vue:326 ~ getHomePageData ~ error:", error);
+//   }
+// };
 </script>
 <style scoped lang="scss">
 .slider-text {

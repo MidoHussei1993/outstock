@@ -33,6 +33,7 @@
       <Field
         name="name"
         type="text"
+        v-model="formData.name"
         :placeholder="$t('form.enter') + $t('form.name')"
       />
       <ErrorMessage name="name" class="text-danger" />
@@ -44,6 +45,7 @@
         name="email"
         id="email-id"
         type="text"
+        v-model="formData.email"
         :placeholder="$t('form.enter') + $t('form.name')"
       />
       <ErrorMessage name="email" class="text-danger" />
@@ -55,17 +57,19 @@
         name="mobile_number"
         id="mobile_number"
         type="number"
+        v-model="formData.mobile_number"
         :placeholder="$t('form.enter') + $t('form.mobile')"
       />
       <ErrorMessage name="email" class="text-danger" />
     </div>
 
-    <div class="profile__edit-input" v-if="countries && countries.length">
+    <!-- <div class="profile__edit-input" v-if="countries && countries.length">
       <p>{{ $t("form.country") }}</p>
       <Field
         name="country_id"
         id="country_id"
         as="select"
+        v-model="formData.country_id"
         :placeholder="$t('form.country') + $t('form.name')"
       >
         <option
@@ -77,7 +81,7 @@
         </option>
       </Field>
       <ErrorMessage name="country_id" class="text-danger" />
-    </div>
+    </div> -->
 
     <div class="profile__edit-input">
       <p>
@@ -136,6 +140,34 @@ import { ICountry, ImageResponse } from "~~/types";
 const { t } = useI18n();
 // const { setLoader } = useLoader();
 const fetch = $useHttpClient();
+const emit = defineEmits(["profileUpdated"]);
+const props = defineProps({
+  user: {
+    type: Object,
+    default: {},
+  },
+});
+watch(props.user, (newUser, oldQuestion) => {
+  console.log("🚀 ~ file: ProfileEditForm.vue:151 ~ watch ~ newUser:", newUser);
+  if (newUser.name) {
+    console.log(
+      "🚀 ~ file: ProfileEditForm.vue:153 ~ watch ~ newUser:",
+      newUser
+    );
+    formData.value.name = newUser.name;
+    formData.value.email = newUser.email;
+    formData.value.mobile_number = newUser.mobile_number;
+    // formData.value.country_id = newUser.country_id;
+  }
+});
+const formData = ref({
+  name: "",
+  email: "",
+  mobile_number: "",
+  // country_id: "",
+  // password: '',
+  // password_confirmation: '',
+});
 const countries = ref<ICountry[]>([]);
 const busySubmit = ref<boolean>(false);
 const image = ref<ImageResponse>({} as ImageResponse);
@@ -150,7 +182,7 @@ const schema = yup.object({
     .email(t("_.email"))
     .label(t("form.email")),
   mobile_number: yup.number().required(t("_.required")).label(t("form.mobile")),
-  country_id: yup.string().label(t("form.country")).required(t("_.required")),
+  // country_id: yup.string().label(t("form.country")).required(t("_.required")),
   password: yup.string().trim().required().min(8).label(t("form.password")),
   password_confirmation: yup
     .string()
@@ -169,8 +201,12 @@ onMounted(() => {
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
-    return;
   }
+  console.log(props.user);
+  console.log(
+    "🚀 ~ file: ProfileEditForm.vue:181 ~ onMounted ~ props.user:",
+    props.user
+  );
 });
 
 const getselectedFile = async (event: any) => {
@@ -186,6 +222,7 @@ const getselectedFile = async (event: any) => {
     },
   });
   image.value = res.data[0];
+  emit("profileUpdated", {});
 };
 const getCuntires = async () => {
   try {
@@ -197,6 +234,14 @@ const getCuntires = async () => {
     console.log(error);
   }
 };
+onMounted(() => {
+  if (props.user) {
+    formData.value.name = props.user.name;
+    formData.value.email = props.user.email;
+    formData.value.mobile_number = props.user.mobile_number;
+    // formData.value.country_id = props.user.country_id;
+  }
+});
 const hideModal = () => {
   console.log("first");
   let closeEl = document.createElement("button");

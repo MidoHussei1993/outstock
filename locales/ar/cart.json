@@ -35,6 +35,12 @@
     "english": "الانجليزية",
     "selectAddress": "اختر عنوان",
     "rate": "التقييم",
-    "viewProduct": "عرض المنتج"
+    "viewProduct": "عرض المنتج",
+    "images": "الصور",
+    "product": "النتج",
+    "unitQuantity": "سعر الوحده",
+    "couponCode": "كود الكبون",
+    "discount_value": "نسبة الخصم",
+    "remove": "ازالة"
   }
 }

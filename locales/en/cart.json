@@ -35,6 +35,12 @@
     "english": "english",
     "selectAddress": "Select Address",
     "rate": "Rate",
-    "viewProduct": "View product"
+    "viewProduct": "View product",
+    "images": "Images",
+    "product": "Product",
+    "unitQuantity": "Unit Quantity",
+    "couponCode": "Coupon code",
+    "discount_value": "Discount value",
+    "remove": "Remove"
   }
 }

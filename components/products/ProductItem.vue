@@ -124,12 +124,6 @@ const wishlistState = useWishlistStore();
 const compareState = useCompareStore();
 const { setLoader } = useLoader();
 const emit = defineEmits(["updateProductDetails"]);
-onMounted(() => {
-  console.log(
-    "🚀 ~ file: ProductItem.vue:126 ~ onMounted ~ props.item:",
-    props.item
-  );
-});
 
 const removeFromFavourite = async () => {
   const action: IAction = getAction(props.item, "un_favourite_product");

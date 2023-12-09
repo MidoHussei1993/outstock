@@ -15,12 +15,24 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th class="product-thumbnail">Images</th>
-                      <th class="cart-product-name">Product</th>
-                      <th class="product-price">Unit Price</th>
-                      <th class="product-quantity">Quantity</th>
-                      <th class="product-subtotal">Total</th>
-                      <th class="product-remove">Remove</th>
+                      <th class="product-thumbnail">
+                        {{ $t("c.images") }}
+                      </th>
+                      <th class="cart-product-name">
+                        {{ $t("c.product") }}
+                      </th>
+                      <th class="product-quantity">
+                        {{ $t("c.unitQuantity") }}
+                      </th>
+                      <th class="product-price">
+                        {{ $t("c.quantity") }}
+                      </th>
+                      <th class="product-subtotal">
+                        {{ $t("c.total") }}
+                      </th>
+                      <th class="product-remove">
+                        {{ $t("c.remove") }}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -34,60 +46,56 @@
                   </tbody>
                 </table>
               </div>
-              <!-- <div class="row">
-                <div class="col-12">
-                  <div class="coupon-all">
-                    <div class="coupon">
-                      <input
-                        required
-                        id="coupon_code"
-                        class="input-text"
-                        name="coupon_code"
-                        value=""
-                        placeholder="Coupon code"
-                        type="text"
-                      />
-                      <button
-                        class="os-btn os-btn-black"
-                        name="apply_coupon"
-                        type="button"
-                      >
-                        Apply coupon
-                      </button>
-                    </div>
-                    <div class="coupon2">
-                      <button
-                        @click="state.clear_cart"
-                        class="os-btn os-btn-black"
-                        name="update_cart"
-                        type="button"
-                      >
-                        Clear cart
-                      </button>
-                    </div>
+              <div class="row my-4" v-if="cart">
+                <div class="col-md-6 col-sm-12 pt-3">
+                  <div v-if="!cart.promoCode">
+                    <h5 class="">{{ $t("c.couponCode") }}</h5>
+                    <input
+                      v-model="code"
+                      id="coupon_code"
+                      class="input-text mb-2"
+                      name="coupon_code"
+                      :placeholder="$t('c.couponCode')"
+                      type="text"
+                    />
+                    <button
+                      :disabled="!code.length"
+                      @click="applyCoupon()"
+                      class="os-btn os-btn-black"
+                      name="apply_coupon"
+                      type="button"
+                    >
+                      {{ $t("action.applyCoupon") }}
+                    </button>
                   </div>
-                </div>
-              </div> -->
-              <div class="row">
-                <div class="col-md-5 ms-auto">
-                  <div class="cart-page-total">
-                    <h2>Cart totals</h2>
-                    <ul class="mb-20">
-                      <!-- <li>Subtotal <span>${{state.totalPriceQuantity.total}}</span></li> -->
-                      <li>
-                        <span style="float: none">
-                          {{ $t("c.cartTotal") }} : {{ total }}
-                          {{ currency }}</span
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-5 ms-auto">
-                  <div class="cart-page-total">
+                  <div v-if="cart.promoCode">
                     <div
-                      class="d-flex justify-content-between align-items-center mb-2"
+                      class="d-flex justify-content-around align-items-center"
+                    >
+                      <div class="p-2">
+                        <h5 class="text-center">{{ $t("c.couponCode") }}</h5>
+                        <p class="text-center">
+                          {{ cart.promoCode.data.UserPromoCode.data.code }}
+                        </p>
+                      </div>
+                      <div class="p-2">
+                        <h5 class="text-center">
+                          {{ $t("c.discount_value") }}
+                        </h5>
+                        <p class="text-center">
+                          {{
+                            cart.promoCode.data.UserPromoCode.data
+                              .discount_value
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
                     >
                       <div class="p-2">
                         <h5>{{ $t("c.savedAddresses") }}</h5>
@@ -196,7 +204,21 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mt-4">
+                <div class="col-md-5 mx-auto">
+                  <div class="">
+                    <h4>{{ $t("c.cartTotal") }}</h4>
+                    <ul class="mb-20">
+                      <!-- <li>Subtotal <span>${{state.totalPriceQuantity.total}}</span></li> -->
+                      <li>
+                        <h6 class="mt-3" style="float: none">
+                          {{ total }}
+                          {{ currency }}
+                        </h6>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
                   <button type="button" class="os-btn" @click="checkout()">
                     Proceed to checkout
@@ -230,6 +252,7 @@ const formatter = new Formatter();
 const visible = ref<boolean>(false);
 const busySubmit = ref<boolean>(false);
 const user_address_id = ref(null);
+const code = ref<string>("");
 const schema = yup.object({
   address: yup
     .string()
@@ -297,6 +320,27 @@ const checkout = async () => {
         ),
       }
     );
+    setLoader(false);
+    getCart();
+  } catch (error) {
+    setLoader(false);
+    console.log(error);
+  }
+};
+const applyCoupon = async () => {
+  try {
+    setLoader(true);
+    const { message, ...res } = await fetch(`/promo-codes/apply`, {
+      method: "post",
+      body: $payloadParser(
+        {
+          id: 1,
+          code: code.value,
+          cart_id: cart.value.id,
+        },
+        "apply_promocode"
+      ),
+    });
     setLoader(false);
     getCart();
   } catch (error) {

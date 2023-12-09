@@ -105,7 +105,6 @@ const getNotificationList = async () => {
     });
     notificationList.value = data;
     pagination.value = meta.pagination;
-    console.log(pagination.value?.total);
     setLoader(false);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
@@ -161,7 +160,6 @@ const getUnReadCount = async () => {
     const res = await fetch("/notifications/unread-count", {
       method: "get",
     });
-    console.log("🚀 ~ file: Notification.vue:154 ~ getUnReadCount ~ res:", res);
     const data = formatter.deserialize(res);
     emit("UpdateNotificationCount", { count: data.unread_count });
     setLoader(false);

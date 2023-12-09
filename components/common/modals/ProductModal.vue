@@ -52,7 +52,7 @@
                 </div>
               </div>
               <div class="col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
-                <product-details-content :item="item" />
+                <product-details-content :item="item" v-if="item" />
               </div>
             </div>
           </div>

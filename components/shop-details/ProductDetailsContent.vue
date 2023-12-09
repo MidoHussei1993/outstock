@@ -318,7 +318,7 @@
               {{ totalPrice }}
             </div>
             <div class="p-2">
-              <div class="pro-cart-btn ml-20">
+              <div class="pro-cart-btn ml-20" v-if="item.sizes">
                 <button
                   v-if="hasAction(item, 'add_product_to_cart')"
                   :disabled="!item.sizes.data.includes"

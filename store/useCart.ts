@@ -25,11 +25,6 @@ export const useCartStore = defineStore("cart", {
         });
         const data: ICart = formatter.deserialize(res);
         this.cart = data;
-        console.log(
-          "🚀 ~ file: useCart.ts:28 ~ getUserCart ~ this.cart:",
-          this.cart
-        );
-        console.log("🚀 ~ file: useCart.ts:26 ~ getUserCart ~ data:", data);
         this.cart_products = data.cartProducts.data;
         this.total = data.total_coast;
         this.currency = data.currency;

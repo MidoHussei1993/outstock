@@ -31,6 +31,10 @@ export const $useHttpClient = () => {
               return data;
             } else return response._data;
           } catch (error) {
+            console.log(
+              "🚀 ~ file: httpClient.ts:34 ~ onResponse ~ error:",
+              error
+            );
             return response._data;
           }
           break;
