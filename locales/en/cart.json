@@ -41,6 +41,7 @@
     "unitQuantity": "Unit Quantity",
     "couponCode": "Coupon code",
     "discount_value": "Discount value",
+    "noCartProduct": "Cart empty",
     "remove": "Remove"
   }
 }

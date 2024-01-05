@@ -5,9 +5,9 @@
         <div class="row">
           <div class="col-12">
             <div v-if="state.cart_products.length === 0" class="text-center">
-              <h3>No Cart product</h3>
-              <nuxt-link class="os-btn os-btn-black mt-20" to="/shop">
-                Shop Now
+              <h3>{{ $t("c.noCartProduct") }}</h3>
+              <nuxt-link class="os-btn os-btn-black mt-20" to="/">
+                {{ $t("action.shopNow") }}
               </nuxt-link>
             </div>
             <form v-if="state.cart_products.length > 0" action="#">
@@ -321,6 +321,7 @@ const checkout = async () => {
       }
     );
     setLoader(false);
+    state.cart_products = [];
     getCart();
   } catch (error) {
     setLoader(false);

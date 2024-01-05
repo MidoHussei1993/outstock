@@ -41,6 +41,7 @@
     "unitQuantity": "سعر الوحده",
     "couponCode": "كود الكبون",
     "discount_value": "نسبة الخصم",
+    "noCartProduct": "السلة فارغة",
     "remove": "ازالة"
   }
 }

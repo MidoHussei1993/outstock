@@ -25,6 +25,7 @@
                   <div
                     @click="navigateTo(`brand-categories/${item.id}`)"
                     class="carousel__item brand d-flex flex-column justify-content-end pointer"
+                    style="object-fit: cover"
                     :style="{ background: `url('${item.image}')` }"
                   >
                     <h3 class="w-100 text-center slider-text py-2">

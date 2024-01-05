@@ -116,6 +116,14 @@
       />
       <ErrorMessage name="password_confirmation" class="text-danger" />
     </div>
+    <div class="card card-body border shadow-md p-0">
+      <div
+        disabled
+        id="map"
+        class="border shadow-md"
+        style="height: 500px; width: 100%; border-radius: 11px"
+      ></div>
+    </div>
 
     <div class="mt-10"></div>
     <button type="submit" class="os-btn w-100" :disabled="busySubmit">
@@ -134,6 +142,7 @@
 </template>
 
 <script lang="ts" setup>
+import { MapLoaderService } from "@/util/map.loader";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { useI18n } from "vue-i18n";
@@ -148,6 +157,8 @@ const busySubmit = ref<boolean>(false);
 const image = ref<ImageResponse>({} as ImageResponse);
 const lat = ref<any>(null);
 const lng = ref<any>(null);
+const map = ref();
+let markers: any[] = [];
 const { query } = useRoute();
 const schema = yup.object({
   name: yup.string().trim().required(t("_.required")).label(t("form.name")),
@@ -167,7 +178,38 @@ const schema = yup.object({
     .required(t("_.required"))
     .oneOf([yup.ref("password")], "Passwords must match"),
 });
-
+function placeMarker(location: any) {
+  if (markers.length) {
+    markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+    markers = [];
+  }
+  markers.push(
+    new google.maps.Marker({
+      position: location,
+      map: map.value,
+      title: "Your Loacation",
+    })
+  );
+}
+const mapInit = () => {
+  MapLoaderService.load().then(() => {
+    map.value = new google.maps.Map(document.getElementById("map"), {
+      center: lat.value
+        ? { lat: lat.value, lng: lng.value }
+        : { lat: 24.7135517, lng: 46.6752957 },
+      zoom: 10,
+    });
+    map.value.addListener("click", (event: any) => {
+      console.log(
+        "🚀 ~ file: subscription.vue:441 ~ map.value.addListener ~ event.latLng:",
+        event.latLng
+      );
+      placeMarker(event.latLng);
+    });
+  });
+};
 onMounted(() => {
   getCuntires();
   if (query.invitation_token) {
@@ -178,10 +220,11 @@ onMounted(() => {
       lat.value = position.coords.latitude;
       lng.value = position.coords.longitude;
       console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+      mapInit();
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
-    return;
+    mapInit();
   }
 });
 const getselectedFile = async (event: any) => {
@@ -212,6 +255,9 @@ const onSubmit = async (
   values: object,
   { resetForm }: { resetForm: () => void }
 ) => {
+  if (!markers.length) {
+    return useNuxtApp().$toast.error("please select your Location");
+  }
   if (!image.value.id) {
     return useNuxtApp().$toast.error(t("_.image"));
   }
@@ -220,7 +266,6 @@ const onSubmit = async (
       navigator.geolocation.getCurrentPosition(function (position) {
         lat.value = position.coords.latitude;
         lng.value = position.coords.longitude;
-        console.log(`Latitude: ${lat}, Longitude: ${lng}`);
       });
     } else {
       console.log("Geolocation is not supported by this browser.");
@@ -238,8 +283,8 @@ const onSubmit = async (
           id: 1,
           ...values,
           profile_picture: image.value.id,
-          lat: lat.value,
-          lng: lng.value,
+          lat: markers[0].position.lat(),
+          lng: markers[0].position.lng(),
         },
         "user"
       ),

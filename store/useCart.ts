@@ -24,8 +24,10 @@ export const useCartStore = defineStore("cart", {
           method: "get",
         });
         const data: ICart = formatter.deserialize(res);
+        console.log("🚀 ~ file: useCart.ts:27 ~ getUserCart ~ data:", data);
         this.cart = data;
-        this.cart_products = data.cartProducts.data;
+        if (data.cartProducts) this.cart_products = data.cartProducts.data;
+        else this.cart_products = [];
         this.total = data.total_coast;
         this.currency = data.currency;
       } catch (error) {

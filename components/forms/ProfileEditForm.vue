@@ -107,6 +107,14 @@
       />
       <ErrorMessage name="password_confirmation" class="text-danger" />
     </div>
+    <div class="card card-body border shadow-md p-2">
+      <div
+        disabled
+        id="map"
+        class="border shadow-md"
+        style="height: 500px; width: 100%; border-radius: 11px"
+      ></div>
+    </div>
 
     <div class="profile__edit-input">
       <button
@@ -132,6 +140,7 @@
 </template>
 
 <script lang="ts" setup>
+import { MapLoaderService } from "@/util/map.loader";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { useI18n } from "vue-i18n";
@@ -141,6 +150,7 @@ const { t } = useI18n();
 // const { setLoader } = useLoader();
 const fetch = $useHttpClient();
 const emit = defineEmits(["profileUpdated"]);
+let markers: any[] = [];
 const props = defineProps({
   user: {
     type: Object,
@@ -191,22 +201,51 @@ const schema = yup.object({
     .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
+function placeMarker(location: any) {
+  if (markers.length) {
+    markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+    markers = [];
+  }
+  markers.push(
+    new google.maps.Marker({
+      position: location,
+      map: map.value,
+      title: "Your Loacation",
+    })
+  );
+}
+const mapInit = () => {
+  MapLoaderService.load().then(() => {
+    map.value = new google.maps.Map(document.getElementById("map"), {
+      center: lat.value
+        ? { lat: lat.value, lng: lng.value }
+        : { lat: 24.7135517, lng: 46.6752957 },
+      zoom: 10,
+    });
+    map.value.addListener("click", (event: any) => {
+      console.log(
+        "🚀 ~ file: subscription.vue:441 ~ map.value.addListener ~ event.latLng:",
+        event.latLng
+      );
+      placeMarker(event.latLng);
+    });
+  });
+};
+
 onMounted(() => {
   getCuntires();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       lat.value = position.coords.latitude;
       lng.value = position.coords.longitude;
-      console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+      mapInit();
     });
   } else {
     console.log("Geolocation is not supported by this browser.");
+    mapInit();
   }
-  console.log(props.user);
-  console.log(
-    "🚀 ~ file: ProfileEditForm.vue:181 ~ onMounted ~ props.user:",
-    props.user
-  );
 });
 
 const getselectedFile = async (event: any) => {
@@ -269,18 +308,8 @@ const onSubmit = async (
     // if (!image.value.id) {
     //   return useNuxtApp().$toast.error(t("_.image"));
     // }
-    if (!lat.value) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          lat.value = position.coords.latitude;
-          lng.value = position.coords.longitude;
-          console.log(`Latitude: ${lat}, Longitude: ${lng}`);
-        });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-        return;
-      }
-      return useNuxtApp().$toast.error(t("_.locationRequired"));
+    if (!markers.length) {
+      return useNuxtApp().$toast.error("please select your Location");
     }
     busySubmit.value = true;
     const { message } = await fetch("/profile/update", {
@@ -290,8 +319,9 @@ const onSubmit = async (
           id: 1,
           ...values,
           profile_picture: image.value.id,
-          lat: lat.value,
-          lng: lng.value,
+
+          lat: markers[0].position.lat(),
+          lng: markers[0].position.lng(),
         },
         "user"
       ),

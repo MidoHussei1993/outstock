@@ -63,6 +63,8 @@
                       />
                       <video
                         controls
+                        muted
+                        autoplay="false"
                         style="width: 94%"
                         class="mx-1"
                         :src="active_img?.file"
