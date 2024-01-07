@@ -296,8 +296,6 @@ const getCart = () => {
   state.getUserCart();
 };
 const checkout = async () => {
-  console.log("🚀 ~ file: CartArea.vue:286 ~ checkout ~ cart:", cart.value.id);
-
   if (!user_address_id.value) {
     useNuxtApp().$toast.error(t("_.address"));
     return;
@@ -323,6 +321,13 @@ const checkout = async () => {
     setLoader(false);
     state.cart_products = [];
     getCart();
+    window.open(res.meta.payment_iframe_url, "_blank");
+    navigateTo({
+      path: "/payment-frame",
+      query: {
+        url: res.meta.payment_iframe_url,
+      },
+    });
   } catch (error) {
     setLoader(false);
     console.log(error);
