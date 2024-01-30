@@ -5,14 +5,13 @@ importScripts(
   "https://www.gstatic.com/firebasejs/9.1.3/firebase-messaging-compat.js"
 );
 firebase.initializeApp({
-  apiKey: "AIzaSyDDrfPS6zGEXvdEySyLATwIG0iZpQO59YA",
-  authDomain: "faster-5dd74.firebaseapp.com",
-  databaseURL: "https://faster-5dd74.firebaseio.com",
-  projectId: "faster-5dd74",
-  storageBucket: "faster-5dd74.appspot.com",
-  messagingSenderId: "947945457722",
-  appId: "1:947945457722:web:372bfb601a2b7dd64f4d03",
-  measurementId: "G-KZ12NG251T",
+  apiKey: "AIzaSyDVz8wZLAJx-PlEF3OOj8NO2M60dB2gl8U",
+  authDomain: "mattress-7a34d.firebaseapp.com",
+  projectId: "mattress-7a34d",
+  storageBucket: "mattress-7a34d.appspot.com",
+  messagingSenderId: "431976009326",
+  appId: "1:431976009326:web:d70aabfb7960fee14ce07f",
+  measurementId: "G-2QLCT1XZS6",
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background

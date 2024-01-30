@@ -25,9 +25,10 @@ onMounted(() => {
       .register("/firebase-messaging-sw.js")
       .then(function (registration) {
         const messaging = getMessaging();
+        // AAAAZJPGzm4:APA91bFQ2JVZ1OnOtKirZO2KcipyluH9l7j1tFM7xmdwaWZSNdRk8xpYwsOjkowKvUSjJ-oRJHjn2jXVhqYnaBIWtmBx__kQF8kslT0j91kiZ-K707AgtwZxQo5sVV-svGnyuFd1iFjJ
         getToken(messaging, {
           vapidKey:
-            "BH63IojNZFJRem_wL8Z-i16WgKp_BlOSlJ2Bv1WpFToNB3uNzEKzMR_a_dVGZV7YqVyCN0S1qIT8rFn7YIukbmY",
+            "BLiX2bM2lanawx5kOFtTpadwCRtNS3stwn9grns-40h3SR1uV0m44WTzSeZM8l7ho_hDWxXWJGnLD03hMU-vKuE",
         })
           .then((currentToken) => {
             if (currentToken) {
@@ -35,6 +36,7 @@ onMounted(() => {
               // Send the token to your server and update the UI if necessary
               // ...
               onMessage(messaging, (payload) => {
+                console.log(...arguments);
                 console.log("Message received. ", payload);
                 // ...
               });
