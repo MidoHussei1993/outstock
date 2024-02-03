@@ -100,6 +100,10 @@ import { Field, Form, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { setToken, setUser } from "~~/util";
 import { Formatter } from "sarala-json-api-data-formatter";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+const { app } = $firebase();
+let token = "";
+// const messaging = getMessaging(app);
 
 const fetch = $useHttpClient();
 const { setLoader } = useLoader();
@@ -118,6 +122,8 @@ const handleOnSuccess = async (response: AuthCodeFlowSuccessResponse) => {
           id: 1,
           provider: "google",
           token: response.access_token,
+          device_token: token,
+          device_type: "web",
         },
         "user"
       ),
@@ -166,7 +172,10 @@ const onSubmit = async (
     busySubmit.value = true;
     const res = await fetch("/auth/login", {
       method: "post",
-      body: $payloadParser({ id: 1, ...values }, "user"),
+      body: $payloadParser(
+        { id: 1, ...values, device_token: token, device_type: "web" },
+        "user"
+      ),
     });
     const formatter = new Formatter();
     const userData = formatter.deserialize(res);
@@ -221,6 +230,8 @@ function facebookLogin() {
               id: 1,
               provider: "facebook",
               token: response.authResponse.accessToken,
+              device_token: token,
+              device_type: "web",
             },
             "user"
           ),
@@ -262,6 +273,43 @@ function facebookLogin() {
 }
 
 onMounted(() => {
+  if (navigator.serviceWorker) {
+    // Register the SW
+    navigator.serviceWorker
+      .register("../../firebase-messaging-sw.js")
+      .then(function (registration) {
+        const messaging = getMessaging();
+        // AAAAZJPGzm4:APA91bFQ2JVZ1OnOtKirZO2KcipyluH9l7j1tFM7xmdwaWZSNdRk8xpYwsOjkowKvUSjJ-oRJHjn2jXVhqYnaBIWtmBx__kQF8kslT0j91kiZ-K707AgtwZxQo5sVV-svGnyuFd1iFjJ
+        getToken(messaging, {
+          vapidKey:
+            "BLiX2bM2lanawx5kOFtTpadwCRtNS3stwn9grns-40h3SR1uV0m44WTzSeZM8l7ho_hDWxXWJGnLD03hMU-vKuE",
+        })
+          .then((currentToken) => {
+            if (currentToken) {
+              token = currentToken;
+              console.log("🚀 ~ getToken ~ currentToken:", currentToken);
+              // Send the token to your server and update the UI if necessary
+              // ...
+              onMessage(messaging, (payload) => {
+                console.log(...arguments);
+                console.log("Message received. ", payload);
+                // ...
+              });
+            } else {
+              // Show permission request UI
+              console.log(
+                "No registration token available. Request permission to generate one."
+              );
+              // ...
+            }
+          })
+          .catch((err) => {
+            console.log("An error occurred while retrieving token. ", err);
+            // ...
+          });
+      })
+      .catch(console.log);
+  }
   loadScript("https://connect.facebook.net/en_US/sdk.js");
 
   //@ts-ignore
@@ -287,8 +335,4 @@ onMounted(() => {
     fjs.parentNode.insertBefore(js, fjs);
   })(document, "script", "facebook-jssdk");
 });
-
-// return { schema, onSubmit, busySubmit };
-//   },
-// });
 </script>
