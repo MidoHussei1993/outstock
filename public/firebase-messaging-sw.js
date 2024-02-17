@@ -1,8 +1,8 @@
 importScripts(
-  "https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"
+  "https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"
 );
 importScripts(
-  "https://www.gstatic.com/firebasejs/9.1.3/firebase-messaging-compat.js"
+  "https://www.gstatic.com/firebasejs/10.7.2/firebase-messaging-compat.js"
 );
 firebase.initializeApp({
   apiKey: "AIzaSyDVz8wZLAJx-PlEF3OOj8NO2M60dB2gl8U",
@@ -20,10 +20,11 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   console.log(
     "🚀 ~ file: messaging.service.ts:17 ~ MessagingService ~ this.angularFireMessaging.onBackgroundMessage ~ payload:",
-    payload.notification.body
+    payload.notification
   );
 
   // self.alert(payload.notification.body);
+  console.log("🚀 ~ messaging.onBackgroundMessage ~ payload:", payload)
 });
 
 // messaging.setBackgroundMessageHandler(function (payload) {
@@ -50,6 +51,7 @@ messaging.onBackgroundMessage((payload) => {
 // });
 
 self.addEventListener("notificationclick", function (e) {
+  console.log("🚀 ~ e:", e)
   const notification = e.notification;
   // MARK 1 -> always takes first item
   const clickAction = notification.click_action;

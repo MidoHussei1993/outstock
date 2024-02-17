@@ -87,6 +87,9 @@ import { storeToRefs } from "pinia";
 import { INotification, IPagination } from "~/types";
 import { IAction } from "~/types/action";
 import { Formatter } from "sarala-json-api-data-formatter";
+import { getMessaging, onMessage } from "firebase/messaging";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const { setLoader } = useLoader();
 const fetch = $useHttpClient();
@@ -172,6 +175,23 @@ const getUnReadCount = async () => {
 onMounted(() => {
   getNotificationList();
   getUnReadCount();
+  if (navigator.serviceWorker) {
+    const messaging = getMessaging();
+    onMessage(messaging, (payload) => {
+      getNotificationList();
+      useNuxtApp().$toast.success(
+        `${payload.notification?.title}
+ ${payload.notification?.body} `,
+        {
+          type: toast.TYPE.INFO,
+          pauseOnHover: true,
+          onClose: () => window.open(payload.fcmOptions?.link, "_"),
+        }
+      );
+      console.log("Message received. ", payload);
+      // ...
+    });
+  }
 });
 const subString = (str: string, len: number, char = "...") => {
   if (str.length > len) {
