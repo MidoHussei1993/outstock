@@ -61,7 +61,40 @@
 
     <div class="mb-20">
       <label for="country_id">{{ $t("form.country") }} <span>**</span></label>
-      <Field
+      <Dropdown
+        v-model="country_id"
+        inputId="id
+        "
+        :options="countries"
+        optionLabel="name"
+        placeholder="Select a Country"
+        class="w-full md:w-14rem"
+      >
+        <template #value="slotProps">
+          <div v-if="slotProps.value" class="flex align-items-center">
+            <img
+              :src="slotProps.value.flag"
+              :class="`mx-2   `"
+              style="width: 18px"
+            />
+            <span>{{ slotProps.value.name }}</span>
+          </div>
+          <span v-else>
+            {{ slotProps.placeholder }}
+          </span>
+        </template>
+        <template #option="slotProps">
+          <div class="flex align-items-center">
+            <img
+              :src="slotProps.option.flag"
+              :class="`mx-2   `"
+              style="width: 18px"
+            />
+            <span>{{ slotProps.option.name }}</span>
+          </div>
+        </template>
+      </Dropdown>
+      <!-- <Field
         name="country_id"
         id="country_id"
         as="select"
@@ -74,8 +107,11 @@
         >
           {{ item.name }}
         </option>
-      </Field>
-      <ErrorMessage name="country_id" class="text-danger" />
+      </Field> -->
+      <!-- <ErrorMessage name="country_id" class="text-danger" /> -->
+      <small class="text-danger" v-if="!country_id">
+        {{ $t("_.required") }}
+      </small>
     </div>
     <div class="mb-20">
       <label for="pass">
@@ -152,6 +188,7 @@ const { t } = useI18n();
 const { setLoader } = useLoader();
 const fetch = $useHttpClient();
 const token = ref("");
+const country_id = ref();
 const countries = ref<ICountry[]>([]);
 const busySubmit = ref<boolean>(false);
 const image = ref<ImageResponse>({} as ImageResponse);
@@ -170,7 +207,7 @@ const schema = yup.object({
     .label(t("form.email")),
   mobile_number: yup.number().required(t("_.required")).label(t("form.mobile")),
   invitation_token: yup.string().label(t("config.token")),
-  country_id: yup.string().label(t("form.country")).required(t("_.required")),
+  // country_id: yup.string().label(t("form.country")).required(t("_.required")),
   password: yup.string().trim().required().min(8).label(t("form.password")),
   password_confirmation: yup
     .string()
@@ -258,6 +295,9 @@ const onSubmit = async (
   if (!markers.length) {
     return useNuxtApp().$toast.error("please select your Location");
   }
+  if (!country_id.value) {
+    return useNuxtApp().$toast.error("please select your Country");
+  }
   if (!image.value.id) {
     return useNuxtApp().$toast.error(t("_.image"));
   }
@@ -285,6 +325,7 @@ const onSubmit = async (
           profile_picture: image.value.id,
           lat: markers[0].position.lat(),
           lng: markers[0].position.lng(),
+          country_id: country_id.value,
         },
         "user"
       ),
@@ -342,5 +383,8 @@ img {
 .upload-button:hover {
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   color: #999;
+}
+.p-dropdown {
+  width: 100%;
 }
 </style>
