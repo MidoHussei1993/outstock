@@ -1,5 +1,8 @@
 <template>
-  <section class="product__area pt-60">
+  <section
+    class="product__area pt-60"
+    v-if="mostSoledProducts && mostSoledProducts.length"
+  >
     <div
       :class="`${
         style_2 ? 'custom-container' : style_3 ? 'container-fluid' : 'container'

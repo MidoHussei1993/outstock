@@ -59,7 +59,7 @@
       <ErrorMessage name="mobile_number" class="text-danger" />
     </div>
 
-    <div class="mb-20" v-if="countries && countries.length">
+    <div class="mb-20">
       <label for="country_id">{{ $t("form.country") }} <span>**</span></label>
       <Field
         name="country_id"

@@ -242,7 +242,8 @@ const categories = ref<ICategory[]>([]);
 const countryStore = UseCountryStore();
 const { selectedCountryId } = storeToRefs(countryStore);
 const router = useRouter();
-const { getAction, hasAction } = $FN();
+const { getAction } = $FN();
+const { setLoader } = useLoader();
 
 watch(selectedCountryId, async (newVal, oldVal) => {
   country_id.value = newVal as any;
@@ -283,6 +284,7 @@ onMounted(async () => {
 
 const getHomePageData = async () => {
   try {
+    setLoader(true);
     const res = await fetch("/pages/home-page", {
       method: "get",
       params: {
@@ -302,6 +304,8 @@ const getHomePageData = async () => {
     if (data.products) products.value = data.products.data;
   } catch (error) {
     console.log("🚀 ~ file: index.vue:326 ~ getHomePageData ~ error:", error);
+  } finally {
+    setLoader(false);
   }
 };
 // const getHomeCategories = async () => {
@@ -337,11 +341,10 @@ const getHomePageData = async () => {
 <style scoped lang="scss">
 .slider-text {
   /* From https://css.glass */
-  background: rgba(255, 255, 255, 0.21);
+  background: rgb(255, 255, 255);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(0.8px);
-  -webkit-backdrop-filter: blur(0.8px);
+  margin-bottom: 0px;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 :root {
