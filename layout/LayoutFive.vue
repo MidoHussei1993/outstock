@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader v-if="loading" />
     <header-two />
     <div class="" style="position: relative; top: 84px">
       <slot></slot>
@@ -17,5 +18,10 @@ import BackToTop from "~~/components/back-to-top/BackToTop.vue";
 
 export default defineComponent({
   components: { BackToTop, HeaderTwo, Footer },
+  setup() {
+    const { loading } = useLoader();
+
+    return { loading };
+  },
 });
 </script>

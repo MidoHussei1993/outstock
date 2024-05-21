@@ -342,7 +342,7 @@ const getHomePageData = async () => {
 .slider-text {
   /* From https://css.glass */
   background: rgb(255, 255, 255);
-  border-radius: 16px;
+  border-radius: 9px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   margin-bottom: 0px;
   border: 1px solid rgba(255, 255, 255, 0.3);
