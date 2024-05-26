@@ -63,8 +63,7 @@
       <label for="country_id">{{ $t("form.country") }} <span>**</span></label>
       <Dropdown
         v-model="country_id"
-        inputId="id
-        "
+        optionValue="id"
         :options="countries"
         optionLabel="name"
         placeholder="Select a Country"
@@ -73,15 +72,16 @@
         <template #value="slotProps">
           <div v-if="slotProps.value" class="flex align-items-center">
             <img
-              :src="slotProps.value.flag"
+              :src="
+                countries.filter((item) => item.id == slotProps.value)[0].flag
+              "
               :class="`mx-2   `"
               style="width: 18px"
             />
-            <span>{{ slotProps.value.name }}</span>
+            <span>{{
+              countries.filter((item) => item.id == slotProps.value)[0].name
+            }}</span>
           </div>
-          <span v-else>
-            {{ slotProps.placeholder }}
-          </span>
         </template>
         <template #option="slotProps">
           <div class="flex align-items-center">
