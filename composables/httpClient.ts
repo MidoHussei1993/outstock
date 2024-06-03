@@ -53,7 +53,7 @@ export const $useHttpClient = () => {
           break;
         case 403:
           localStorage.clear();
-          navigateTo("/login");
+          // navigateTo("/login");
           break;
       }
     },

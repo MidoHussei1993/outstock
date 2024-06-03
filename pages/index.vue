@@ -24,10 +24,15 @@
                 <Slide v-for="(item, index) in brands" :key="item.id">
                   <div
                     @click="navigateTo(`brand-categories/${item.id}`)"
-                    class="carousel__item brand d-flex flex-column justify-content-end pointer"
+                    class="carousel__item brand d-flex flex-column justify-content-center pointer bg-white"
                     style="object-fit: cover"
-                    :style="{ background: `url('${item.image}')` }"
                   >
+                    <img
+                      :src="item.image"
+                      class="d-block py-2"
+                      height="200"
+                      alt=""
+                    />
                     <h3 class="w-100 text-center slider-text py-2">
                       {{ item.name }}
                     </h3>
@@ -537,7 +542,7 @@ const getHomePageData = async () => {
 }
 
 .carousel__item {
-  min-height: 200px;
+  min-height: 239px;
   width: 100%;
   background-color: var(--vc-clr-primary);
   color: var(--vc-clr-white);
@@ -546,6 +551,7 @@ const getHomePageData = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .carousel__slide {
