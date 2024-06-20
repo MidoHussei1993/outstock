@@ -20,12 +20,8 @@ export const useImageUploadStore = defineStore("imageUpload", {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(
-          "🚀 ~ file: uploadeImage.ts:21 ~ remover_cart_products ~ res:",
-          res
-        );
-        this.image = res.data[0];
         setLoader(false);
+        this.image = res.data[0];
         return res.data[0];
         // useNuxtApp().$toast.success(message);
       } catch (error) {

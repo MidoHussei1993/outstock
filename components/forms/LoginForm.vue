@@ -95,13 +95,11 @@ import {
   AuthCodeFlowErrorResponse,
   AuthCodeFlowSuccessResponse,
 } from "vue3-google-signin/dist/composables/useTokenClient";
-import { defineComponent } from "vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { setToken, setUser } from "~~/util";
 import { Formatter } from "sarala-json-api-data-formatter";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-const { app } = $firebase();
 let token = "";
 // const messaging = getMessaging(app);
 
@@ -128,10 +126,9 @@ const handleOnSuccess = async (response: AuthCodeFlowSuccessResponse) => {
         "user"
       ),
     });
-    console.log("🚀 ~ file: LoginForm.vue:107 ~ handleOnSuccess ~ res:", res);
+    setLoader(false);
     const formatter = new Formatter();
     const data = formatter.deserialize(res);
-    console.log("🚀 ~ file: LoginForm.vue:107 ~ handleOnSuccess ~ res:", data);
     if (data && data.country_id) {
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", res.meta.token);
@@ -144,6 +141,8 @@ const handleOnSuccess = async (response: AuthCodeFlowSuccessResponse) => {
   } catch (error) {
     busySubmit.value = false;
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    setLoader(false);
+  } finally {
     setLoader(false);
   }
 };
@@ -237,6 +236,7 @@ function facebookLogin() {
           ),
         })
           .then((res: any) => {
+            setLoader(false);
             const formatter = new Formatter();
             const data = formatter.deserialize(res);
             if (data && data.country_id) {

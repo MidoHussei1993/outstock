@@ -111,10 +111,7 @@ const getCategoriesByBrandId = async (page: number = 1) => {
         page: page,
       },
     });
-    console.log(
-      "🚀 ~ file: [id].vue:83 ~ getCategoriesByBrandId ~ data:",
-      data
-    );
+    setLoader(false);
     qualityLevelList.value = data;
   } catch (error) {
     setLoader(false);

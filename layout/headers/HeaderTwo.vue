@@ -8,7 +8,7 @@
         class="px-2 sticky"
       >
         <div class="container-fluid">
-          <div class="row align-items-center">
+          <div class="row align-items-center py-2">
             <div class="col-xl-4 col-lg-5">
               <div class="main-menu d-none d-lg-block p-relative">
                 <div class="header__action">
@@ -16,10 +16,51 @@
                     <li
                       v-if="!isUserLogin && countryList && countryList.length"
                     >
-                      <select
+                      <Dropdown
+                        v-model="selectedCountryModal"
+                        optionValue="id"
+                        :options="countryList"
+                        optionLabel="name"
+                        placeholder="Select a Country"
+                        class="w-full md:w-14rem"
+                        @change="changeSelectedCuntory($event)"
+                      >
+                        <template #value="slotProps">
+                          <div
+                            v-if="slotProps.value"
+                            class="flex align-items-center"
+                          >
+                            <img
+                              :src="
+                                countryList.filter(
+                                  (item) => item.id == slotProps.value
+                                )[0].flag
+                              "
+                              :class="`mx-2   `"
+                              style="width: 18px"
+                            />
+                            <span>{{
+                              countryList.filter(
+                                (item) => item.id == slotProps.value
+                              )[0].name
+                            }}</span>
+                          </div>
+                        </template>
+                        <template #option="slotProps">
+                          <div class="flex align-items-center">
+                            <img
+                              :src="slotProps.option.flag"
+                              :class="`mx-2   `"
+                              style="width: 18px"
+                            />
+                            <span>{{ slotProps.option.name }}</span>
+                          </div>
+                        </template>
+                      </Dropdown>
+                      <!-- <select
                         v-model="selectedCountryModal"
                         class="form-control"
-                        @change="changeSelectedCuntory($event.target?.value)"
+                     
                       >
                         <option
                           :value="item.id"
@@ -28,7 +69,7 @@
                         >
                           {{ item.name }}
                         </option>
-                      </select>
+                      </select> -->
                     </li>
                     <!-- <li>
                       <a
@@ -72,10 +113,10 @@
                           changeLanguage(locale == 'ar' ? 'en' : 'ar')
                         "
                         href="#"
-                        class="search-toggle"
+                        class="search-toggle font-weight-bolder h5"
                       >
-                        <i class="fad fa-language" style="font-size: 20px"></i>
-                        {{ $t("config.language") }}
+                        <!-- <i class="fad fa-language" style="font-size: 20px"></i> -->
+                        {{ locale == "ar" ? "English" : "العربية" }}
                       </a>
                     </li>
                   </ul>
@@ -146,18 +187,19 @@
                         @click.prevent="logout()"
                         href="#"
                         class="search-toggle"
+                        :title="$t('config.logOut')"
                       >
                         <i class="fad fa-power-off"></i>
-                        {{ $t("config.logOut") }}
+                        <!-- {{ $t('config.logOut') }} -->
                       </a>
                     </li>
                     <li v-if="!isUserLogin">
                       <a
                         @click.prevent="navigateTo('/login')"
                         href="#"
-                        class="search-toggle"
+                        class="font-weight-bolder h6"
                       >
-                        <i class="fad fa-sign-in"></i>
+                        <!-- <i class="fad fa-sign-in"></i> -->
                         {{ $t("config.login") }}
                       </a>
                     </li>
@@ -253,10 +295,6 @@ export default defineComponent({
   },
   methods: {
     setNotificationCount(event: { count: number }) {
-      console.log(
-        "🚀 ~ file: HeaderTwo.vue:239 ~ setNotificationCount ~ event:",
-        event
-      );
       this.totalNotificationCount = event.count;
     },
     selectedCountry(event: any) {
@@ -299,9 +337,10 @@ export default defineComponent({
     const { setLoader } = useLoader();
     const user = ref();
 
-    const changeSelectedCuntory = (id) => {
-      setSelectedCountryId(id);
-      localStorage.setItem("selectedCountry", id);
+    const changeSelectedCuntory = ({ value }: { value: string }) => {
+      console.log("🚀 ~ changeSelectedCuntory ~ id:", value);
+      setSelectedCountryId(value);
+      localStorage.setItem("selectedCountry", value);
     };
     const changeLanguage = async (currentLang: string, reload = true) => {
       let el = document.querySelector("html")!;
@@ -316,7 +355,7 @@ export default defineComponent({
       }
       if (localStorage.getItem("token")) {
         try {
-          setLoader(true);
+          // setLoader(true);
           await fetch("/profile/update-language", {
             method: "post",
             body: {
@@ -329,13 +368,13 @@ export default defineComponent({
               },
             },
           });
-          setLoader(false);
+          // setLoader(false);
         } catch (error) {
           console.log(
             "🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:",
             error
           );
-          setLoader(false);
+          // setLoader(false);
         }
       }
       if (reload) window.location.reload();
@@ -399,4 +438,7 @@ select {
 //     text-align: left;
 //   }
 // }
+.p-dropdown {
+  border: none;
+}
 </style>

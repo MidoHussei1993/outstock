@@ -64,6 +64,11 @@ html[lang="ar"] {
   h4,
   h5,
   h6 {
-    font-family: "IBM Plex Sans Arabic", sans-serif;
+    font-family: "IBM Plex Sans Arabic", sans-serif !important;
   }
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
 }

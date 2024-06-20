@@ -65,7 +65,6 @@ const onSubmit = async (
   values: object,
   { resetForm }: { resetForm: () => void }
 ) => {
-  console.log(values);
   try {
     busySubmit.value = true;
     const { message } = await fetch("/auth/confirm-otp", {

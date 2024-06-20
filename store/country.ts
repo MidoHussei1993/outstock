@@ -14,17 +14,19 @@ export const UseCountryStore = defineStore("country", {
     },
     async getCountryList() {
       try {
-        setLoader(true);
+        // setLoader(true);
         const { data } = await fetch("/countries?page=1&per_page=1000", {
           method: "get",
         });
-        console.log(data)
+        console.log(data);
         this.countryList = data;
-        setLoader(false);
+        // setLoader(false);
         return data;
         // useNuxtApp().$toast.success(message);
       } catch (error) {
         console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+        // setLoader(false);
+      } finally {
         // setLoader(false);
       }
       //   useNuxtApp().$toast.error(`${payload.title} remove to cart`);

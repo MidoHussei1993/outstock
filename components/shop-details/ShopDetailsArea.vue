@@ -311,6 +311,8 @@ const getProductDetails = async (countryId: any) => {
     console.log("🚀 ~ file: [id].vue:28 ~ getProductDetails ~ data:", data);
   } catch (error) {
     setLoader(false);
+  } finally {
+    setLoader(false);
   }
 };
 const handleActiveImg = (img: IMedia): void => {

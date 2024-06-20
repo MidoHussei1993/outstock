@@ -290,6 +290,8 @@ const onSubmit = async (
     busySubmit.value = false;
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
     setLoader(false);
+  } finally {
+    setLoader(false);
   }
 };
 const getCart = () => {
@@ -331,6 +333,8 @@ const checkout = async () => {
   } catch (error) {
     setLoader(false);
     console.log(error);
+  } finally {
+    setLoader(false);
   }
 };
 const applyCoupon = async () => {
@@ -352,6 +356,8 @@ const applyCoupon = async () => {
   } catch (error) {
     setLoader(false);
     console.log(error);
+  } finally {
+    setLoader(false);
   }
 };
 onMounted(async () => {

@@ -101,10 +101,10 @@ const getCuntires = async () => {
       method: "get",
     });
     countries.value = data;
-    setLoader(true);
   } catch (error) {
-    setLoader(true);
     console.log(error);
+  } finally {
+    setLoader(false);
   }
 };
 onMounted(() => {

@@ -138,18 +138,18 @@ const onSubmit = async (
         "new address"
       ),
     });
+    setLoader(false);
     const userData = formatter.deserialize(res);
     localStorage.setItem("user", JSON.stringify(userData));
     addressList.value = userData.addresses.data;
     busySubmit.value = false;
-    setLoader(false);
     resetForm();
 
     // useNuxtApp().$toast.success(message);
   } catch (error) {
+    setLoader(false);
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
     busySubmit.value = false;
-    setLoader(false);
   }
 };
 onMounted(async () => {

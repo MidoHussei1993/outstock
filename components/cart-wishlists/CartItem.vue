@@ -90,10 +90,10 @@ const deleteItem = async () => {
     console.log(res);
     emit("getCart", {});
     state.getUserCart();
-    setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+  } finally {
+    setLoader(false);
   }
 };
 
@@ -120,10 +120,10 @@ const changeProductQuantity = async () => {
     emit("getCart", {});
     // @ts-ignore
     itemClone.value.quantity = props.item.quantity;
-    setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+  } finally {
+    setLoader(false);
   }
 };
 

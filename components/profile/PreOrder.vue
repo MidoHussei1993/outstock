@@ -73,9 +73,8 @@ const getPreviousOrders = async () => {
     const res = await fetch("orders/past", {
       method: "get",
     });
-    console.table(res);
-    orderList.value = res.data;
     setLoader(false);
+    orderList.value = res.data;
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
     setLoader(false);

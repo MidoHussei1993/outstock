@@ -1,7 +1,10 @@
 import { Formatter } from "sarala-json-api-data-formatter";
+import { useI18n } from "vue-i18n";
 import { getLang, getToken } from "~~/util";
 
 export const $useHttpClient = () => {
+  const res = useNuxtApp();
+  console.log("🚀 ~ res:", res);
   const formatter = new Formatter();
   const { backendErorre, successMsg } = $toastService();
   const config = useRuntimeConfig();

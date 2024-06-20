@@ -213,11 +213,10 @@ const removeFromFavourite = async () => {
     });
     console.log(res);
     emit("getProductList", {});
-
-    setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+  } finally {
+    setLoader(false);
   }
 };
 const addToFavourite = async () => {
@@ -228,10 +227,10 @@ const addToFavourite = async () => {
       method: "post",
     });
     emit("getProductList", {});
-    setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+  } finally {
+    setLoader(false);
   }
 };
 </script>

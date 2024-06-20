@@ -105,7 +105,7 @@ const getCategoriesByBrandId = async (page: number = 1) => {
         },
       }
     );
-    console.log("🚀 ~ file: [id].vue:95 ~ getCategoriesByBrandId ~ res:", meta);
+    setLoader(false);
     categoriesList.value = data;
     pagination.value = meta.pagination;
   } catch (error) {

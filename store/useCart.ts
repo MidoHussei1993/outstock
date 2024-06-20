@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { CartProduct, ICart, IProduct } from "~~/types";
 import ProductType from "~~/types/productType";
 import { Formatter } from "sarala-json-api-data-formatter";
+import { getToken } from "~~/util";
 
 const formatter = new Formatter();
 
@@ -18,11 +19,14 @@ export const useCartStore = defineStore("cart", {
   }),
   actions: {
     async getUserCart() {
+      console.log(getToken());
+      if (!getToken()) return;
       try {
-        this.LoaderState.setLoader(true);
+        // this.LoaderState.setLoader(true);
         const res = await this.fetch(`carts`, {
           method: "get",
         });
+        this.LoaderState.setLoader(false);
         const data: ICart = formatter.deserialize(res);
         console.log("🚀 ~ file: useCart.ts:27 ~ getUserCart ~ data:", data);
         this.cart = data;
@@ -31,7 +35,9 @@ export const useCartStore = defineStore("cart", {
         this.total = data.total_coast;
         this.currency = data.currency;
       } catch (error) {
-        this.LoaderState.setLoader(false);
+        // this.LoaderState.setLoader(false);
+      } finally {
+        // this.LoaderState.setLoader(false);
       }
     },
     // add_cart_product

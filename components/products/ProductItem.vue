@@ -134,11 +134,10 @@ const removeFromFavourite = async () => {
     });
     console.log(res);
     emit("updateProductDetails", {});
-
-    setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+  } finally {
+    setLoader(false);
   }
 };
 const addToFavourite = async () => {
@@ -150,11 +149,10 @@ const addToFavourite = async () => {
     });
     console.log(res);
     emit("updateProductDetails", {});
-
-    setLoader(true);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(true);
+  } finally {
+    setLoader(false);
   }
 };
 </script>

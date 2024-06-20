@@ -79,8 +79,8 @@ html[lang="en"] {
           color: $black-soft;
           position: relative;
           display: inline-block;
-          padding: 29px 0;
-          padding-bottom: 30px;
+          // padding: 29px 0;
+          // padding-bottom: 30px;
           position: relative;
           &:last-child {
             margin-right: 0;
@@ -391,8 +391,8 @@ html[lang="en"] {
         display: block;
         color: $black-soft;
         font-weight: 500;
-        padding: 27px 0;
-        padding-bottom: 30px;
+        // padding: 27px 0;
+        // padding-bottom: 30px;
         text-transform: capitalize;
       }
       &.active {

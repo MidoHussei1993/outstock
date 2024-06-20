@@ -14,7 +14,7 @@
       </div>
 
       <!-- side-mobile-menu start -->
-      <nav class="side-mobile-menu d-block d-lg-none mm-menu">
+      <!-- <nav class="side-mobile-menu d-block d-lg-none mm-menu">
         <ul>
           <template v-for="(menu, i) in mobile_menus" :key="i">
             <li
@@ -42,7 +42,7 @@
             </li>
           </template>
         </ul>
-      </nav>
+      </nav> -->
       <!-- side-mobile-menu end -->
     </div>
   </section>
@@ -128,19 +128,19 @@ export default defineComponent({
           { link: "/account", title: "Account" },
         ],
       },
-      {
-        title: "Blog",
-        dropdown: true,
-        dropdownMenu: [
-          { link: "/blog", title: "Blog" },
-          { link: "/blog-left-sidebar", title: "Blog Left Sidebar" },
-          { link: "/blog-no-sidebar", title: "Blog No Sidebar" },
-          { link: "/blog-2-col", title: "Blog 2 Column" },
-          { link: "/blog-3-col", title: "Blog 3 Column" },
-          { link: "/blog-2-col-mas", title: "Blog 2 Col Masonry" },
-          { link: "/blog-details", title: "Blog Details" },
-        ],
-      },
+      // {
+      //   title: "Blog",plo
+      //   dropdown: true,
+      //   dropdownMenu: [
+      //     { link: "/blog", title: "Blog" },
+      //     { link: "/blog-left-sidebar", title: "Blog Left Sidebar" },
+      //     { link: "/blog-no-sidebar", title: "Blog No Sidebar" },
+      //     { link: "/blog-2-col", title: "Blog 2 Column" },
+      //     { link: "/blog-3-col", title: "Blog 3 Column" },
+      //     { link: "/blog-2-col-mas", title: "Blog 2 Col Masonry" },
+      //     { link: "/blog-details", title: "Blog Details" },
+      //   ],
+      // },
       {
         title: "Contact",
         dropdown: false,

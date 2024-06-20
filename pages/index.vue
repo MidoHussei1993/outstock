@@ -1,7 +1,7 @@
 <template>
   <layout-five>
     <home-five-hero-slider :images="banners" />
-    <div class="row mt-4">
+    <div class="row mt-4 mx-2">
       <div class="col-xl-12">
         <div class="mb-55 p-relative">
           <!-- <div class="section__title-wrapper text-center mb-55">
@@ -21,7 +21,7 @@
             </h2>
             <client-only>
               <Carousel :items-to-show="3" :wrap-around="true" :autoplay="2000">
-                <Slide v-for="(item, index) in brands" :key="item.id">
+                <Slide v-for="(item, index) in brands" :key="item.id + guid()">
                   <div
                     @click="navigateTo(`brand-categories/${item.id}`)"
                     class="carousel__item brand d-flex flex-column justify-content-center pointer bg-white"
@@ -29,6 +29,7 @@
                   >
                     <img
                       :src="item.image"
+                      loading="lazy"
                       class="d-block py-2"
                       height="200"
                       alt=""
@@ -69,7 +70,7 @@
             :autoplay="2000"
             dir="rtl"
           >
-            <Slide v-for="(item, index) in categories" :key="item.id">
+            <Slide v-for="(item, index) in categories" :key="item.id + guid()">
               <div
                 class="carousel__item card bg-white h-100 pointer"
                 @click="navigateToCategoryQualityLevel(item)"
@@ -78,11 +79,13 @@
                   class="card-img-top w-100"
                   :src="item.image"
                   style="object-fit: contain"
+                  loading="lazy"
                   height="200"
                   alt="Card image cap"
                 />
                 <div
                   class="card-body p-0 d-flex flex-column justify-content-between shadow-sm"
+                  style="border: none !important; background: none"
                 >
                   <h4 class="text-center font-weight-bold my-1">
                     {{ item.name }}
@@ -103,7 +106,7 @@
           <i
             style="
               background: rgba(14, 36, 62, 0.092);
-              padding: 14px;
+              padding: 14px 11px;
               border-radius: 50%;
               font-size: 28px;
               color: #214681;
@@ -114,7 +117,10 @@
         </h2>
         <client-only>
           <Carousel :items-to-show="7" :wrap-around="true" :autoplay="2000">
-            <Slide v-for="(item, index) in quality_levels" :key="item.id">
+            <Slide
+              v-for="(item, index) in quality_levels"
+              :key="item.id + guid()"
+            >
               <div
                 @click="navigateToProducts(item)"
                 class="carousel__item card bg-white h-100 pointer"
@@ -151,13 +157,14 @@
                 :autoplay="2000"
                 dir="rtl"
               >
-                <Slide v-for="(item, index) in offers" :key="item.id">
+                <Slide v-for="(item, index) in offers" :key="item.id + guid()">
                   <div
                     class="carousel__item card bg-white pointer"
                     @click="navigateToProductsWithOffers(item)"
                   >
                     <img
                       :src="item.image"
+                      loading="lazy"
                       alt="offers"
                       class="w-100"
                       height="300"
@@ -189,7 +196,7 @@
               <div class="row">
                 <div
                   v-for="(item, index) in products"
-                  :key="item.id"
+                  :key="item.id + guid()"
                   :class="`col-xl-2 col-lg-3 col-md-4  product__item mt-3`"
                 >
                   <!-- :class="`${
@@ -229,7 +236,7 @@ import { Formatter } from "sarala-json-api-data-formatter";
 import ProductItem from "~~/components/products/ProductItem.vue";
 import { UseCountryStore } from "~~/store/country";
 import { IOffer } from "~~/types/offer";
-
+import { guid } from "~~/util";
 const { t } = useI18n();
 useHead({
   title: "Home",

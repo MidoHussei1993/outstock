@@ -90,6 +90,8 @@ import { Formatter } from "sarala-json-api-data-formatter";
 import { getMessaging, onMessage } from "firebase/messaging";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 const { setLoader } = useLoader();
 const fetch = $useHttpClient();
@@ -102,45 +104,47 @@ const notificationList = ref<INotification[]>([]);
 const pagination = ref<IPagination>();
 const getNotificationList = async () => {
   try {
-    setLoader(true);
+    // setLoader(true);
     const { data, meta, ...res } = await fetch("/notifications", {
       method: "get",
     });
+    // setLoader(false);
     notificationList.value = data;
     pagination.value = meta.pagination;
-    setLoader(false);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(false);
+    // setLoader(false);
+  } finally {
+    // setLoader(false);
   }
 };
 const readNotification = async (notification: INotification) => {
   if (!hasAction(notification, "mark_notification_as_read")) return;
   const action: any = getAction(notification, "mark_notification_as_read");
   try {
-    setLoader(true);
+    // setLoader(true);
     const { data, ...res } = await fetch(action.endpoint_url, {
       method: "get",
     });
+    // setLoader(false);
     window.open(notification.url, "_blank");
-    setLoader(false);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(false);
+    // setLoader(false);
   }
 };
 const readOnlyNotification = async (notification: INotification) => {
   if (!hasAction(notification, "mark_notification_as_read")) return;
   const action: IAction = getAction(notification, "mark_notification_as_read");
   try {
-    setLoader(true);
+    // setLoader(true);
     const { data, ...res } = await fetch(action.endpoint_url, {
       method: "get",
     });
-    setLoader(false);
+    // setLoader(false);
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(false);
+    // setLoader(false);
   }
 };
 const MarkAllAsRead = async () => {
@@ -159,38 +163,52 @@ const MarkAllAsRead = async () => {
 };
 const getUnReadCount = async () => {
   try {
-    setLoader(true);
+    // setLoader(true);
     const res = await fetch("/notifications/unread-count", {
       method: "get",
     });
+    // setLoader(false);
     const data = formatter.deserialize(res);
     emit("UpdateNotificationCount", { count: data.unread_count });
-    setLoader(false);
     getNotificationList();
   } catch (error) {
     console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
-    setLoader(false);
+    // setLoader(false);
   }
 };
 onMounted(() => {
   getNotificationList();
   getUnReadCount();
   if (navigator.serviceWorker) {
-    const messaging = getMessaging();
-    onMessage(messaging, (payload) => {
-      getNotificationList();
-      useNuxtApp().$toast.success(
-        `${payload.notification?.title}
- ${payload.notification?.body} `,
-        {
-          type: toast.TYPE.INFO,
-          pauseOnHover: true,
-          onClose: () => window.open(payload.fcmOptions?.link, "_"),
-        }
-      );
-      console.log("Message received. ", payload);
-      // ...
-    });
+    try {
+      const app = initializeApp({
+        apiKey: "AIzaSyDVz8wZLAJx-PlEF3OOj8NO2M60dB2gl8U",
+        authDomain: "mattress-7a34d.firebaseapp.com",
+        projectId: "mattress-7a34d",
+        storageBucket: "mattress-7a34d.appspot.com",
+        messagingSenderId: "431976009326",
+        appId: "1:431976009326:web:d70aabfb7960fee14ce07f",
+        measurementId: "G-2QLCT1XZS6",
+      });
+      const analytics = getAnalytics(app);
+      const messaging = getMessaging();
+      messaging.onMessage(messaging, (payload) => {
+        getNotificationList();
+        useNuxtApp().$toast.success(
+          `${payload.notification?.title}
+   ${payload.notification?.body} `,
+          {
+            type: toast.TYPE.INFO,
+            pauseOnHover: true,
+            onClose: () => window.open(payload.fcmOptions?.link, "_"),
+          }
+        );
+        console.log("Message received. ", payload);
+        // ...
+      });
+    } catch (error) {
+      console.log("🚀 ~ onMounted ~ error:", error);
+    }
   }
 });
 const subString = (str: string, len: number, char = "...") => {

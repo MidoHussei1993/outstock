@@ -30,7 +30,9 @@ export const getToken = () => {
 export const setLang = (language: string): void => {
   try {
     localStorage.setItem("lang", language);
-  } catch (error) {}
+  } catch (error) {
+    console.log("🚀 ~ setLang ~ error:", error);
+  }
 };
 export const getLang = (): string | null => {
   if (localStorage.getItem("lang")) {
