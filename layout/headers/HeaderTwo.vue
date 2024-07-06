@@ -30,7 +30,12 @@
                             v-if="slotProps.value"
                             class="flex align-items-center"
                           >
-                            <img
+                            <!-- <img
+                              v-if="
+                                countryList.filter(
+                                  (item) => item.id == slotProps.value
+                                )[0]
+                              "
                               :src="
                                 countryList.filter(
                                   (item) => item.id == slotProps.value
@@ -38,12 +43,19 @@
                               "
                               :class="`mx-2   `"
                               style="width: 18px"
-                            />
-                            <span>{{
-                              countryList.filter(
-                                (item) => item.id == slotProps.value
-                              )[0].name
-                            }}</span>
+                            /> -->
+                            <!-- <span
+                              v-if="
+                                countryList.filter(
+                                  (item) => item.id == slotProps.value
+                                )[0]
+                              "
+                              >{{
+                                countryList.filter(
+                                  (item) => item.id == slotProps.value
+                                )[0].name
+                              }}</span
+                            > -->
                           </div>
                         </template>
                         <template #option="slotProps">
@@ -173,11 +185,11 @@
                       <!-- cart mini end -->
                     </li>
                     <li v-if="isUserLogin">
-                      <a href="#" class="cart"
+                      <nuxt-link to="/cart" class="cart"
                         ><i class="ion-bag"></i>
                         {{ $t("c.cart") }}
                         <span>({{ cart_products.length }})</span>
-                      </a>
+                      </nuxt-link>
                       <!-- cart mini start -->
                       <cart-mini />
                       <!-- cart mini end -->

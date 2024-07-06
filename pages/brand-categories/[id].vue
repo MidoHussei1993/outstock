@@ -66,6 +66,7 @@
         />
       </div>
     </div>
+    <Loader v-if="loading" />
   </layout>
 </template>
 
@@ -82,7 +83,7 @@ useHead({
 });
 const router = useRouter();
 const fetch = $useHttpClient();
-const { setLoader } = useLoader();
+const { setLoader, loading } = useLoader();
 // const formatter = new Formatter();
 const brandId = useRoute().params.id;
 const { getAction, hasAction } = $FN();

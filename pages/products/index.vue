@@ -27,6 +27,7 @@
         />
       </div>
     </div>
+    <Loader v-if="loading" />
   </layout>
 </template>
 
@@ -45,7 +46,7 @@ useHead({
 });
 
 const fetch = $useHttpClient();
-const { setLoader } = useLoader();
+const { setLoader, loading } = useLoader();
 const { query } = useRoute();
 const router = useRouter();
 const productList = ref<IProduct[]>([]);
@@ -66,9 +67,12 @@ const getProductList = async (page?: number) => {
       action.endpoint_url,
       {
         method: "get",
-        // params: {
-        //   ...(page && { page }),
-        // },
+        params: {
+          // ...(page && { page }),
+          ...(localStorage.getItem("selectedCountry") && {
+            country_id: localStorage.getItem("selectedCountry"),
+          }),
+        },
       }
     );
     setLoader(false);

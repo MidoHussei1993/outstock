@@ -64,6 +64,7 @@
         />
       </div>
     </div>
+    <Loader v-if="loading" />
   </layout>
 </template>
 
@@ -83,7 +84,7 @@ useHead({
 });
 
 const fetch = $useHttpClient();
-const { setLoader } = useLoader();
+const { setLoader, loading } = useLoader();
 const { query } = useRoute();
 const router = useRouter();
 const qualityLevelList = ref<IQualityLevel[]>([]);

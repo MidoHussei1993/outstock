@@ -32,10 +32,7 @@
               <span class="price"> {{ item.price }}</span>
             </div>
           </div>
-          <div
-            class="del-icon f-right mt-30"
-            @click="store.remover_cart_products(item)"
-          >
+          <div class="del-icon f-right mt-30" @click="deleteItem(item)">
             <a>
               <i
                 style="font-size: 19px"
@@ -64,15 +61,33 @@
 <script lang="ts" setup>
 import { useCartStore } from "~~/store/useCart";
 import { storeToRefs } from "pinia";
+import { IAction } from "~~/types/action";
+import { IProduct } from "~~/types";
 
 const store = useCartStore();
 const { getAction, hasAction } = $FN();
 const { cart_products, total } = storeToRefs(store);
+const { setLoader } = useLoader();
 
 const subString = (str: string, len: number, char = "...") => {
   if (str.length > len) {
     return str.substring(0, len) + char;
   }
   return str;
+};
+
+const deleteItem = async (item: IProduct) => {
+  const action: IAction = getAction(item, "delete_product_from_cart");
+  try {
+    setLoader(true);
+    const res = await fetch(action.endpoint_url, {
+      method: "delete",
+    });
+    console.log(res);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+  } finally {
+    setLoader(false);
+  }
 };
 </script>

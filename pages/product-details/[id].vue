@@ -8,6 +8,7 @@
       :background="productDetails?.cover"
     />
     <shop-details-area @getProduct="productDetails = $event" />
+    <Loader v-if="loading" />
   </layout>
 </template>
 
@@ -26,6 +27,7 @@ useHead({
   title: "Product Details",
 });
 const productDetails = ref<IProduct>();
+const { loading } = useLoader();
 
 // const formatter = new Formatter();
 // const state = useProductsStore();

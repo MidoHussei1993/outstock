@@ -72,7 +72,7 @@ import { IProduct } from "~~/types";
 import { IAction } from "~~/types/action";
 
 const props = defineProps({
-  item: { type: Object as PropType<IProduct>, default: () => {} },
+  item: { type: Object as PropType<any>, default: () => {} },
 });
 const fetch = $useHttpClient();
 const { setLoader } = useLoader();

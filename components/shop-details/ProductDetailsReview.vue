@@ -58,7 +58,6 @@
 
 <script lang="ts" setup>
 import { defineComponent, PropType } from "vue";
-import ProductType from "~~/types/productType";
 import ReviewForm from "../forms/ReviewForm.vue";
 import { IProduct } from "~~/types";
 import moment from "moment";

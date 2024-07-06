@@ -215,8 +215,9 @@
       </div> -->
           </div>
         </section>
+
         <!-- <shop-banner />
-      <subscribe-area /> -->
+        <subscribe-area /> -->
       </div>
     </div>
   </layout-five>
@@ -255,7 +256,7 @@ const countryStore = UseCountryStore();
 const { selectedCountryId } = storeToRefs(countryStore);
 const router = useRouter();
 const { getAction } = $FN();
-const { setLoader } = useLoader();
+const { setLoader, loading } = useLoader();
 
 watch(selectedCountryId, async (newVal, oldVal) => {
   country_id.value = newVal as any;
