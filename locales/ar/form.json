@@ -29,6 +29,7 @@
     "passwordConfierm": "تأكيد كلمة المرور",
     "created_successfully": "تم الإنشاء بنجاح",
     "address": "العنوان",
+    "message": "الرسالة",
     "updated_successfully": "تم التعديل بنجاح"
   }
 }

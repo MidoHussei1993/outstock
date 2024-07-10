@@ -25,6 +25,7 @@
     "otpSent": "OTP sent to your email",
     "passwordConfierm": "Password Confirmation",
     "address": "Address",
+    "message": "Message",
     "password": "Password"
   }
 }

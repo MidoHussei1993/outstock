@@ -30,7 +30,7 @@
                             v-if="slotProps.value"
                             class="flex align-items-center"
                           >
-                            <!-- <img
+                            <img
                               v-if="
                                 countryList.filter(
                                   (item) => item.id == slotProps.value
@@ -43,8 +43,8 @@
                               "
                               :class="`mx-2   `"
                               style="width: 18px"
-                            /> -->
-                            <!-- <span
+                            />
+                            <span
                               v-if="
                                 countryList.filter(
                                   (item) => item.id == slotProps.value
@@ -55,7 +55,7 @@
                                   (item) => item.id == slotProps.value
                                 )[0].name
                               }}</span
-                            > -->
+                            >
                           </div>
                         </template>
                         <template #option="slotProps">

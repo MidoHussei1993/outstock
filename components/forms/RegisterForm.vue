@@ -43,7 +43,7 @@
         name="email"
         id="email-id"
         type="text"
-        :placeholder="$t('form.enter') + ' ' + $t('form.name')"
+        :placeholder="$t('form.enter') + ' ' + $t('form.email')"
       />
       <ErrorMessage name="email" class="text-danger" />
     </div>

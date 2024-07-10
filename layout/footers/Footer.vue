@@ -90,6 +90,67 @@
       </div>
     </div> -->
     <div class="footer__bottom">
+      <div class="container mb-3">
+        <Form :validation-schema="schema" @submit="onSubmit">
+          <div class="row mx-2">
+            <div class="row">
+              <!-- <div class="col-lg-3"></div> -->
+              <div class="col-lg-12 col-md-12">
+                <h4 class="font-weight-bold" style="color: #bc8246">
+                  {{ $t("p.contactUs") }}
+                </h4>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="name" class="mb-2"> {{ $t("form.name") }}</label>
+              <Field
+                name="name"
+                type="text"
+                :placeholder="$t('form.enter') + ' ' + $t('form.name')"
+              />
+              <ErrorMessage name="name" class="text-danger" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label for="email-id" class="mb-2">{{ $t("form.email") }}</label>
+              <Field
+                name="email"
+                id="email-id"
+                type="text"
+                :placeholder="$t('form.enter') + ' ' + $t('form.email')"
+              />
+              <ErrorMessage name="email" class="text-danger" />
+            </div>
+          </div>
+          <div class="row mx-2 align-items-end">
+            <div class="col-lg-10 col-md-9 col-sm-12 mx-auto">
+              <label for="email-id" class="mb-2">{{
+                $t("form.message")
+              }}</label>
+              <Field
+                name="message"
+                id="message-id"
+                type="text"
+                :placeholder="$t('form.enter') + ' ' + $t('form.message')"
+              />
+              <ErrorMessage name="message" class="text-danger" />
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12">
+              <button
+                type="submit"
+                class="btn btn-success btn-lg w-100 mt-2"
+                :disabled="busySubmit"
+              >
+                <i
+                  class="far fa-spinner-third fa-spin text-success mx-2"
+                  style="font-size: 22px"
+                  v-if="busySubmit"
+                ></i>
+                {{ $t("action.save") }}
+              </button>
+            </div>
+          </div>
+        </Form>
+      </div>
       <div class="container">
         <div class="row">
           <div class="col-xl-6 col-lg-7 mx-auto">
@@ -131,3 +192,61 @@ export default defineComponent({
   },
 });
 </script>
+<script lang="ts" setup>
+import { Field, Form, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+import { useI18n } from "vue-i18n";
+const busySubmit = ref<boolean>(false);
+
+const { t } = useI18n();
+const schema = yup.object({
+  name: yup.string().trim().required(t("_.required")).label(t("form.name")),
+  message: yup
+    .string()
+    .trim()
+    .required(t("_.required"))
+    .label(t("form.message")),
+  email: yup
+    .string()
+    .trim()
+    .required(t("_.required"))
+    .email(t("_.email"))
+    .label(t("form.email")),
+});
+
+const onSubmit = async (
+  values: object,
+  { resetForm }: { resetForm: () => void }
+) => {
+  try {
+    const fetch = $useHttpClient();
+    busySubmit.value = true;
+    const { message, ...res } = await fetch("/contact-us", {
+      method: "post",
+      body: $payloadParser(
+        {
+          id: null,
+          ...values,
+        },
+        "user"
+      ),
+    });
+    busySubmit.value = false;
+    console.log(message);
+    console.log(res);
+    // useNuxtApp().$toast.success(message);
+  } catch (error) {
+    console.log("🚀 ~ file: RegisterForm.vue:166 ~ setup ~ error:", error);
+    busySubmit.value = false;
+  }
+  // alert(JSON.tringify(values, null, 2));
+  // resetForm();
+};
+</script>
+<style lang="scss" scoped>
+:deep(.input) {
+  height: 30px !important;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+</style>
