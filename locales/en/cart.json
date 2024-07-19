@@ -42,6 +42,7 @@
     "couponCode": "Coupon code",
     "discount_value": "Discount value",
     "noCartProduct": "Cart empty",
-    "remove": "Remove"
+    "remove": "Remove",
+    "favoriteProudects":"Favorite proudects"
   }
 }

@@ -244,9 +244,15 @@ const onSubmit = async (
 };
 </script>
 <style lang="scss" scoped>
-:deep(.input) {
-  height: 30px !important;
-  padding-right: 7px;
-  padding-left: 7px;
-}
+.input{
+  width: 100%;
+    height: 60px;
+    line-height: 56px;
+    background: white;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    padding-left: 30px;
+    padding-right: 45px;
+
+} 
 </style>

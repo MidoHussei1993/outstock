@@ -28,6 +28,14 @@
                   <i class="fa fa-user mx-2 h6"></i> {{ $t("p.MyAcccount") }}
                 </button>
                 <button
+                  style="text-align: right"
+                  class="nav-link"
+                  @click="navigateTo('/favorites')"
+                >
+                  <i class="fa fa-heart mx-2 h6"></i>
+                  {{ $t("c.favoriteProudects") }}
+                </button>
+                <button
                   class="nav-link"
                   id="nav-address-tab"
                   data-bs-toggle="tab"
@@ -91,6 +99,7 @@
                   <i class="fa fa-sign-out mx-2 h6"></i>
                   {{ $t("auth.singOut") }}
                 </button>
+              
               </div>
             </div>
           </div>

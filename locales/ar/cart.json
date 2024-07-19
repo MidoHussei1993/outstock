@@ -42,6 +42,7 @@
     "couponCode": "كود الكوبون",
     "discount_value": "نسبة الخصم",
     "noCartProduct": "السلة فارغة",
-    "remove": "ازالة"
+    "remove": "ازالة",
+    "favoriteProudects":"المنتجات المفضلة"
   }
 }
