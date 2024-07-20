@@ -44,7 +44,7 @@
       </ul>
       <div class="total-price d-flex justify-content-between mb-30">
         <span>{{ $t("c.cartTotal") }} :</span>
-        <span>${{ total }}</span>
+        <span>{{ total }} {{ currency }}</span>
       </div>
       <div class="checkout-link">
         <nuxt-link href="/cart" class="os-btn">
@@ -66,15 +66,15 @@ import { IProduct } from "~~/types";
 
 const store = useCartStore();
 const { getAction, hasAction } = $FN();
-const { cart_products, total } = storeToRefs(store);
+const { cart_products, total,currency } = storeToRefs(store);
 const { setLoader } = useLoader();
 
-const subString = (str: string, len: number, char = "...") => {
-  if (str.length > len) {
-    return str.substring(0, len) + char;
-  }
-  return str;
-};
+// const subString = (str: string, len: number, char = "...") => {
+//   if (str.length > len) {
+//     return str.substring(0, len) + char;
+//   }
+//   return str;
+// };
 
 const deleteItem = async (item: IProduct) => {
   const action: IAction = getAction(item, "delete_product_from_cart");
